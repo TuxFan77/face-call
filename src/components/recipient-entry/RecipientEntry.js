@@ -1,11 +1,11 @@
 import React from "react";
 
 import PageContainer from "../../styles/global/PageContainer";
-import NameEntryCard from "./NameEntryCard";
-import NameEntryIllustration from "./NameEntryIllustration";
+import RecipientEntryCard from "./RecipientEntryCard";
+import RecipientEntryIllustration from "./RecipientEntryIllustration";
 import { pageVariants, pageTransition } from "../../animation/pageTransition";
 
-const NameEntry = ({ handleNameEntry }) => {
+const RecipientEntry = () => {
   return (
     <PageContainer
       initial="in"
@@ -14,10 +14,10 @@ const NameEntry = ({ handleNameEntry }) => {
       variants={pageVariants}
       transition={pageTransition}
     >
-      <NameEntryCard handleNameEntry={handleNameEntry} />
-      <NameEntryIllustration />
+      <RecipientEntryCard />
+      <RecipientEntryIllustration />
     </PageContainer>
   );
 };
 
-export default NameEntry;
+export default RecipientEntry;

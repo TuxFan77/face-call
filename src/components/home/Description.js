@@ -13,7 +13,7 @@ const Description = () => {
         <li>Free to use</li>
       </List>
 
-      <LargeButton to="/enter-name">Get Started</LargeButton>
+      <LargeButton to="/enterName">Get Started</LargeButton>
     </DescriptionContainer>
   );
 };

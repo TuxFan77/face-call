@@ -1,13 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import { Route, Switch, useLocation } from "react-router-dom";
 
 import MainHeader from "./main-header/MainHeader";
 import Home from "./home/Home";
 import NameEntry from "./name-entry/NameEntry";
+import RecipientEntry from "./recipient-entry/RecipientEntry";
 
 function App() {
   const location = useLocation();
+
+  const [callParameters, setCallParameters] = useState({
+    caller: "",
+    recipients: []
+  });
 
   return (
     <>
@@ -17,8 +23,15 @@ function App() {
           <Route exact path="/">
             <Home />
           </Route>
-          <Route path="/enter-name">
-            <NameEntry />
+          <Route path="/enterName">
+            <NameEntry
+              handleNameEntry={name =>
+                setCallParameters({ ...callParameters, caller: name })
+              }
+            />
+          </Route>
+          <Route path="/enterRecipients">
+            <RecipientEntry />
           </Route>
         </Switch>
       </AnimatePresence>

@@ -14,12 +14,12 @@ const InputField = styled(Input)`
   margin: 3rem 0;
 `;
 
-const EntryCard = () => {
+const RecipientEntryCard = () => {
   return (
     <Card width="50%">
       <CardContent>
-        <Heading>Step 1</Heading>
-        <p>Enter your name:</p>
+        <Heading>Step 2</Heading>
+        <p>Enter first recipient:</p>
         <InputField type="text" />
         <LargeButton to="/">Next</LargeButton>
       </CardContent>
@@ -27,4 +27,4 @@ const EntryCard = () => {
   );
 };
 
-export default EntryCard;
+export default RecipientEntryCard;

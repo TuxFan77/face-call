@@ -1,12 +1,12 @@
 export const pageVariants = {
   in: {
     opacity: 0,
-    y: "-10vh"
+    x: "10vh"
   },
 
-  normal: { opacity: 1, y: 0 },
+  normal: { opacity: 1, x: 0 },
 
-  out: { opacity: 0, y: 0, transition: { duration: 0.25 } }
+  out: { opacity: 0, x: "-10vh" }
 };
 
 export const pageTransition = {
