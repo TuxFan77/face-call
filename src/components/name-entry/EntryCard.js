@@ -1,37 +1,27 @@
 import React from "react";
 import styled from "styled-components";
 
-import BaseCard from "../../styles/global/Card";
-import InfoContainer from "../../styles/global/InfoContainer";
-import TextInput from "../../styles/global/TextInput";
+import Card from "../../styles/global/Card";
+import CardContent from "../../styles/global/CardContent";
+import Input from "../../styles/global/Input";
 import LargeButton from "../../styles/global/LargeButton";
 
-const Card = styled(BaseCard)`
-  width: 50%;
-  padding: 2.5rem 3rem;
-  p {
-    font-size: 2.25rem;
-  }
+const Heading = styled.h1`
+  margin-bottom: 3rem;
 `;
 
-const CardContent = styled(InfoContainer)`
-  p {
-    margin: 3rem 0;
-  }
-
-  input {
-    margin-bottom: 3rem;
-  }
+const InputField = styled(Input)`
+  margin: 3rem 0;
 `;
 
 const EntryCard = () => {
   return (
-    <Card>
-      <CardContent alignLeft>
-        <h1>Step 1</h1>
+    <Card width="50%">
+      <CardContent>
+        <Heading>Step 1</Heading>
         <p>Enter your name:</p>
-        <TextInput />
-        <LargeButton>Next</LargeButton>
+        <InputField type="text" />
+        <LargeButton to="/">Next</LargeButton>
       </CardContent>
     </Card>
   );

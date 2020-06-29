@@ -1,20 +1,21 @@
 import React from "react";
 
-import { InfoContainerCenteredHeadline, List } from "./GetStarted.styled";
+import { DescriptionContainer, List } from "./DescriptionStyles";
 import LargeButton from "../../styles/global/LargeButton";
 
-const GetStarted = () => {
+const Description = () => {
   return (
-    <InfoContainerCenteredHeadline>
+    <DescriptionContainer>
       <h1>Video calling in your web browser</h1>
       <List>
         <li>No install</li>
         <li>No signup</li>
         <li>Free to use</li>
       </List>
-      <LargeButton>Get Started</LargeButton>
-    </InfoContainerCenteredHeadline>
+
+      <LargeButton to="/enter-name">Get Started</LargeButton>
+    </DescriptionContainer>
   );
 };
 
-export default GetStarted;
+export default Description;

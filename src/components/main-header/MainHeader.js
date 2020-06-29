@@ -1,13 +1,13 @@
 import React from "react";
 
-import Container from "../../styles/global/Container";
-import { Header, BrandLogo } from "./MainHeader.styled";
+import Container from "../../styles/global/SiteContainer";
+import { Header, BrandLink } from "./MainHeaderStyles";
 
 const MainHeader = () => {
   return (
     <Header>
       <Container>
-        <BrandLogo>FaceCall.app</BrandLogo>
+        <BrandLink to="/">FaceCall.app</BrandLink>
       </Container>
     </Header>
   );

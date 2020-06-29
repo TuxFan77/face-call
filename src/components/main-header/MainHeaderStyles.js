@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 import { mainHeaderHeight } from "../../styles/constants/sizes";
 import {
@@ -21,4 +22,9 @@ export const Header = styled.header`
   font-size: ${primaryFontSize};
 `;
 
-export const BrandLogo = styled.div``;
+export const BrandLink = styled(Link)`
+  &:active,
+  &:visited {
+    color: ${primaryFontColor};
+  }
+`;

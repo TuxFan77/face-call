@@ -1,9 +1,11 @@
 import styled from "styled-components";
 import { mainFontFamily } from "../constants/fonts";
 
-const TextInput = styled.input`
+const Input = styled.input`
   border-radius: 9999px;
-  border: 0.5px solid black;
+  /* border: 0.5px solid black; */
+  border: none;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
   width: 100%;
   font-size: 1.5rem;
   font-family: ${mainFontFamily};
@@ -14,4 +16,4 @@ const TextInput = styled.input`
   }
 `;
 
-export default TextInput;
+export default Input;

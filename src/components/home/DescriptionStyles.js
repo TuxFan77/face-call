@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-import InfoContainer from "../../styles/global/InfoContainer";
 import { accentColor } from "../../styles/constants/colors";
 import {
   bulletDiameter,
@@ -8,7 +7,12 @@ import {
   listFontSize
 } from "../../styles/constants/sizes";
 
-export const InfoContainerCenteredHeadline = styled(InfoContainer)`
+export const DescriptionContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: ${props => (props.alignLeft ? "flex-start" : "center")};
+  justify-content: space-between;
+
   h1 {
     text-align: center;
   }

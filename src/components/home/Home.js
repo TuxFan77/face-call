@@ -1,13 +1,20 @@
 import React from "react";
 
 import PageContainer from "../../styles/global/PageContainer";
-import GetStarted from "./GetStarted";
+import Description from "./Description";
 import VideoCallIllustration from "./HomeIllustration";
+import { pageVariants, pageTransition } from "../../animation/pageTransition";
 
 const Home = () => {
   return (
-    <PageContainer>
-      <GetStarted />
+    <PageContainer
+      initial="in"
+      animate="normal"
+      exit="out"
+      variants={pageVariants}
+      transition={pageTransition}
+    >
+      <Description />
       <VideoCallIllustration />
     </PageContainer>
   );
