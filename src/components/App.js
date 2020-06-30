@@ -6,14 +6,13 @@ import MainHeader from "./main-header/MainHeader";
 import Home from "./home/Home";
 import NameEntry from "./name-entry/NameEntry";
 import RecipientEntry from "./recipient-entry/RecipientEntry";
+import SendInvites from "./send-invites/SendInvites";
 
 function App() {
   const location = useLocation();
 
-  const [callParameters, setCallParameters] = useState({
-    caller: "",
-    recipients: []
-  });
+  const [caller, setCaller] = useState("");
+  const [recipients, setRecipients] = useState([]);
 
   return (
     <>
@@ -25,13 +24,19 @@ function App() {
           </Route>
           <Route path="/enterName">
             <NameEntry
-              handleNameEntry={name =>
-                setCallParameters({ ...callParameters, caller: name })
-              }
+              name={caller}
+              handleNameEntry={name => setCaller(name)}
             />
           </Route>
           <Route path="/enterRecipients">
-            <RecipientEntry />
+            <RecipientEntry
+              handleRecipientEntry={recipient =>
+                setRecipients([...recipients, recipient])
+              }
+            />
+          </Route>
+          <Route path="/sendInvites">
+            <SendInvites caller={caller} recipients={recipients} />
           </Route>
         </Switch>
       </AnimatePresence>

@@ -3,7 +3,6 @@ import { mainFontFamily } from "../constants/fonts";
 
 const Input = styled.input`
   border-radius: 9999px;
-  /* border: 0.5px solid black; */
   border: none;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
   width: 100%;

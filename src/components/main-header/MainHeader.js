@@ -7,7 +7,7 @@ const MainHeader = () => {
   return (
     <Header>
       <Container>
-        <BrandLink to="/">FaceCall.app</BrandLink>
+        <BrandLink to="/">FaceCall</BrandLink>
       </Container>
     </Header>
   );

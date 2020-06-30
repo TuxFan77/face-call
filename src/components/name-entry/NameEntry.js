@@ -5,7 +5,7 @@ import NameEntryCard from "./NameEntryCard";
 import NameEntryIllustration from "./NameEntryIllustration";
 import { pageVariants, pageTransition } from "../../animation/pageTransition";
 
-const NameEntry = ({ handleNameEntry }) => {
+const NameEntry = ({ name, handleNameEntry }) => {
   return (
     <PageContainer
       initial="in"
@@ -14,7 +14,7 @@ const NameEntry = ({ handleNameEntry }) => {
       variants={pageVariants}
       transition={pageTransition}
     >
-      <NameEntryCard handleNameEntry={handleNameEntry} />
+      <NameEntryCard name={name} handleNameEntry={handleNameEntry} />
       <NameEntryIllustration />
     </PageContainer>
   );

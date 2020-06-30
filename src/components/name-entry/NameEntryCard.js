@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 
 import Card from "../../styles/global/Card";
@@ -14,18 +14,33 @@ const InputField = styled(Input)`
   margin: 3rem 0;
 `;
 
-const NameEntryCard = ({ handleNameEntry }) => {
-  const [name, setName] = useState("");
+const NameEntryCard = ({ name, handleNameEntry }) => {
+  const [callerName, setName] = useState(name);
+
+  const button = useRef(null);
+
+  function handleEnterKey() {
+    button.current.click();
+  }
 
   return (
     <Card width="50%">
       <CardContent>
         <Heading>Step 1</Heading>
-        <p>Enter your name:</p>
-        <InputField type="text" onChange={e => setName(e.target.value)} />
+        <h2>Enter your name:</h2>
+        <InputField
+          type="text"
+          value={callerName}
+          onChange={e => setName(e.target.value)}
+          onKeyUp={e => {
+            if (e.keyCode === 13) handleEnterKey();
+          }}
+        />
         <LargeButton
           to="/enterRecipients"
-          onClick={() => handleNameEntry(name)}
+          ref={button}
+          disabled={callerName.length === 0}
+          onClick={() => handleNameEntry(callerName)}
         >
           Next
         </LargeButton>

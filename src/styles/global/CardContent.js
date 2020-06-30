@@ -5,8 +5,9 @@ const CardContent = styled.div`
   flex-direction: column;
   justify-content: space-between;
   margin: 2.5rem 3rem;
+
   p {
-    font-size: 2.25rem;
+    margin: 1em 0;
   }
 `;
 

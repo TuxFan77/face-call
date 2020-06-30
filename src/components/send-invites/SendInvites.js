@@ -1,11 +1,11 @@
 import React from "react";
 
 import PageContainer from "../../styles/global/PageContainer";
-import RecipientEntryCard from "./RecipientEntryCard";
-import RecipientEntryIllustration from "./RecipientEntryIllustration";
+import SendInvitesCard from "./SendInvitesCard";
+import SendInvitesIllustration from "./SendInvitesIllustration";
 import { pageVariants, pageTransition } from "../../animation/pageTransition";
 
-const RecipientEntry = ({ handleRecipientEntry }) => {
+const SendInvites = ({ caller, recipients }) => {
   return (
     <PageContainer
       initial="in"
@@ -14,10 +14,10 @@ const RecipientEntry = ({ handleRecipientEntry }) => {
       variants={pageVariants}
       transition={pageTransition}
     >
-      <RecipientEntryCard handleRecipientEntry={handleRecipientEntry} />
-      <RecipientEntryIllustration />
+      <SendInvitesCard caller={caller} recipients={recipients} />
+      <SendInvitesIllustration />
     </PageContainer>
   );
 };
 
-export default RecipientEntry;
+export default SendInvites;
