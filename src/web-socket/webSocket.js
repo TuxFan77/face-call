@@ -39,4 +39,8 @@ function initWebSocket() {
   return ws;
 }
 
+export function sendToServer(ws, data) {
+  ws.send(JSON.stringify(data));
+}
+
 export default initWebSocket;

@@ -11,6 +11,9 @@
 # production
 /build
 
+# netlify lambda build dir
+.netlify
+
 # misc
 .DS_Store
 .env.local
