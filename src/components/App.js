@@ -7,6 +7,7 @@ import Home from "./home/Home";
 import NameEntry from "./name-entry/NameEntry";
 import RecipientEntry from "./recipient-entry/RecipientEntry";
 import SendInvites from "./send-invites/SendInvites";
+import VideoCall from "./video-call/VideoCall";
 
 function App() {
   const location = useLocation();
@@ -37,6 +38,9 @@ function App() {
           </Route>
           <Route path="/sendInvites">
             <SendInvites caller={caller} recipients={recipients} />
+          </Route>
+          <Route path="/videoCall">
+            <VideoCall />
           </Route>
         </Switch>
       </AnimatePresence>
