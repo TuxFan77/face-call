@@ -12,7 +12,7 @@ function getIceServers() {
 
   const iceServers = {};
 
-  fetch(`${FUNCTIONS_ORIGIN}${FUNCTIONS_PATH}`)
+  return fetch(`${FUNCTIONS_ORIGIN}${FUNCTIONS_PATH}`)
     .then(res => res.json())
     .then(data => {
       iceServers.iceServers = data.iceServers;
