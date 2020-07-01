@@ -12,7 +12,7 @@ function initWebSocket() {
     const { type, userName, payload } = JSON.parse(data);
 
     console.log(`Data received from ${userName} via WebSocket server: ${type}`);
-    // console.table(payload);
+    console.table(payload);
 
     switch (type) {
       case "video-offer":
