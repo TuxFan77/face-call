@@ -8,7 +8,9 @@ import getIceServers from "../../web-rtc/getIceServers";
 
 const VideoCall = () => {
   initWebSocket();
-  console.log(getIceServers());
+  getIceServers()
+    .then(iceServers => console.log(iceServers))
+    .catch(err => console.log(err));
 
   return (
     <PageContainer

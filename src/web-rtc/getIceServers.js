@@ -16,7 +16,6 @@ function getIceServers() {
     .then(res => res.json())
     .then(data => {
       iceServers.iceServers = data.iceServers;
-      console.log(iceServers);
       return iceServers;
     })
     .catch(err => err);
