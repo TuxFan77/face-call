@@ -8,6 +8,10 @@ function initWebSocket() {
     console.log(`Connected to WebSocket server ${e.target.url}`);
   });
 
+  ws.addEventListener("close", e => {
+    console.log(`Disconnected from WebSocket server ${e.target.url}`);
+  });
+
   ws.addEventListener("message", ({ data }) => {
     const { type, userName, payload } = JSON.parse(data);
 
