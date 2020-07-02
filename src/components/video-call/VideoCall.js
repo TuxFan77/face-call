@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import PageContainer from "../../styles/global/PageContainer";
 import LocalVideo from "./LocalVideo";
@@ -7,7 +7,13 @@ import initWebSocket from "../../web-socket/webSocket";
 import getIceServers from "../../web-rtc/getIceServers";
 
 const VideoCall = () => {
-  initWebSocket();
+  useEffect(() => {
+    const ws = initWebSocket();
+    return () => {
+      ws.close();
+    };
+  }, []);
+
   getIceServers()
     .then(iceServers => console.log(iceServers))
     .catch(err => console.log(err));
