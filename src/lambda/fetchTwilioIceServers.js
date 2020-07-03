@@ -6,7 +6,13 @@ exports.handler = function (event, context, callback) {
   client.tokens
     .create()
     .then(token =>
-      callback(null, { statusCode: 200, body: JSON.stringify(token) })
+      callback(null, {
+        headers: {
+          "Access-Control-Allow-Origin": "*"
+        },
+        statusCode: 200,
+        body: JSON.stringify(token)
+      })
     )
     .catch(err => callback(err));
 };

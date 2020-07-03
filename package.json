@@ -35,7 +35,5 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-    "netlify-lambda": "^1.6.3"
-  }
+  "devDependencies": {}
 }

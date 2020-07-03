@@ -1,11 +1,11 @@
 function getIceServers() {
   const HOST_NAME = window.location.hostname;
-  const FUNCTIONS_PATH = "/.netlify/functions/getIceServers";
+  const FUNCTIONS_PATH = "/.netlify/functions/fetchTwilioIceServers";
   let FUNCTIONS_ORIGIN = "";
 
   if (HOST_NAME === "127.0.0.1" || HOST_NAME === "localhost") {
     console.log(`Local development on ${HOST_NAME}`);
-    FUNCTIONS_ORIGIN = `http://${HOST_NAME}:9000`;
+    FUNCTIONS_ORIGIN = `http://${HOST_NAME}:8888`;
   } else {
     FUNCTIONS_ORIGIN = window.location.origin;
   }
