@@ -81,6 +81,11 @@ function initiateCall() {
 
   console.log("initiateCall");
 
+  sendToServer({
+    type: "set-user-id",
+    userId
+  });
+
   createPeerConnection();
 
   navigator.mediaDevices
@@ -217,6 +222,11 @@ function handleVideoOfferMessage(sdp) {
       return localPeerConnection.setLocalDescription(answer);
     })
     .then(() => {
+      sendToServer({
+        type: "set-user-id",
+        userId
+      });
+
       sendToServer({
         type: "video-answer",
         userId,
