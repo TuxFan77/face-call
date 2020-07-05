@@ -31,7 +31,7 @@ const SendInvitesCard = ({ caller, recipients }) => {
             <li key={i}>{recipient}</li>
           ))}
         </RecipientList>
-        <LargeButton to="/videoCall">Go!</LargeButton>
+        <LargeButton to="/videoCall?isCaller=true">Go!</LargeButton>
       </CardContent>
     </Card>
   );

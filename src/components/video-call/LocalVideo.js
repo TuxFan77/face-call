@@ -12,12 +12,12 @@ const Video = styled.video`
   height: 100%;
 `;
 
-const LocalVideo = () => {
+const LocalVideo = React.forwardRef((props, ref) => {
   return (
     <VideoWrapper>
-      <Video autoPlay playsInline muted />
+      <Video autoPlay playsInline muted ref={ref} />
     </VideoWrapper>
   );
-};
+});
 
 export default LocalVideo;

@@ -1,8 +1,9 @@
 [build]
   command = "npm run build"
   functions = ".netlify/functions"
+  production= "build/"
 
 [[redirects]]
-  from = "/*"
-  to = "/"
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
   status = 200
