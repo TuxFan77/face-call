@@ -15,7 +15,7 @@ let isCaller = false;
 let iceServers = {};
 
 const userId = uuidv4();
-const callId = uuidv4();
+// const callId = uuidv4();
 
 const mediaConstraints = {
   audio: true,
