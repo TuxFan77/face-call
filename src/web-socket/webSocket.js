@@ -18,10 +18,6 @@ function initWebSocket(
   ws = new WebSocket(WEBSOCKET_SERVER);
 
   // WebSocket event listeners
-  ws.addEventListener("open", e => {
-    console.log(`Connected to WebSocket server ${e.target.url}`);
-  });
-
   ws.addEventListener("close", e => {
     console.log(`Disconnected from WebSocket server ${e.target.url}`);
   });
@@ -54,7 +50,15 @@ function initWebSocket(
     }
   });
 
-  return ws;
+  // Return a promise that will resolve to the WebSocket object
+  return new Promise((resolve, reject) => {
+    ws.onopen = () => {
+      resolve(ws);
+    };
+    ws.onerror = err => {
+      reject(err);
+    };
+  });
 }
 
 export function sendToServer(data) {

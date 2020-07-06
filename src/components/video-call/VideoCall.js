@@ -31,19 +31,24 @@ const VideoCall = () => {
   }
 
   useEffect(() => {
-    let ws = initWebSocket(
+    let ws;
+
+    initWebSocket(
       handleVideoOfferMessage,
       handleVideoAnswerMessage,
       handleNewICECandidate,
       endCall
-    );
-
-    getIceServers()
-      .then(data => {
-        iceServers = data;
-        if (isCaller) {
-          initiateCall();
-        }
+    )
+      .then(result => {
+        ws = result;
+        getIceServers()
+          .then(data => {
+            iceServers = data;
+            if (isCaller) {
+              initiateCall();
+            }
+          })
+          .catch(err => console.log(err));
       })
       .catch(err => console.log(err));
 
