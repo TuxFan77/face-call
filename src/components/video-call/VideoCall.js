@@ -9,7 +9,7 @@ import { pageVariants, pageTransition } from "../../animation/pageTransition";
 import initWebSocket, { sendToServer } from "../../web-socket/webSocket";
 import getIceServers from "../../web-rtc/getIceServers";
 
-let localPeerConnection, localVideo, remoteVideo;
+let localPeerConnection, localVideo, remoteVideo, ws;
 
 let isCaller = false;
 let iceServers = {};
@@ -31,8 +31,6 @@ const VideoCall = () => {
   }
 
   useEffect(() => {
-    let ws;
-
     initWebSocket(
       handleVideoOfferMessage,
       handleVideoAnswerMessage,
@@ -54,7 +52,6 @@ const VideoCall = () => {
 
     return () => {
       endCall();
-      if (ws.OPEN || ws.CONNECTING) ws.close();
     };
   }, []);
 
@@ -113,7 +110,6 @@ function createPeerConnection() {
   localPeerConnection.onnegotiationneeded = handleNegotiationNeeded;
   localPeerConnection.onicecandidate = handleICECandidate;
   localPeerConnection.ontrack = handleTrack;
-  localPeerConnection.onremovetrack = handleRemoveTrack;
   localPeerConnection.oniceconnectionstatechange = handleICEConnectionStateChange;
 
   // localPeerConnection.onicegatheringstatechange = handleICEGatheringStateChange;
@@ -172,15 +168,15 @@ function handleTrack({ streams }) {
 }
 
 // Called when the remote peer removes a track
-function handleRemoveTrack() {
-  console.log("handleRemoveTrack");
+// function handleRemoveTrack() {
+//   console.log("handleRemoveTrack");
 
-  const trackList = remoteVideo.current.srcObject.getTracks();
+//   const trackList = remoteVideo.current.srcObject.getTracks();
 
-  if (trackList.length === 0) {
-    endCall();
-  }
-}
+//   if (trackList.length === 0) {
+//     endCall();
+//   }
+// }
 
 // Handle changes to the connection state
 function handleICEConnectionStateChange() {
@@ -265,6 +261,11 @@ function endCall() {
   });
 
   closeVideoCall();
+
+  if (ws && (ws.readyState === 0 || ws.readyState === 1)) {
+    console.log("Closing web socket");
+    ws.close();
+  }
 }
 
 // Stop the media streams, clean up and dispose of the peer connection object
@@ -273,7 +274,6 @@ function closeVideoCall() {
 
   if (localPeerConnection) {
     localPeerConnection.ontrack = null;
-    localPeerConnection.onremovetrack = null;
     localPeerConnection.onremovestream = null;
     localPeerConnection.onicecandidate = null;
     localPeerConnection.oniceconnectionstatechange = null;
@@ -282,11 +282,17 @@ function closeVideoCall() {
     localPeerConnection.onnegotiationneeded = null;
 
     if (remoteVideo.current.srcObject) {
-      remoteVideo.current.srcObject.getTracks().forEach(track => track.stop());
+      remoteVideo.current.srcObject.getTracks().forEach(track => {
+        track.stop();
+      });
+      remoteVideo.current.srcObject = null;
     }
 
     if (localVideo.current.srcObject) {
-      localVideo.current.srcObject.getTracks().forEach(track => track.stop());
+      localVideo.current.srcObject.getTracks().forEach(track => {
+        track.stop();
+      });
+      localVideo.current.srcObject = null;
     }
 
     localPeerConnection.close();
@@ -296,8 +302,8 @@ function closeVideoCall() {
   // hideVideo(localVideo);
   // hideVideo(remoteVideo);
 
-  localVideo.current.removeAttribute("srcObject");
-  remoteVideo.current.removeAttribute("srcObject");
+  // localVideo.current.removeAttribute("srcObject");
+  // remoteVideo.current.removeAttribute("srcObject");
 
   // toggleCallButton.textContent = "Call";
   // toggleMuteButton.disabled = true;

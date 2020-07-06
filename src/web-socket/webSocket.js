@@ -62,7 +62,7 @@ function initWebSocket(
 }
 
 export function sendToServer(data) {
-  ws.send(JSON.stringify(data));
+  if (ws && ws.readyState === ws.OPEN) ws.send(JSON.stringify(data));
 }
 
 export default initWebSocket;
