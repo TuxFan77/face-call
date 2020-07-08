@@ -1,12 +1,6 @@
-// const HOST_NAME = window.location.hostname;
-// let WEBSOCKET_SERVER;
-// if (HOST_NAME === "127.0.0.1" || HOST_NAME === "localhost")
-//   WEBSOCKET_SERVER = `ws://${HOST_NAME}:3001`;
-// else WEBSOCKET_SERVER = "wss://facecall-websocket-signaling.herokuapp.com/";
-
 let ws;
 
-function initWebSocket(
+export function initWebSocket(
   handleVideoOfferMessage,
   handleVideoAnswerMessage,
   handleNewICECandidate,
@@ -52,17 +46,24 @@ function initWebSocket(
 
   // Return a promise that will resolve to the WebSocket object
   return new Promise((resolve, reject) => {
-    ws.onopen = () => {
+    ws.onopen = e => {
+      console.log(`Connected to WebSocket server ${e.target.url}`);
       resolve(ws);
     };
     ws.onerror = err => {
+      console.log(`Error connecting to WebSocket server ${err}`);
       reject(err);
     };
   });
 }
 
+// Helper function to serialize and send data to the web socket server
 export function sendToServer(data) {
   if (ws && ws.readyState === ws.OPEN) ws.send(JSON.stringify(data));
 }
 
-export default initWebSocket;
+// Closes the web socket connection
+export function closeWebSocket() {
+  if (ws && (ws.readyState === ws.CONNECTING || ws.readyState === ws.OPEN))
+    ws.close();
+}
