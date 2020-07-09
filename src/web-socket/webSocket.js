@@ -3,7 +3,7 @@ let ws;
 export function initWebSocket(
   handleVideoOfferMessage,
   handleVideoAnswerMessage,
-  handleNewICECandidate,
+  handleNewRemoteICECandidate,
   endCall
 ) {
   const WEBSOCKET_SERVER = "wss://facecall-websocket-signaling.herokuapp.com/";
@@ -20,7 +20,7 @@ export function initWebSocket(
     const { type, userId, payload } = JSON.parse(data);
 
     console.log(`Data received from ${userId} via WebSocket server: ${type}`);
-    console.table(payload);
+    // console.table(payload);
 
     switch (type) {
       case "video-offer":
@@ -32,7 +32,7 @@ export function initWebSocket(
         break;
 
       case "new-ice-candidate":
-        handleNewICECandidate(payload);
+        handleNewRemoteICECandidate(payload);
         break;
 
       case "end-call":

@@ -43,7 +43,7 @@ const VideoCall = () => {
       await initWebSocket(
         handleVideoOfferMessage,
         handleVideoAnswerMessage,
-        handleNewICECandidate,
+        handleNewRemoteICECandidate,
         endCall
       );
 
@@ -89,11 +89,11 @@ async function startCall() {
       mediaConstraints
     );
     localVideo.current.srcObject = localStream;
-    remoteVideo.current.srcObject = new MediaStream();
 
     peerConnection = new RTCPeerConnection(await getIceServers());
     peerConnection.onnegotiationneeded = handleNegotiationNeeded;
     peerConnection.ontrack = handleAddTrack;
+    peerConnection.onicecandidate = handleNewLocalICECandidate;
 
     localStream
       .getTracks()
@@ -126,20 +126,20 @@ async function handleNegotiationNeeded() {
 // Fires if we're the callee and we receive an offer from the caller
 async function handleVideoOfferMessage(offer) {
   console.log("handleVideoOfferMessage");
-  console.log(offer);
 
   try {
     const localStream = await navigator.mediaDevices.getUserMedia(
       mediaConstraints
     );
     localVideo.current.srcObject = localStream;
-    remoteVideo.current.srcObject = new MediaStream();
 
     peerConnection = new RTCPeerConnection(await getIceServers());
+    peerConnection.ontrack = handleAddTrack;
+    peerConnection.onicecandidate = handleNewLocalICECandidate;
+
     localStream
       .getTracks()
       .forEach(track => peerConnection.addTrack(track, localStream));
-    peerConnection.ontrack = handleAddTrack;
 
     await peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
     const answer = await peerConnection.createAnswer();
@@ -159,7 +159,6 @@ async function handleVideoOfferMessage(offer) {
 // Fires if we're the caller and we're receiving an answer to our offer
 async function handleVideoAnswerMessage(answer) {
   console.log("handleVideoAnswerMessage");
-  console.log(answer);
 
   try {
     await peerConnection.setRemoteDescription(
@@ -170,19 +169,45 @@ async function handleVideoAnswerMessage(answer) {
   }
 }
 
+// Handles incoming tracks from the remote peer
+// Adds the tracks to the remote video player
+// Fires when remote tracks come in
 function handleAddTrack(e) {
-  remoteVideo.current.srcObject.addTrack(
-    e.track,
-    remoteVideo.current.srcObject
-  );
+  console.log("handleAddTrack");
+  if (remoteVideo.current.srcObject) return;
+  remoteVideo.current.srcObject = e.streams[0];
 }
 
-function handleNewICECandidate(payload) {
-  console.log("handleNewICECandidate");
-  console.log(payload);
+// Sends locally generated ICE candidates to the remote peer
+function handleNewLocalICECandidate(e) {
+  console.log("handleNewLocalICECandidate");
+  if (!e.candidate) {
+    console.log("NO LOCAL CANDIDATE");
+    return;
+  }
+  sendToServer({
+    type: "new-ice-candidate",
+    userId,
+    payload: e.candidate
+  });
 }
 
-// End the call
+// Receives ICE candidates from the remote peer
+// and adds them to the local peer connection
+async function handleNewRemoteICECandidate(candidate) {
+  console.log("handleNewRemoteICECandidate");
+  if (!peerConnection) {
+    console.log("NO REMOTE CANDIDATE");
+    return;
+  }
+  try {
+    await peerConnection.addIceCandidate(candidate);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// End the call and cleans up resources
 function endCall() {
   console.log("endCall");
 
