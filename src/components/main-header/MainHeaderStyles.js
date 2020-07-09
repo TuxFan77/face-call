@@ -10,6 +10,7 @@ import { primaryFontSize } from "../../styles/constants/fonts";
 
 export const Header = styled.header`
   position: fixed;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;

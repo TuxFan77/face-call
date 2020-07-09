@@ -4,12 +4,14 @@ import Container from "./SiteContainer";
 import { mainHeaderHeight } from "../constants/sizes";
 
 const PageContainer = styled(Container)`
-  display: flex;
   position: absolute;
-  top: ${mainHeaderHeight};
-  bottom: 0;
-  align-items: center;
-  justify-content: center;
+  top: 0;
+  @media screen and (min-width: 992px) {
+    position: static;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 `;
 
 export default PageContainer;

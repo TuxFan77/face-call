@@ -24,7 +24,7 @@ const NameEntryCard = ({ name, handleNameEntry }) => {
   }
 
   return (
-    <Card width="50%">
+    <Card>
       <CardContent>
         <Heading>Step 1</Heading>
         <h2>Enter your name:</h2>

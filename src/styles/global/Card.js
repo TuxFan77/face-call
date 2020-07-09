@@ -3,10 +3,13 @@ import styled from "styled-components";
 import { cardBackgroundColor } from "../constants/colors";
 
 const Card = styled.div`
+  width: 100%;
+  margin: 3rem 0;
   background: ${cardBackgroundColor};
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
-  ${props => (props.width ? `width: ${props.width};` : "")}
-  ${props => (props.height ? `height: ${props.height};` : "")}
+  @media screen and (min-width: 992px) {
+    width: 50%;
+  }
 `;
 
 export default Card;
