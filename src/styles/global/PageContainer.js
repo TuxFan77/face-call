@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 import Container from "./SiteContainer";
-import { mainHeaderHeight } from "../constants/sizes";
 
 const PageContainer = styled(Container)`
   position: absolute;

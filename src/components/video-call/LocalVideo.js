@@ -1,22 +1,25 @@
 import React from "react";
 import styled from "styled-components";
+import { motion } from "framer-motion";
 
-const VideoWrapper = styled.div`
-  box-sizing: content-box;
-  overflow: hidden;
+const Video = styled(motion.video)`
+  position: absolute;
+  height: 15vh;
+  right: 1vw;
+  bottom: 1vw;
   background: black;
-`;
-
-const Video = styled.video`
-  width: 100%;
-  height: 100%;
+  border: 2px solid darkgrey;
 `;
 
 const LocalVideo = React.forwardRef((props, ref) => {
   return (
-    <VideoWrapper>
-      <Video autoPlay playsInline muted ref={ref} />
-    </VideoWrapper>
+    <Video
+      autoPlay
+      playsInline
+      muted
+      ref={ref}
+      onPlay={props.handleStartPlayback}
+    />
   );
 });
 

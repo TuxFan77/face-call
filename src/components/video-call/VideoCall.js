@@ -2,7 +2,8 @@ import React, { useRef, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import { useQuery } from "../../hooks/hooks";
-import PageContainer from "../../styles/global/PageContainer";
+// import PageContainer from "../../styles/global/PageContainer";
+import VideoPageContainer from "./VideoPageContainer";
 import LocalVideo from "./LocalVideo";
 import RemoteVideo from "./RemoteVideo";
 import { pageVariants, pageTransition } from "../../animation/pageTransition";
@@ -15,22 +16,22 @@ import getIceServers from "../../web-rtc/getIceServers";
 
 let peerConnection, localVideo, remoteVideo;
 
-let isCaller = false;
-
 const userId = uuidv4();
 // const callId = uuidv4();
 
-// const mediaConstraints = {
-//   audio: true,
-//   video: { width: 1280, height: 720 }
-// };
-
 const mediaConstraints = {
   audio: true,
-  video: true
+  video: { width: 1280, height: 720 }
 };
 
+// const mediaConstraints = {
+//   audio: true,
+//   video: true
+// };
+
 const VideoCall = () => {
+  let isCaller = false;
+
   const query = useQuery();
   if (query.has("isCaller")) {
     if (query.get("isCaller") === "true") {
@@ -58,22 +59,22 @@ const VideoCall = () => {
     return () => {
       endCall();
     };
-  }, []);
+  }, [isCaller]);
 
   localVideo = useRef(null);
   remoteVideo = useRef(null);
 
   return (
-    <PageContainer
+    <VideoPageContainer
       initial="in"
       animate="normal"
       exit="out"
       variants={pageVariants}
       transition={pageTransition}
     >
-      <LocalVideo ref={localVideo} />
-      <RemoteVideo ref={remoteVideo} />
-    </PageContainer>
+      <LocalVideo ref={localVideo} handleStartPlayback={null} />
+      <RemoteVideo ref={remoteVideo} handleStartPlayback={null} />
+    </VideoPageContainer>
   );
 };
 
