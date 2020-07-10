@@ -6,6 +6,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  touch-action: manipulation;
 }
 
 html {
@@ -13,15 +14,20 @@ html {
   font-size: 10px;
 }
 
+body {
+  font-family: "Montserrat", sans-serif;
+  height: 100%;
+  overflow: hidden;
+}
+
 @media screen and (min-width: 768px) {
   html {
     font-size: 16px;
   }
-}
 
-body {
-  font-family: "Montserrat", sans-serif;
-  height: 100vh;
+  body {
+    overflow: auto;
+  }
 }
 
 #root {
