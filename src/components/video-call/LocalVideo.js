@@ -32,7 +32,6 @@ const LocalVideo = React.forwardRef((props, ref) => {
         playsInline
         muted
         drag
-        dragMomentum={false}
         dragConstraints={constraints}
         ref={ref}
         onPlay={props.handleStartPlayback}
