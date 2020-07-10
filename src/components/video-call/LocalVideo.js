@@ -9,6 +9,7 @@ const Video = styled(motion.video)`
   bottom: 1vw;
   background: black;
   border: 2px solid darkgrey;
+  cursor: move;
 `;
 
 const LocalVideo = React.forwardRef((props, ref) => {
@@ -17,6 +18,8 @@ const LocalVideo = React.forwardRef((props, ref) => {
       autoPlay
       playsInline
       muted
+      drag
+      dragMomentum={false}
       ref={ref}
       onPlay={props.handleStartPlayback}
     />

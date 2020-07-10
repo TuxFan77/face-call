@@ -2,7 +2,6 @@ import React, { useRef, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import { useQuery } from "../../hooks/hooks";
-// import PageContainer from "../../styles/global/PageContainer";
 import VideoPageContainer from "./VideoPageContainer";
 import LocalVideo from "./LocalVideo";
 import RemoteVideo from "./RemoteVideo";
@@ -72,8 +71,8 @@ const VideoCall = () => {
       variants={pageVariants}
       transition={pageTransition}
     >
-      <LocalVideo ref={localVideo} handleStartPlayback={null} />
       <RemoteVideo ref={remoteVideo} handleStartPlayback={null} />
+      <LocalVideo ref={localVideo} handleStartPlayback={null} />
     </VideoPageContainer>
   );
 };
@@ -231,4 +230,6 @@ function endCall() {
     remoteVideo.current.removeAttribute("src");
     remoteVideo.current.removeAttribute("srcObject");
   }
+
+  peerConnection = null;
 }
