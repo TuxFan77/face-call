@@ -22,7 +22,9 @@ const AppWrapper = styled.div`
   justify-content: center;
 `;
 
-hasMediaCapabilities();
+hasMediaCapabilities()
+  .then(capabilities => console.table(capabilities))
+  .catch(err => console.log(err));
 
 function App() {
   const location = useLocation();
