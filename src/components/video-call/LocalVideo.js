@@ -1,29 +1,43 @@
-import React from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
 const Video = styled(motion.video)`
   position: absolute;
-  z-index: 10;
   height: 20vh;
   right: 2vw;
   bottom: 2vw;
   background: black;
   border: 2px solid darkgrey;
   cursor: move;
+  pointer-events: auto;
+`;
+
+const DragConstraints = styled(motion.div)`
+  position: fixed;
+  z-index: 10;
+  pointer-events: none;
+  top: 2vw;
+  bottom: 2vw;
+  left: 2vw;
+  right: 2vw;
 `;
 
 const LocalVideo = React.forwardRef((props, ref) => {
+  const constraints = useRef(null);
   return (
-    <Video
-      autoPlay
-      playsInline
-      muted
-      drag
-      dragMomentum={false}
-      ref={ref}
-      onPlay={props.handleStartPlayback}
-    />
+    <DragConstraints ref={constraints}>
+      <Video
+        autoPlay
+        playsInline
+        muted
+        drag
+        dragMomentum={false}
+        dragConstraints={constraints}
+        ref={ref}
+        onPlay={props.handleStartPlayback}
+      />
+    </DragConstraints>
   );
 });
 
