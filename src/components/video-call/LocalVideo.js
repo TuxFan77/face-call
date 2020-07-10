@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 
 const Video = styled(motion.video)`
   position: absolute;
+  z-index: 10;
+
   height: 15vh;
   right: 1vw;
   bottom: 1vw;
