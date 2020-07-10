@@ -8,13 +8,7 @@ const Video = styled.video`
 
 const RemoteVideo = React.forwardRef((props, ref) => {
   return (
-    <Video
-      autoPlay
-      playsInline
-      muted
-      ref={ref}
-      onPlay={props.handleStartPlayback}
-    />
+    <Video autoPlay playsInline ref={ref} onPlay={props.handleStartPlayback} />
   );
 });
 
