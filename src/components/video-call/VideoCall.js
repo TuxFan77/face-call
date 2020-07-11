@@ -31,19 +31,25 @@ const VideoCall = () => {
 
   useEffect(() => {
     (async () => {
-      await initWebSocket(
-        handleVideoOfferMessage,
-        handleVideoAnswerMessage,
-        handleNewRemoteICECandidate,
-        endCall
-      );
+      try {
+        await initLocalVideo();
 
-      sendToServer({
-        type: "set-user-id",
-        userId
-      });
+        await initWebSocket(
+          handleVideoOfferMessage,
+          handleVideoAnswerMessage,
+          handleNewRemoteICECandidate,
+          endCall
+        );
 
-      if (isCaller) startCall();
+        sendToServer({
+          type: "set-user-id",
+          userId
+        });
+
+        if (isCaller) startCall();
+      } catch (error) {
+        console.log(error);
+      }
     })();
 
     return () => {
@@ -70,21 +76,23 @@ const VideoCall = () => {
 
 export default VideoCall;
 
+// Initialize the local video element with the webcam feed
+async function initLocalVideo() {
+  localVideo.current.srcObject = await getMediaStream();
+}
+
 // Start a video call
 // This function is called if we're the peer that's initiaiting the call
 async function startCall() {
   console.log("startCall");
 
   try {
-    const localStream = await getMediaStream();
-
-    localVideo.current.srcObject = localStream;
-
     peerConnection = new RTCPeerConnection(await getIceServers());
     peerConnection.onnegotiationneeded = handleNegotiationNeeded;
     peerConnection.ontrack = handleAddTrack;
     peerConnection.onicecandidate = handleNewLocalICECandidate;
 
+    const localStream = localVideo.current.srcObject;
     localStream
       .getTracks()
       .forEach(track => peerConnection.addTrack(track, localStream));
@@ -118,13 +126,11 @@ async function handleVideoOfferMessage(offer) {
   console.log("handleVideoOfferMessage");
 
   try {
-    const localStream = await getMediaStream();
-
-    localVideo.current.srcObject = localStream;
-
     peerConnection = new RTCPeerConnection(await getIceServers());
     peerConnection.ontrack = handleAddTrack;
     peerConnection.onicecandidate = handleNewLocalICECandidate;
+
+    const localStream = localVideo.current.srcObject;
 
     localStream
       .getTracks()
