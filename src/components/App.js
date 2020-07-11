@@ -26,8 +26,6 @@ hasMediaCapabilities()
   .then(capabilities => console.table(capabilities))
   .catch(err => console.log(err));
 
-// console.log(navigator.mediaDevices.getSupportedConstraints());
-
 function App() {
   const location = useLocation();
 

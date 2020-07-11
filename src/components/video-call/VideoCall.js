@@ -18,16 +18,6 @@ let peerConnection, localVideo, remoteVideo;
 const userId = uuidv4();
 // const callId = uuidv4();
 
-const mediaConstraints = {
-  audio: true,
-  video: { width: 1280, height: 720 }
-};
-
-// const mediaConstraints = {
-//   audio: true,
-//   video: true
-// };
-
 const VideoCall = () => {
   let isCaller = false;
 
@@ -85,9 +75,22 @@ async function startCall() {
   console.log("startCall");
 
   try {
-    const localStream = await navigator.mediaDevices.getUserMedia(
-      mediaConstraints
-    );
+    const localStream = await navigator.mediaDevices.getUserMedia({
+      audio: true,
+      video: true
+    });
+    const videoTrack = localStream.getVideoTracks()[0];
+    const { width, height } = videoTrack.getCapabilities();
+    console.log(width.max);
+    console.log(height.max);
+    console.log(window.screen.width);
+    console.log(window.screen.height);
+
+    videoTrack.applyConstraints({
+      width: width.max,
+      height: height.max
+    });
+
     localVideo.current.srcObject = localStream;
 
     peerConnection = new RTCPeerConnection(await getIceServers());
@@ -128,9 +131,22 @@ async function handleVideoOfferMessage(offer) {
   console.log("handleVideoOfferMessage");
 
   try {
-    const localStream = await navigator.mediaDevices.getUserMedia(
-      mediaConstraints
-    );
+    const localStream = await navigator.mediaDevices.getUserMedia({
+      audio: true,
+      video: true
+    });
+    const videoTrack = localStream.getVideoTracks()[0];
+    const { width, height } = videoTrack.getCapabilities();
+    console.log(width.max);
+    console.log(height.max);
+    console.log(window.screen.width);
+    console.log(window.screen.height);
+
+    videoTrack.applyConstraints({
+      width: width.max,
+      height: height.max
+    });
+
     localVideo.current.srcObject = localStream;
 
     peerConnection = new RTCPeerConnection(await getIceServers());
