@@ -1,10 +1,11 @@
 import React, { useRef, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-import { useQuery } from "../../hooks/hooks";
 import VideoPageContainer from "./VideoPageContainer";
 import LocalVideo from "./LocalVideo";
 import RemoteVideo from "./RemoteVideo";
+import { useQuery } from "../../hooks/hooks";
+import getMediaStream from "../../utils/getMediaStream";
 import { pageVariants, pageTransition } from "../../animation/pageTransition";
 import {
   initWebSocket,
@@ -75,21 +76,7 @@ async function startCall() {
   console.log("startCall");
 
   try {
-    const localStream = await navigator.mediaDevices.getUserMedia({
-      audio: true,
-      video: true
-    });
-    const videoTrack = localStream.getVideoTracks()[0];
-    const { width, height } = videoTrack.getCapabilities();
-    console.log(width.max);
-    console.log(height.max);
-    console.log(window.screen.width);
-    console.log(window.screen.height);
-
-    videoTrack.applyConstraints({
-      width: width.max,
-      height: height.max
-    });
+    const localStream = await getMediaStream();
 
     localVideo.current.srcObject = localStream;
 
@@ -131,21 +118,7 @@ async function handleVideoOfferMessage(offer) {
   console.log("handleVideoOfferMessage");
 
   try {
-    const localStream = await navigator.mediaDevices.getUserMedia({
-      audio: true,
-      video: true
-    });
-    const videoTrack = localStream.getVideoTracks()[0];
-    const { width, height } = videoTrack.getCapabilities();
-    console.log(width.max);
-    console.log(height.max);
-    console.log(window.screen.width);
-    console.log(window.screen.height);
-
-    videoTrack.applyConstraints({
-      width: width.max,
-      height: height.max
-    });
+    const localStream = await getMediaStream();
 
     localVideo.current.srcObject = localStream;
 
