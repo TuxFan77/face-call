@@ -27,8 +27,6 @@ const LocalVideo = React.forwardRef((props, ref) => {
   return (
     <DragConstraints ref={constraints}>
       <Video
-        height={window.screen.height * 0.2}
-        width={window.screen.width * 0.2}
         autoPlay
         playsInline
         muted
