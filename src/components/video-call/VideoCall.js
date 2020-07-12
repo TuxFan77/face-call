@@ -68,8 +68,8 @@ const VideoCall = () => {
       variants={pageVariants}
       transition={pageTransition}
     >
-      <RemoteVideo ref={remoteVideo} handleStartPlayback={null} />
-      <LocalVideo ref={localVideo} handleStartPlayback={null} />
+      <RemoteVideo ref={remoteVideo} />
+      <LocalVideo ref={localVideo} />
     </VideoPageContainer>
   );
 };

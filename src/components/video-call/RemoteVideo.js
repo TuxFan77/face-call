@@ -7,9 +7,7 @@ const Video = styled.video`
 `;
 
 const RemoteVideo = React.forwardRef((props, ref) => {
-  return (
-    <Video autoPlay playsInline ref={ref} onPlay={props.handleStartPlayback} />
-  );
+  return <Video autoPlay playsInline ref={ref} />;
 });
 
 export default RemoteVideo;

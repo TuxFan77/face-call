@@ -1,10 +1,12 @@
 import React, { useRef } from "react";
 import styled from "styled-components";
-import { motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 
 const Video = styled(motion.video)`
   position: absolute;
-  height: 25vh;
+  visibility: ${props => props.visibility || "visible"};
+  /* height: 25vh; */
+  width: 20vw;
   right: 2vw;
   bottom: 2vw;
   background: black;
@@ -24,6 +26,11 @@ const DragConstraints = styled(motion.div)`
 `;
 
 const LocalVideo = React.forwardRef((props, ref) => {
+  const variants = {
+    visible: { opacity: 1, scale: 1 },
+    hidden: { opacity: 0, scale: 0 }
+  };
+  const controls = useAnimation();
   const constraints = useRef(null);
   return (
     <DragConstraints ref={constraints}>
@@ -31,10 +38,13 @@ const LocalVideo = React.forwardRef((props, ref) => {
         autoPlay
         playsInline
         muted
+        initial="hidden"
+        animate={controls}
+        variants={variants}
         drag
         dragConstraints={constraints}
         ref={ref}
-        onPlay={props.handleStartPlayback}
+        onPlay={() => controls.start("visible")}
       />
     </DragConstraints>
   );
