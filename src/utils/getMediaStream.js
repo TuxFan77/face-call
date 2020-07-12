@@ -3,18 +3,21 @@ async function getMediaStream() {
     audio: true,
     video: true
   });
+
   const videoTrack = mediaStream.getVideoTracks()[0];
-  const { width, height } = videoTrack.getCapabilities();
 
-  // console.log(width.max);
-  // console.log(height.max);
-  // console.log(window.screen.width);
-  // console.log(window.screen.height);
+  console.log(videoTrack.getSettings());
 
-  videoTrack.applyConstraints({
-    width: width.max,
-    height: height.max
-  });
+  // Firefox doesn't support MediaStreamTrack.getCapabilities()
+  // https://bugzilla.mozilla.org/show_bug.cgi?id=1179084
+  if (videoTrack.getCapabilities) {
+    const { width, height } = videoTrack.getCapabilities();
+
+    videoTrack.applyConstraints({
+      width: width.max,
+      height: height.max
+    });
+  }
 
   return mediaStream;
 }

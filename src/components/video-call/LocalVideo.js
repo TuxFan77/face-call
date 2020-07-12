@@ -4,8 +4,6 @@ import { motion, useAnimation } from "framer-motion";
 
 const Video = styled(motion.video)`
   position: absolute;
-  visibility: ${props => props.visibility || "visible"};
-  /* height: 25vh; */
   width: 25vw;
   right: 2vw;
   bottom: 2vw;
