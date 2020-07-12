@@ -78,11 +78,7 @@ export default VideoCall;
 
 // Initialize the local video element with the webcam feed
 async function initLocalVideo() {
-  const localStream = await getMediaStream();
-  localVideo.current.srcObject = localStream;
-  const { width, height } = localStream.getVideoTracks()[0].getCapabilities();
-  localVideo.current.width = width.max * 0.25;
-  localVideo.current.height = height.max * 0.25;
+  localVideo.current.srcObject = await getMediaStream();
 }
 
 // Start a video call
