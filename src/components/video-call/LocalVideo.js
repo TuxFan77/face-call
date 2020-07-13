@@ -4,7 +4,7 @@ import { motion, useAnimation } from "framer-motion";
 
 const Video = styled(motion.video)`
   position: absolute;
-  width: 25vw;
+  width: 20vw;
   right: 2vw;
   bottom: 2vw;
   background: black;
