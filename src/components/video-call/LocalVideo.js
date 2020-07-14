@@ -9,7 +9,7 @@ const Video = styled(motion.video)`
   bottom: 2vw;
   background: black;
   border-radius: 0.75rem;
-  border: 2px solid darkgrey;
+  border: 1.5px solid darkgrey;
   cursor: move;
   pointer-events: auto;
 `;
