@@ -173,6 +173,7 @@ function handleAddTrack(e) {
   console.log("handleAddTrack");
   if (remoteVideo.current.srcObject) return;
   remoteVideo.current.srcObject = e.streams[0];
+  console.log(e);
 }
 
 // Sends locally generated ICE candidates to the remote peer
