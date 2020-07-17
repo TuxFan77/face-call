@@ -6,8 +6,6 @@ async function getMediaStream() {
 
   const videoTrack = mediaStream.getVideoTracks()[0];
 
-  console.log(videoTrack.getSettings());
-
   // Firefox doesn't support MediaStreamTrack.getCapabilities()
   // https://bugzilla.mozilla.org/show_bug.cgi?id=1179084
   if (videoTrack.getCapabilities) {
