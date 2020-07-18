@@ -35,6 +35,8 @@ const VideoCall = () => {
       try {
         await initLocalVideo();
 
+        getCameras();
+
         await initWebSocket(
           handleVideoOfferMessage,
           handleVideoAnswerMessage,
@@ -81,6 +83,16 @@ export default VideoCall;
 // Initialize the local video element with the webcam feed
 async function initLocalVideo() {
   localVideo.current.srcObject = await getMediaStream();
+}
+
+// Checks how many cameras the device has
+function getCameras() {
+  navigator.mediaDevices.enumerateDevices().then(devices => {
+    console.log("Cameras detected:");
+    devices.forEach(device => {
+      if (device.kind === "videoinput") console.log(device.label);
+    });
+  });
 }
 
 // Start a video call
