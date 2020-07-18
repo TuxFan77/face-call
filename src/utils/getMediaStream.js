@@ -2,8 +2,7 @@ async function getMediaStream() {
   const mediaStream = await navigator.mediaDevices.getUserMedia({
     audio: true,
     video: {
-      width: { min: 640, ideal: 1920 },
-      height: { min: 480, ideal: 1080 }
+      width: { min: 640, ideal: 1920 }
     }
   });
 
