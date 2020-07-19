@@ -1,9 +1,22 @@
 async function getMediaStream() {
+  let portraitOrientation = window.innerWidth / window.innerHeight < 1;
+  console.log(`portraitOrientation = ${portraitOrientation}`);
+
+  const portraitVideoConstraints = {
+    width: { min: 480, ideal: 1080 },
+    height: { min: 640, ideal: 1920 }
+  };
+
+  const landscapeVideoConstraints = {
+    width: { min: 640, ideal: 1920 },
+    height: { min: 480, ideal: 1080 }
+  };
+
   const mediaStream = await navigator.mediaDevices.getUserMedia({
     audio: true,
-    video: {
-      width: { min: 640, ideal: 1080 }
-    }
+    video: portraitOrientation
+      ? portraitVideoConstraints
+      : landscapeVideoConstraints
   });
 
   const videoTrack = mediaStream.getVideoTracks()[0];
