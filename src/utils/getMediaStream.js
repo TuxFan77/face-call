@@ -3,13 +3,13 @@ async function getMediaStream() {
   console.log(`portraitOrientation = ${portraitOrientation}`);
 
   const portraitVideoConstraints = {
-    width: { min: 480, ideal: 1080 },
-    height: { min: 640, ideal: 1920 }
+    width: 1080,
+    height: 1920
   };
 
   const landscapeVideoConstraints = {
-    width: { min: 640, ideal: 1920 },
-    height: { min: 480, ideal: 1080 }
+    width: 1920,
+    height: 1080
   };
 
   const mediaStream = await navigator.mediaDevices.getUserMedia({
@@ -25,7 +25,7 @@ async function getMediaStream() {
   // https://bugzilla.mozilla.org/show_bug.cgi?id=1179084
   if (videoTrack.getCapabilities) {
     const { width, height } = videoTrack.getCapabilities();
-    console.log(`Actual width: ${width.max}\nActual height: ${height.max}`);
+    console.log(`Actual max camera resolution: ${width.max} x ${height.max}`);
   }
 
   return mediaStream;
