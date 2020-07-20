@@ -1,22 +1,20 @@
 async function getMediaStream() {
-  const portraitOrientation = window.screen.width / window.screen.height < 1;
-  console.log(`portraitOrientation = ${portraitOrientation}`);
+  const query = window.matchMedia("(orientation: portrait)");
+  console.log(query);
 
   const portraitVideoConstraints = {
-    width: 2320,
-    height: 3088
+    width: 1080,
+    height: 1920
   };
 
   const landscapeVideoConstraints = {
-    width: 3088,
-    height: 2320
+    width: 1920,
+    height: 1080
   };
 
   const mediaStream = await navigator.mediaDevices.getUserMedia({
     audio: true,
-    video: portraitOrientation
-      ? portraitVideoConstraints
-      : landscapeVideoConstraints
+    video: query.matches ? portraitVideoConstraints : landscapeVideoConstraints
   });
 
   const videoTrack = mediaStream.getVideoTracks()[0];
