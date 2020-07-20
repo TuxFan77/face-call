@@ -1,15 +1,15 @@
 async function getMediaStream() {
-  let portraitOrientation = window.screen.width / window.screen.height < 1;
+  const portraitOrientation = window.screen.width / window.screen.height < 1;
   console.log(`portraitOrientation = ${portraitOrientation}`);
 
   const portraitVideoConstraints = {
-    width: 1080,
-    height: 1920
+    width: 2320,
+    height: 3088
   };
 
   const landscapeVideoConstraints = {
-    width: 1920,
-    height: 1080
+    width: 3088,
+    height: 2320
   };
 
   const mediaStream = await navigator.mediaDevices.getUserMedia({
