@@ -1,5 +1,5 @@
 async function getMediaStream() {
-  let portraitOrientation = window.innerWidth / window.innerHeight < 1;
+  let portraitOrientation = window.screen.width / window.screen.height < 1;
   console.log(`portraitOrientation = ${portraitOrientation}`);
 
   const portraitVideoConstraints = {
