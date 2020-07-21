@@ -27,8 +27,8 @@ const Bar = styled(motion.div)`
 
 const ControlsBar = props => {
   const variants = {
-    visible: { y: 0, transition: { type: "tween" } },
-    hidden: { y: barHeight, transition: { type: "tween" } }
+    visible: { opacity: 1, y: 0, transition: { type: "tween" } },
+    hidden: { opacity: 0, y: barHeight, transition: { type: "tween" } }
   };
 
   const controls = useAnimation();
