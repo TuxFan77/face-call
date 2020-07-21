@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 
 const Video = styled.video`
@@ -12,6 +12,7 @@ const Video = styled.video`
 `;
 
 const RemoteVideo = React.forwardRef((props, ref) => {
+  useEffect(() => ref.current.setAttribute("muted", "true"));
   return <Video autoPlay muted playsInline ref={ref} />;
 });
 

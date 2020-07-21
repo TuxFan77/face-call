@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import styled from "styled-components";
 import { motion, useAnimation } from "framer-motion";
 
@@ -31,6 +31,12 @@ const LocalVideo = React.forwardRef((props, ref) => {
   };
   const controls = useAnimation();
   const constraints = useRef(null);
+
+  useEffect(() => {
+    console.log(ref.current);
+    ref.current.setAttribute("muted", "true");
+  });
+
   return (
     <DragConstraints ref={constraints}>
       <Video
