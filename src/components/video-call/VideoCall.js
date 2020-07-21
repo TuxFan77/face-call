@@ -249,7 +249,7 @@ function endCall() {
   }
 
   if (remoteVideo.current.srcObject) {
-    remoteVideo.current.pause();
+    // remoteVideo.current.pause();
     remoteVideo.current.srcObject.getTracks().forEach(track => track.stop());
     remoteVideo.current.removeAttribute("src");
     remoteVideo.current.removeAttribute("srcObject");

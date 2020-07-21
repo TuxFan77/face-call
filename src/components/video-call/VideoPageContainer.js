@@ -1,10 +1,13 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
+import { mainHeaderHeight } from "../../styles/constants/sizes";
+
 const VideoPageContainer = styled(motion.div)`
-  position: absolute;
+  position: fixed;
+  z-index: 1000;
   width: 100%;
-  top: 0;
+  top: ${mainHeaderHeight};
   bottom: 0;
   background: black;
   display: flex;
