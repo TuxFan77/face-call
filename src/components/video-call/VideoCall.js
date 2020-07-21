@@ -242,12 +242,14 @@ function endCall() {
   closeWebSocket();
 
   if (localVideo.current.srcObject) {
+    localVideo.current.pause();
     localVideo.current.srcObject.getTracks().forEach(track => track.stop());
     localVideo.current.removeAttribute("src");
     localVideo.current.removeAttribute("srcObject");
   }
 
   if (remoteVideo.current.srcObject) {
+    remoteVideo.current.pause();
     remoteVideo.current.srcObject.getTracks().forEach(track => track.stop());
     remoteVideo.current.removeAttribute("src");
     remoteVideo.current.removeAttribute("srcObject");

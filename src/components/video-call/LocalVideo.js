@@ -6,7 +6,7 @@ const Video = styled(motion.video)`
   position: absolute;
   height: 20vh;
   right: 2vw;
-  bottom: 2vw;
+  top: 2vw;
   background: black;
   border-radius: 0.75rem;
   border: 1.5px solid darkgrey;
@@ -44,6 +44,7 @@ const LocalVideo = React.forwardRef((props, ref) => {
         dragConstraints={constraints}
         ref={ref}
         onPlay={() => controls.start("visible")}
+        onPause={() => controls.start("hidden")}
       />
     </DragConstraints>
   );
