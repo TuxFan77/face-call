@@ -1,19 +1,18 @@
 async function getMediaStream() {
-  const mediaStream = await navigator.mediaDevices.getUserMedia({
-    audio: true,
-    video: true
-  });
+  console.log(navigator.platform);
 
-  // const videoTrack = mediaStream.getVideoTracks()[0];
+  const constraints = { audio: true };
 
-  // Firefox doesn't support MediaStreamTrack.getCapabilities()
-  // https://bugzilla.mozilla.org/show_bug.cgi?id=1179084
-  // if (videoTrack.getCapabilities) {
-  //   const { width, height } = videoTrack.getCapabilities();
-  //   console.log(`Actual max camera resolution: ${width.max} x ${height.max}`);
-  // }
+  if (["iPhone", "iPad", "iPod"].includes(navigator.platform)) {
+    constraints.video = true;
+  } else {
+    constraints.video = {
+      width: { min: 640, ideal: 1280, max: 1920 },
+      height: { min: 480, ideal: 720, max: 1080 }
+    };
+  }
 
-  return mediaStream;
+  return await navigator.mediaDevices.getUserMedia(constraints);
 }
 
 export default getMediaStream;
