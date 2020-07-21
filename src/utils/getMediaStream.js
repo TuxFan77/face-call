@@ -1,7 +1,7 @@
 async function getMediaStream() {
   console.log(navigator.platform);
 
-  const constraints = { audio: true };
+  const constraints = { audio: false };
 
   if (["iPhone", "iPad", "iPod"].includes(navigator.platform)) {
     constraints.video = true;
