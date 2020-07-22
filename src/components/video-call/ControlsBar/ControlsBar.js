@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { motion, useAnimation } from "framer-motion";
 
-import { ReactComponent as CallButton } from "../../images/hang-up-button.svg";
-import { ReactComponent as MuteButton } from "../../images/mute-button.svg";
-import { ReactComponent as FlipButton } from "../../images/flip-button.svg";
+import { ReactComponent as CallButton } from "../../../images/hang-up-button.svg";
+import { ReactComponent as MuteButton } from "../../../images/mute-button.svg";
+import { ReactComponent as FlipButton } from "../../../images/flip-button.svg";
 
 const buttonSize = "4rem";
 const barHeight = "6rem";

@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import VideoPageContainer from "./VideoPageContainer";
 import LocalVideo from "./LocalVideo";
-import ControlsBar from "./ControlsBar";
+import ControlsBar from "./ControlsBar/ControlsBar";
 import RemoteVideo from "./RemoteVideo";
 import { useQuery } from "../../hooks/hooks";
 import getMediaStream from "../../utils/getMediaStream";
