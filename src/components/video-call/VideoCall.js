@@ -35,16 +35,16 @@ const VideoCall = () => {
   }
 
   useEffect(() => {
-    getCameras()
-      .then(list => {
-        list.forEach(camera => cameras.push(camera));
-        console.log(list);
-      })
-      .catch(console.log);
-
     (async () => {
       try {
         await initLocalVideo();
+
+        getCameras()
+          .then(list => {
+            list.forEach(camera => cameras.push(camera));
+            console.log(list);
+          })
+          .catch(console.log);
 
         await initWebSocket(
           handleVideoOfferMessage,
