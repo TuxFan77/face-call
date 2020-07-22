@@ -57,9 +57,9 @@ const ControlsBar = ({ onButtonClick }) => {
 
   return (
     <Bar animate={controls} variants={variants}>
-      <MuteButton onClick={() => onButtonClick("MuteButton")} />
-      <FlipButton onClick={() => onButtonClick("FlipButton")} />
-      <EndCallButton onClick={() => onButtonClick("EndCallButton")} />
+      <MuteButton onClick={() => onButtonClick("mute")} />
+      <FlipButton onClick={() => onButtonClick("flip")} />
+      <EndCallButton onClick={() => onButtonClick("end")} />
     </Bar>
   );
 };
