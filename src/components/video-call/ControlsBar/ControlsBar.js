@@ -25,7 +25,7 @@ const Bar = styled(motion.div)`
   background: rgba(255, 255, 255, 0.2);
 `;
 
-const ControlsBar = ({ onButtonClick }) => {
+const ControlsBar = ({ onButtonClick, remoteVideoRef }) => {
   const variants = {
     visible: { opacity: 1, y: 0, transition: { type: "tween" } },
     hidden: { opacity: 0, y: barHeight, transition: { type: "tween" } }
@@ -34,24 +34,28 @@ const ControlsBar = ({ onButtonClick }) => {
   const controls = useAnimation();
 
   useEffect(() => {
+    // When the user moves the mouse or touches the screen on the remote video
+    // element, show the controls bar for a few seconds.
+    const { current } = remoteVideoRef;
+
     let timeout;
 
     timeout = setTimeout(() => {
-      window.addEventListener("mousemove", handleMouseMove);
+      current.addEventListener("mousemove", handleMouseMove);
       controls.start("hidden");
     }, 1000);
 
     const handleMouseMove = () => {
-      window.removeEventListener("mousemove", handleMouseMove);
+      current.removeEventListener("mousemove", handleMouseMove);
       controls.start("visible");
       timeout = setTimeout(() => {
-        window.addEventListener("mousemove", handleMouseMove);
+        current.addEventListener("mousemove", handleMouseMove);
         controls.start("hidden");
       }, 3000);
     };
 
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
+      current.removeEventListener("mousemove", handleMouseMove);
       if (timeout) clearTimeout(timeout);
     };
   });

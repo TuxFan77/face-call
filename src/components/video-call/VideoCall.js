@@ -104,7 +104,10 @@ const VideoCall = () => {
     >
       <RemoteVideo ref={remoteVideo} />
       <LocalVideo ref={localVideo} />
-      <ControlsBar onButtonClick={handleControlsBarButtonClick} />
+      <ControlsBar
+        onButtonClick={handleControlsBarButtonClick}
+        remoteVideoRef={remoteVideo}
+      />
     </VideoPageContainer>
   );
 };
