@@ -13,7 +13,7 @@ const Video = styled.video`
 
 const RemoteVideo = React.forwardRef((props, ref) => {
   useEffect(() => ref.current.setAttribute("muted", "true"));
-  return <Video autoPlay muted playsInline ref={ref} />;
+  return <Video autoPlay playsInline ref={ref} />;
 });
 
 export default RemoteVideo;
