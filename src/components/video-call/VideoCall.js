@@ -7,7 +7,10 @@ import ControlsBar from "./ControlsBar/ControlsBar";
 import RemoteVideo from "./RemoteVideo";
 import { useQuery } from "../../hooks/hooks";
 import getMediaStream from "../../utils/getMediaStream";
-import { pageVariants, pageTransition } from "../../animation/pageTransition";
+import {
+  videoPageVariants,
+  pageTransition
+} from "../../animation/pageTransition";
 import {
   initWebSocket,
   sendToServer,
@@ -99,7 +102,7 @@ const VideoCall = () => {
       initial="in"
       animate="normal"
       exit="out"
-      variants={pageVariants}
+      variants={videoPageVariants}
       transition={pageTransition}
     >
       <RemoteVideo ref={remoteVideo} />
