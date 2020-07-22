@@ -2,11 +2,10 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { motion, useAnimation } from "framer-motion";
 
-import { ReactComponent as CallButton } from "../../../images/hang-up-button.svg";
-import { ReactComponent as MuteButton } from "../../../images/mute-button.svg";
-import { ReactComponent as FlipButton } from "../../../images/flip-button.svg";
+import EndCallButton from "./EndCallButton";
+import MuteButton from "./MuteButton";
+import FlipButton from "./FlipButton";
 
-const buttonSize = "4rem";
 const barHeight = "6rem";
 
 const Bar = styled(motion.div)`
@@ -25,7 +24,7 @@ const Bar = styled(motion.div)`
   background: rgba(255, 255, 255, 0.2);
 `;
 
-const ControlsBar = props => {
+const ControlsBar = ({ onButtonClick }) => {
   const variants = {
     visible: { opacity: 1, y: 0, transition: { type: "tween" } },
     hidden: { opacity: 0, y: barHeight, transition: { type: "tween" } }
@@ -58,9 +57,9 @@ const ControlsBar = props => {
 
   return (
     <Bar animate={controls} variants={variants}>
-      <MuteButton width={buttonSize} height={buttonSize} />
-      <FlipButton width={buttonSize} height={buttonSize} />
-      <CallButton width={buttonSize} height={buttonSize} />
+      <MuteButton onClick={() => onButtonClick("MuteButton")} />
+      <FlipButton onClick={() => onButtonClick("FlipButton")} />
+      <EndCallButton onClick={() => onButtonClick("EndCallButton")} />
     </Bar>
   );
 };

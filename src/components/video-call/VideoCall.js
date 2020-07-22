@@ -69,6 +69,8 @@ const VideoCall = () => {
   localVideo = useRef(null);
   remoteVideo = useRef(null);
 
+  const handleControlsBarButtonClick = button => console.log(button);
+
   return (
     <VideoPageContainer
       initial="in"
@@ -79,7 +81,7 @@ const VideoCall = () => {
     >
       <RemoteVideo ref={remoteVideo} />
       <LocalVideo ref={localVideo} />
-      <ControlsBar />
+      <ControlsBar onButtonClick={handleControlsBarButtonClick} />
     </VideoPageContainer>
   );
 };
