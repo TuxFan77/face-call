@@ -69,7 +69,25 @@ const VideoCall = () => {
   localVideo = useRef(null);
   remoteVideo = useRef(null);
 
-  const handleControlsBarButtonClick = button => console.log(button);
+  const handleControlsBarButtonClick = button => {
+    switch (button) {
+      case "mute":
+        console.log("toggle mute");
+        break;
+
+      case "flip":
+        console.log("toggle flip");
+        break;
+
+      case "end":
+        console.log("end call button clicked");
+        endCall();
+        break;
+
+      default:
+        break;
+    }
+  };
 
   return (
     <VideoPageContainer
