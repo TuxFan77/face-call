@@ -3,7 +3,8 @@ import styled from "styled-components";
 import { motion, useAnimation } from "framer-motion";
 
 import EndCallButton from "./EndCallButton";
-import MuteButton from "./MuteButton";
+import MicButton from "./MicButton";
+import SpeakerButton from "./SpeakerButton";
 import FlipButton from "./FlipButton";
 
 const barHeight = "6rem";
@@ -57,7 +58,8 @@ const ControlsBar = ({ onButtonClick }) => {
 
   return (
     <Bar animate={controls} variants={variants}>
-      <MuteButton onClick={() => onButtonClick("mute")} />
+      <SpeakerButton onClick={() => onButtonClick("speaker")} />
+      <MicButton onClick={() => onButtonClick("mic")} />
       <FlipButton onClick={() => onButtonClick("flip")} />
       <EndCallButton onClick={() => onButtonClick("end")} />
     </Bar>

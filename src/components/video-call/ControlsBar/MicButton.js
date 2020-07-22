@@ -1,9 +1,9 @@
 import React from "react";
 
-import { ReactComponent as Button } from "../../../images/mute-button.svg";
+import { ReactComponent as Button } from "../../../images/mic-off-button.svg";
 import ButtonWrapper from "./ButtonWrapper";
 
-const MuteButton = props => {
+const MicButton = props => {
   return (
     <ButtonWrapper>
       <Button onClick={props.onClick} />
@@ -11,4 +11,4 @@ const MuteButton = props => {
   );
 };
 
-export default MuteButton;
+export default MicButton;

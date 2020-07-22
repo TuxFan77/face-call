@@ -12,8 +12,9 @@ const Video = styled.video`
 `;
 
 const RemoteVideo = React.forwardRef((props, ref) => {
+  // Explicitly set the "muted" attribute on the DOM element so Safari will autoplay
   useEffect(() => ref.current.setAttribute("muted", "true"));
-  return <Video autoPlay playsInline ref={ref} />;
+  return <Video autoPlay playsInline muted ref={ref} />;
 });
 
 export default RemoteVideo;

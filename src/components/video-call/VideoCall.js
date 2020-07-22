@@ -71,8 +71,13 @@ const VideoCall = () => {
 
   const handleControlsBarButtonClick = button => {
     switch (button) {
-      case "mute":
-        console.log("toggle mute");
+      case "speaker":
+        remoteVideo.current.muted = !remoteVideo.current.muted;
+        console.log(`remoteVideo.current.muted=${remoteVideo.current.muted}`);
+        break;
+
+      case "mic":
+        console.log("toggle mic");
         break;
 
       case "flip":
