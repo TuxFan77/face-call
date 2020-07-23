@@ -3,7 +3,6 @@ import { AnimatePresence } from "framer-motion";
 import { Route, Switch, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
-import hasMediaCapabilities from "../utils/hasMediaCapabilities";
 import { mainHeaderHeight } from "../styles/constants/sizes";
 import MainHeader from "./main-header/MainHeader";
 import Home from "./home/Home";
@@ -21,10 +20,6 @@ const AppWrapper = styled.div`
   align-items: center;
   justify-content: center;
 `;
-
-hasMediaCapabilities()
-  .then(capabilities => console.table(capabilities))
-  .catch(err => console.log(err));
 
 function App() {
   const location = useLocation();
