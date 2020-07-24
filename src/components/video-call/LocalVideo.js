@@ -49,8 +49,14 @@ const LocalVideo = React.forwardRef((props, ref) => {
         drag
         dragConstraints={constraints}
         ref={ref}
-        onPlay={() => controls.start("visible")}
-        onPause={() => controls.start("hidden")}
+        onPlay={() => {
+          controls.start("visible");
+          console.log("LocalVideo onPlay");
+        }}
+        onPause={() => {
+          controls.start("hidden");
+          console.log("LocalVideo onPlay");
+        }}
       />
     </DragConstraints>
   );
