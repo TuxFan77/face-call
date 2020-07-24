@@ -114,6 +114,7 @@ export default VideoCall;
 
 // Initialize the local video element with the webcam feed
 async function initLocalVideo() {
+  console.log("initLocalVideo");
   const stream = await getMediaStream();
   console.log(stream);
   localVideo.current.srcObject = stream;
@@ -121,6 +122,7 @@ async function initLocalVideo() {
 
 // Returns an array of camera device labels
 function getCameras() {
+  console.log("getCameras");
   const deviceLabels = [];
   return navigator.mediaDevices
     .enumerateDevices()
