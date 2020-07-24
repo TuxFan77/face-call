@@ -114,6 +114,7 @@ async function initLocalVideo() {
   const stream = await getMediaStream();
   console.log(stream);
   localVideo.current.srcObject = stream;
+  localVideo.current.play();
 }
 
 // Returns an array of camera device labels
