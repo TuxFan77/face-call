@@ -55,7 +55,7 @@ const LocalVideo = React.forwardRef((props, ref) => {
         }}
         onPause={() => {
           controls.start("hidden");
-          console.log("LocalVideo onPlay");
+          console.log("LocalVideo onPause");
         }}
       />
     </DragConstraints>

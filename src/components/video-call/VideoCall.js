@@ -252,7 +252,7 @@ async function handleNewRemoteICECandidate(candidate) {
   try {
     await peerConnection.addIceCandidate(candidate);
   } catch (error) {
-    console.log(error);
+    console.log(error.name, error.message);
   }
 }
 
