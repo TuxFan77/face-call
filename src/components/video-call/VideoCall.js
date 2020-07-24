@@ -26,6 +26,8 @@ const userId = uuidv4();
 const VideoCall = () => {
   let isCaller = useRef(false);
   const cameras = useRef([]);
+  localVideo = useRef(null);
+  remoteVideo = useRef(null);
 
   const query = useQuery();
   if (query.has("isCaller")) {
@@ -40,32 +42,26 @@ const VideoCall = () => {
         await initLocalVideo();
         const cameraList = await getCameras();
         cameraList.forEach(camera => cameras.current.push(camera));
+
+        await initWebSocket(
+          handleVideoOfferMessage,
+          handleVideoAnswerMessage,
+          handleNewRemoteICECandidate,
+          endCall
+        );
+
+        sendToServer({
+          type: "set-user-id",
+          userId
+        });
+
+        if (isCaller) startCall();
       } catch (error) {
         console.log(error);
       }
     })();
     return () => endCall();
   }, []);
-
-  useEffect(() => {
-    initWebSocket(
-      handleVideoOfferMessage,
-      handleVideoAnswerMessage,
-      handleNewRemoteICECandidate,
-      endCall
-    )
-      .then(() => {
-        sendToServer({
-          type: "set-user-id",
-          userId
-        });
-        if (isCaller) startCall();
-      })
-      .catch(console.log);
-  }, []);
-
-  localVideo = useRef(null);
-  remoteVideo = useRef(null);
 
   const handleControlsBarButtonClick = button => {
     switch (button) {
