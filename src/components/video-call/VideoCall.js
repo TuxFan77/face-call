@@ -24,7 +24,7 @@ const userId = uuidv4();
 // const callId = uuidv4();
 
 const VideoCall = () => {
-  let isCaller = useRef(false);
+  let isCaller = false;
   const cameras = useRef([]);
   localVideo = useRef(null);
   remoteVideo = useRef(null);
@@ -32,7 +32,7 @@ const VideoCall = () => {
   const query = useQuery();
   if (query.has("isCaller")) {
     if (query.get("isCaller") === "true") {
-      isCaller.current = true;
+      isCaller = true;
     }
   }
 
@@ -61,7 +61,7 @@ const VideoCall = () => {
       }
     })();
     return () => endCall();
-  }, []);
+  }, [isCaller]);
 
   const handleControlsBarButtonClick = button => {
     switch (button) {
