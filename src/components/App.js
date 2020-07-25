@@ -9,7 +9,7 @@ import Home from "./home/Home";
 import NameEntry from "./name-entry/NameEntry";
 import RecipientEntry from "./recipient-entry/RecipientEntry";
 import SendInvites from "./send-invites/SendInvites";
-import VideoCall from "./video-call/VideoCall";
+import VideoCallUI from "./video-call/VideoCallUI";
 
 const AppWrapper = styled.div`
   position: absolute;
@@ -53,7 +53,7 @@ function App() {
               <SendInvites caller={caller} recipients={recipients} />
             </Route>
             <Route path="/videoCall">
-              <VideoCall />
+              <VideoCallUI />
             </Route>
           </Switch>
         </AnimatePresence>
