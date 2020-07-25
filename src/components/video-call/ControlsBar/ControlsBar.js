@@ -58,7 +58,7 @@ const ControlsBar = ({ onButtonClick, remoteVideoRef }) => {
       current.removeEventListener("mousemove", handleMouseMove);
       if (timeout) clearTimeout(timeout);
     };
-  });
+  }, [controls, remoteVideoRef]);
 
   return (
     <Bar animate={controls} variants={variants}>
