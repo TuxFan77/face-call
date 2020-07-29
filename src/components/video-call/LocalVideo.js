@@ -57,6 +57,7 @@ const LocalVideo = React.forwardRef((props, ref) => {
         muted
         initial={"hidden"}
         animate={controls}
+        variants={variants}
         drag
         dragConstraints={constraints}
         ref={ref}
