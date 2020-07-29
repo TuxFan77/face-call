@@ -26,8 +26,18 @@ const DragConstraints = styled(motion.div)`
 
 const LocalVideo = React.forwardRef((props, ref) => {
   const variants = {
-    visible: { opacity: 1, scale: 1, rotateY: 180 },
-    hidden: { opacity: 0, scale: 0, rotateY: 180 }
+    visible: {
+      opacity: 1,
+      scale: 1,
+      rotateY: 180,
+      transition: { delay: 0.5, duration: 0.3 }
+    },
+    hidden: {
+      opacity: 0,
+      scale: 0,
+      rotateY: 180,
+      transition: { duration: 0.3 }
+    }
   };
   const controls = useAnimation();
   const constraints = useRef(null);
