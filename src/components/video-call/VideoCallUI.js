@@ -23,11 +23,13 @@ const VideoCallUI = () => {
     }
   }
 
+  const [localVideoVisible, setLocalVideoVisible] = useState("hidden");
   const [videoCall, setVideoCall] = useState(
     new VideoCall(localVideo, remoteVideo, role)
   );
 
   useEffect(() => {
+    videoCall.setLocalVideoVisibility = handleLocalVideoVisibility;
     videoCall.start();
     return () => {
       videoCall.endCall();
@@ -35,7 +37,11 @@ const VideoCallUI = () => {
     };
   }, [videoCall]);
 
-  const handleControlsBarButtonClick = button => {
+  function handleLocalVideoVisibility(state) {
+    setLocalVideoVisible(state);
+  }
+
+  function handleControlsBarButtonClick(button) {
     switch (button) {
       case "speaker":
         remoteVideo.current.muted = !remoteVideo.current.muted;
@@ -51,14 +57,13 @@ const VideoCallUI = () => {
         break;
 
       case "end":
-        console.log("end call button clicked");
         videoCall.endCall();
         break;
 
       default:
         break;
     }
-  };
+  }
 
   return (
     <VideoPageContainer
@@ -69,7 +74,7 @@ const VideoCallUI = () => {
       transition={pageTransition}
     >
       <RemoteVideo ref={remoteVideo} />
-      <LocalVideo ref={localVideo} />
+      <LocalVideo ref={localVideo} visible={localVideoVisible} />
       <ControlsBar
         onButtonClick={handleControlsBarButtonClick}
         remoteVideoRef={remoteVideo}

@@ -10,6 +10,7 @@ import { v4 as uuidv4 } from "uuid";
 function VideoCall(localVideo, remoteVideo, role) {
   this.role = role;
   this.sendToServer = sendToServer;
+  this.setLocalVideoVisibility = null;
   const cameras = [];
   let peerConnection = null;
   const userId = uuidv4();
@@ -38,13 +39,13 @@ function VideoCall(localVideo, remoteVideo, role) {
   };
 
   // Initialize the local video DOM element with the webcam feed
-  async function initLocalVideo() {
+  const initLocalVideo = async () => {
     console.log("initLocalVideo");
     const stream = await getMediaStream();
-    console.log(stream);
     localVideo.current.srcObject = stream;
     localVideo.current.play();
-  }
+    if (this.setLocalVideoVisibility) this.setLocalVideoVisibility("visible");
+  };
 
   // Enumerates the cameras on the device and adds them to the cameras array
   function getCameras() {
@@ -210,6 +211,8 @@ function VideoCall(localVideo, remoteVideo, role) {
   // End the call and cleans up resources
   this.endCall = function () {
     console.log("endCall");
+
+    if (this.setLocalVideoVisibility) this.setLocalVideoVisibility("hidden");
 
     sendToServer({
       type: "end-call",
