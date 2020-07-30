@@ -14,16 +14,16 @@ import {
 const VideoCallUI = () => {
   const localVideo = useRef(null);
   const remoteVideo = useRef(null);
-  let role = "";
+  const [localVideoVisible, setLocalVideoVisible] = useState("hidden");
+  const [role, setRole] = useState("");
 
   const query = useQuery();
   if (query.has("isCaller")) {
     if (query.get("isCaller") === "true") {
-      role = "caller";
+      setRole("caller");
     }
   }
 
-  const [localVideoVisible, setLocalVideoVisible] = useState("hidden");
   const [videoCall, setVideoCall] = useState(
     new VideoCall(localVideo, remoteVideo, role)
   );
@@ -31,6 +31,7 @@ const VideoCallUI = () => {
   useEffect(() => {
     videoCall.setLocalVideoVisibility = handleLocalVideoVisibility;
     videoCall.start();
+
     return () => {
       videoCall.endCall();
       setVideoCall(null);
