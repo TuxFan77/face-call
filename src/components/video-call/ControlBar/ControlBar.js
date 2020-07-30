@@ -25,7 +25,7 @@ const Bar = styled(motion.div)`
   background: rgba(255, 255, 255, 0.2);
 `;
 
-const ControlsBar = ({ onButtonClick, remoteVideoRef }) => {
+const ControlBar = ({ onButtonClick, remoteVideoRef }) => {
   const variants = {
     visible: { opacity: 1, y: 0, transition: { type: "tween" } },
     hidden: { opacity: 0, y: barHeight, transition: { type: "tween" } }
@@ -70,4 +70,4 @@ const ControlsBar = ({ onButtonClick, remoteVideoRef }) => {
   );
 };
 
-export default ControlsBar;
+export default ControlBar;

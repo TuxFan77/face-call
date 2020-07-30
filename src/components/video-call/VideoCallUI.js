@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import VideoCall from "./VideoCall";
 import VideoPageContainer from "./VideoPageContainer";
 import LocalVideo from "./LocalVideo";
-import ControlsBar from "./ControlsBar/ControlsBar";
+import ControlBar from "./ControlBar/ControlBar";
 import RemoteVideo from "./RemoteVideo";
 import { useQuery } from "../../hooks/hooks";
 import {
@@ -42,7 +42,7 @@ const VideoCallUI = () => {
     setLocalVideoVisible(state);
   }
 
-  function handleControlsBarButtonClick(button) {
+  function handleControlBarButtonClick(button) {
     switch (button) {
       case "speaker":
         remoteVideo.current.muted = !remoteVideo.current.muted;
@@ -76,8 +76,8 @@ const VideoCallUI = () => {
     >
       <RemoteVideo ref={remoteVideo} />
       <LocalVideo ref={localVideo} visible={localVideoVisible} />
-      <ControlsBar
-        onButtonClick={handleControlsBarButtonClick}
+      <ControlBar
+        onButtonClick={handleControlBarButtonClick}
         remoteVideoRef={remoteVideo}
       />
     </VideoPageContainer>
