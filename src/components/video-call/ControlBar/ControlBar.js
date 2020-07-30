@@ -38,9 +38,7 @@ const ControlBar = ({ onButtonClick, remoteVideoRef }) => {
     // element, show the controls bar for a few seconds.
     const { current } = remoteVideoRef;
 
-    let timeout;
-
-    timeout = setTimeout(() => {
+    setTimeout(() => {
       current.addEventListener("mousemove", handleMouseMove);
       controls.start("hidden");
     }, 1000);
@@ -48,7 +46,7 @@ const ControlBar = ({ onButtonClick, remoteVideoRef }) => {
     const handleMouseMove = () => {
       current.removeEventListener("mousemove", handleMouseMove);
       controls.start("visible");
-      timeout = setTimeout(() => {
+      setTimeout(() => {
         current.addEventListener("mousemove", handleMouseMove);
         controls.start("hidden");
       }, 3000);
@@ -56,7 +54,6 @@ const ControlBar = ({ onButtonClick, remoteVideoRef }) => {
 
     return () => {
       current.removeEventListener("mousemove", handleMouseMove);
-      if (timeout) clearTimeout(timeout);
     };
   }, [controls, remoteVideoRef]);
 
