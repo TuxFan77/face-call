@@ -22,8 +22,6 @@ const VideoCallUI = () => {
   const [localVideoVisible, setLocalVideoVisible] = useState("hidden");
   const [role, setRole] = useState("");
 
-  console.log(`VideoCallUI mouseMoveListening = ${mouseMoveListening.current}`);
-
   const query = useQuery();
   useEffect(() => {
     if (query.has("isCaller")) {
@@ -51,20 +49,19 @@ const VideoCallUI = () => {
   function handleMouseMove() {
     if (!mouseMoveListening.current) return;
     mouseMoveListening.current = false;
-    throttleTimeout.current = setTimeout(() => {
-      mouseMoveListening.current = true;
-      console.log("throttleTimeout");
-    }, 200);
+    throttleTimeout.current = setTimeout(
+      () => (mouseMoveListening.current = true),
+      200
+    );
     setControlBarVisibility("visible");
     clearTimeout(debounceTimeout.current);
-    debounceTimeout.current = setTimeout(() => {
-      setControlBarVisibility("hidden");
-      console.log("debounceTimeout");
-    }, CONTROL_BAR_DELAY);
+    debounceTimeout.current = setTimeout(
+      () => setControlBarVisibility("hidden"),
+      CONTROL_BAR_DELAY
+    );
   }
 
   function handleMouseEnter() {
-    console.log("mouseenter");
     mouseMoveListening.current = false;
     clearTimeout(throttleTimeout.current);
     clearTimeout(debounceTimeout.current);
@@ -72,7 +69,6 @@ const VideoCallUI = () => {
   }
 
   function handleMouseLeave() {
-    console.log("mouseleave");
     mouseMoveListening.current = true;
   }
 
