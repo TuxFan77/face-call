@@ -52,7 +52,9 @@ const LocalVideo = React.forwardRef((props, ref) => {
   // Explicitly set the "muted" attribute on the DOM element so Safari will autoplay
   useEffect(() => ref.current.setAttribute("muted", "true"), [ref]);
 
-  useEffect(() => controls.start(() => variants[props.visible]));
+  useEffect(() => {
+    controls.start(() => variants[props.visible]);
+  });
 
   return (
     <DragConstraints ref={constraints}>
