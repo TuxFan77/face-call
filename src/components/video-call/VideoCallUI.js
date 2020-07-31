@@ -25,11 +25,13 @@ const VideoCallUI = () => {
   console.log(`VideoCallUI mouseMoveListening = ${mouseMoveListening.current}`);
 
   const query = useQuery();
-  if (query.has("isCaller")) {
-    if (query.get("isCaller") === "true") {
-      setRole("caller");
+  useEffect(() => {
+    if (query.has("isCaller")) {
+      if (query.get("isCaller") === "true") {
+        setRole("caller");
+      }
     }
-  }
+  }, [query]);
 
   const [videoCall, setVideoCall] = useState(
     new VideoCall(localVideo, remoteVideo, role)
