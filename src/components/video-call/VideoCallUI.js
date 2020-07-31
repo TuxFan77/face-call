@@ -51,7 +51,7 @@ const VideoCallUI = () => {
     mouseMoveListening.current = false;
     throttleTimeout.current = setTimeout(
       () => (mouseMoveListening.current = true),
-      200
+      CONTROL_BAR_DELAY
     );
     setControlBarVisibility("visible");
     clearTimeout(debounceTimeout.current);
