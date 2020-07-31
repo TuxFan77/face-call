@@ -25,7 +25,7 @@ const Bar = styled(motion.div)`
   background: rgba(255, 255, 255, 0.2);
 `;
 
-const ControlBar = ({ onButtonClick }) => {
+const ControlBar = ({ onButtonClick, onMouseEnter, onMouseLeave, visible }) => {
   const variants = {
     visible: { opacity: 1, y: 0, transition: { type: "tween" } },
     hidden: { opacity: 0, y: barHeight, transition: { type: "tween" } }
@@ -34,13 +34,17 @@ const ControlBar = ({ onButtonClick }) => {
   const controls = useAnimation();
 
   useEffect(() => {
-    setTimeout(() => {
-      controls.start("hidden");
-    }, 1000);
-  }, [controls]);
+    console.log(`ControlBar useEffect visible = ${visible}`);
+    controls.start(() => variants[visible]);
+  }, [controls, variants, visible]);
 
   return (
-    <Bar animate={controls} variants={variants}>
+    <Bar
+      initial={"visible"}
+      animate={controls}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    >
       <SpeakerButton onClick={() => onButtonClick("speaker")} />
       <MicButton onClick={() => onButtonClick("mic")} />
       <FlipButton onClick={() => onButtonClick("flip")} />

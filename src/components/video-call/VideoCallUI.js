@@ -14,8 +14,15 @@ import {
 const VideoCallUI = () => {
   const localVideo = useRef(null);
   const remoteVideo = useRef(null);
+  const CONTROL_BAR_DELAY = 750;
+  const debounceTimeout = useRef(null);
+  const throttleTimeout = useRef(null);
+  const mouseMoveListening = useRef(true);
+  const [controlBarVisibility, setControlBarVisibility] = useState("visible");
   const [localVideoVisible, setLocalVideoVisible] = useState("hidden");
   const [role, setRole] = useState("");
+
+  console.log(`VideoCallUI mouseMoveListening = ${mouseMoveListening.current}`);
 
   const query = useQuery();
   if (query.has("isCaller")) {
@@ -29,7 +36,8 @@ const VideoCallUI = () => {
   );
 
   useEffect(() => {
-    videoCall.setLocalVideoVisibility = handleLocalVideoVisibility;
+    setTimeout(() => setControlBarVisibility("hidden"), CONTROL_BAR_DELAY);
+    videoCall.setLocalVideoVisibility = state => setLocalVideoVisible(state);
     videoCall.start();
 
     return () => {
@@ -38,8 +46,32 @@ const VideoCallUI = () => {
     };
   }, [videoCall]);
 
-  function handleLocalVideoVisibility(state) {
-    setLocalVideoVisible(state);
+  function handleMouseMove() {
+    if (!mouseMoveListening.current) return;
+    mouseMoveListening.current = false;
+    throttleTimeout.current = setTimeout(() => {
+      mouseMoveListening.current = true;
+      console.log("throttleTimeout");
+    }, 200);
+    setControlBarVisibility("visible");
+    clearTimeout(debounceTimeout.current);
+    debounceTimeout.current = setTimeout(() => {
+      setControlBarVisibility("hidden");
+      console.log("debounceTimeout");
+    }, CONTROL_BAR_DELAY);
+  }
+
+  function handleMouseEnter() {
+    console.log("mouseenter");
+    mouseMoveListening.current = false;
+    clearTimeout(throttleTimeout.current);
+    clearTimeout(debounceTimeout.current);
+    setControlBarVisibility("visible");
+  }
+
+  function handleMouseLeave() {
+    console.log("mouseleave");
+    mouseMoveListening.current = true;
   }
 
   function handleControlBarButtonClick(button) {
@@ -73,12 +105,15 @@ const VideoCallUI = () => {
       exit="out"
       variants={videoPageVariants}
       transition={pageTransition}
+      onMouseMove={handleMouseMove}
     >
       <RemoteVideo ref={remoteVideo} />
       <LocalVideo ref={localVideo} visible={localVideoVisible} />
       <ControlBar
         onButtonClick={handleControlBarButtonClick}
-        remoteVideoRef={remoteVideo}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        visible={controlBarVisibility}
       />
     </VideoPageContainer>
   );

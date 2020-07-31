@@ -30,7 +30,14 @@ const LocalVideo = React.forwardRef((props, ref) => {
       opacity: 1,
       scale: 1,
       rotateY: 180,
-      transition: { delay: 0.5, duration: 0.3 }
+      transition: {
+        delay: 0.5,
+        duration: 0.3,
+        type: "spring",
+        mass: 0.75,
+        stiffness: 150,
+        damping: 12
+      }
     },
     hidden: {
       opacity: 0,
