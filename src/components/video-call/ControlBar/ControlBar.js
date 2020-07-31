@@ -34,7 +34,6 @@ const ControlBar = ({ onButtonClick, onMouseEnter, onMouseLeave, visible }) => {
   const controls = useAnimation();
 
   useEffect(() => {
-    console.log(`ControlBar useEffect visible = ${visible}`);
     controls.start(() => variants[visible]);
   }, [controls, variants, visible]);
 
