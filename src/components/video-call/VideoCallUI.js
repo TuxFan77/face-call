@@ -14,19 +14,21 @@ import {
 const VideoCallUI = () => {
   const localVideo = useRef(null);
   const remoteVideo = useRef(null);
-  const CONTROL_BAR_DELAY = 750;
+  const CONTROL_BAR_DELAY = 1500;
+  const THROTTLE_DELAY = CONTROL_BAR_DELAY / 2;
   const debounceTimeout = useRef(null);
   const throttleTimeout = useRef(null);
   const mouseMoveListening = useRef(true);
   const [controlBarVisibility, setControlBarVisibility] = useState("visible");
   const [localVideoVisible, setLocalVideoVisible] = useState("hidden");
-  const [role, setRole] = useState("");
+  const [muted, setMuted] = useState(true);
+  const role = useRef("");
 
   const query = useQuery();
   useEffect(() => {
     if (query.has("isCaller")) {
       if (query.get("isCaller") === "true") {
-        setRole("caller");
+        role.current = "caller";
       }
     }
   }, [query]);
@@ -51,7 +53,7 @@ const VideoCallUI = () => {
     mouseMoveListening.current = false;
     throttleTimeout.current = setTimeout(
       () => (mouseMoveListening.current = true),
-      CONTROL_BAR_DELAY
+      THROTTLE_DELAY
     );
     setControlBarVisibility("visible");
     clearTimeout(debounceTimeout.current);
@@ -75,8 +77,11 @@ const VideoCallUI = () => {
   function handleControlBarButtonClick(button) {
     switch (button) {
       case "speaker":
-        remoteVideo.current.muted = !remoteVideo.current.muted;
-        console.log(`remoteVideo.current.muted=${remoteVideo.current.muted}`);
+        setMuted(prev => {
+          remoteVideo.current.muted = !prev;
+          return !prev;
+        });
+        console.log("toggle speaker");
         break;
 
       case "mic":
@@ -112,6 +117,7 @@ const VideoCallUI = () => {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         visible={controlBarVisibility}
+        muted={muted}
       />
     </VideoPageContainer>
   );

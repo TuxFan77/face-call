@@ -25,7 +25,13 @@ const Bar = styled(motion.div)`
   background: rgba(255, 255, 255, 0.2);
 `;
 
-const ControlBar = ({ onButtonClick, onMouseEnter, onMouseLeave, visible }) => {
+const ControlBar = ({
+  onButtonClick,
+  onMouseEnter,
+  onMouseLeave,
+  visible,
+  muted
+}) => {
   const variants = {
     visible: { opacity: 1, y: 0, transition: { type: "tween" } },
     hidden: { opacity: 0, y: barHeight, transition: { type: "tween" } }
@@ -44,7 +50,7 @@ const ControlBar = ({ onButtonClick, onMouseEnter, onMouseLeave, visible }) => {
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
-      <SpeakerButton onClick={() => onButtonClick("speaker")} />
+      <SpeakerButton onClick={() => onButtonClick("speaker")} muted={muted} />
       <MicButton onClick={() => onButtonClick("mic")} />
       <FlipButton onClick={() => onButtonClick("flip")} />
       <EndCallButton onClick={() => onButtonClick("end")} />
