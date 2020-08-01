@@ -1,13 +1,17 @@
 import React from "react";
 
-import { ReactComponent as Button } from "../../../images/speaker-off-button.svg";
+import { ReactComponent as SpeakerOffButton } from "../../../images/speaker-off-button.svg";
+import { ReactComponent as SpeakerOnButton } from "../../../images/speaker-on-button.svg";
 import ButtonWrapper from "./ButtonWrapper";
 
-const SpeakerButton = props => {
-  console.log(`SpeakerButton muted = ${props.muted}`);
+const SpeakerButton = ({ onClick, muted }) => {
   return (
     <ButtonWrapper>
-      <Button onClick={props.onClick} />
+      {muted ? (
+        <SpeakerOffButton onClick={onClick} />
+      ) : (
+        <SpeakerOnButton onClick={onClick} />
+      )}
     </ButtonWrapper>
   );
 };
