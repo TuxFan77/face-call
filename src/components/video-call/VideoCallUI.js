@@ -16,13 +16,16 @@ const VideoCallUI = () => {
   const remoteVideo = useRef(null);
   const CONTROL_BAR_DELAY = 1500;
   const THROTTLE_DELAY = CONTROL_BAR_DELAY / 2;
-  const debounceTimeout = useRef(null);
-  const throttleTimeout = useRef(null);
+  const debounceTimeoutID = useRef(null);
+  const throttleTimeoutID = useRef(null);
   const mouseMoveListening = useRef(true);
   const [controlBarVisibility, setControlBarVisibility] = useState("visible");
   const [localVideoVisible, setLocalVideoVisible] = useState("hidden");
   const [muted, setMuted] = useState(true);
   const role = useRef("");
+  const [videoCall, setVideoCall] = useState(
+    new VideoCall(localVideo, remoteVideo)
+  );
 
   const query = useQuery();
   useEffect(() => {
@@ -32,10 +35,6 @@ const VideoCallUI = () => {
       }
     }
   }, [query]);
-
-  const [videoCall, setVideoCall] = useState(
-    new VideoCall(localVideo, remoteVideo)
-  );
 
   useEffect(() => {
     setTimeout(() => setControlBarVisibility("hidden"), CONTROL_BAR_DELAY);
@@ -52,13 +51,13 @@ const VideoCallUI = () => {
   function handleMouseMove() {
     if (!mouseMoveListening.current) return;
     mouseMoveListening.current = false;
-    throttleTimeout.current = setTimeout(
+    throttleTimeoutID.current = setTimeout(
       () => (mouseMoveListening.current = true),
       THROTTLE_DELAY
     );
     setControlBarVisibility("visible");
-    clearTimeout(debounceTimeout.current);
-    debounceTimeout.current = setTimeout(
+    clearTimeout(debounceTimeoutID.current);
+    debounceTimeoutID.current = setTimeout(
       () => setControlBarVisibility("hidden"),
       CONTROL_BAR_DELAY
     );
@@ -66,8 +65,8 @@ const VideoCallUI = () => {
 
   function handleMouseEnter() {
     mouseMoveListening.current = false;
-    clearTimeout(throttleTimeout.current);
-    clearTimeout(debounceTimeout.current);
+    clearTimeout(throttleTimeoutID.current);
+    clearTimeout(debounceTimeoutID.current);
     setControlBarVisibility("visible");
   }
 
