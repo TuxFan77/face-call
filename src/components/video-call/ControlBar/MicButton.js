@@ -1,13 +1,17 @@
 import React from "react";
 
 import { ReactComponent as MicOnButton } from "../../../images/mic-on-button.svg";
-// import { ReactComponent as MicOffButton } from "../../../images/mic-off-button.svg";
+import { ReactComponent as MicOffButton } from "../../../images/mic-off-button.svg";
 import ButtonWrapper from "./ButtonWrapper";
 
-const MicButton = props => {
+const MicButton = ({ onClick, micMuted }) => {
   return (
     <ButtonWrapper>
-      <MicOnButton onClick={props.onClick} />
+      {micMuted ? (
+        <MicOffButton onClick={onClick} />
+      ) : (
+        <MicOnButton onClick={onClick} />
+      )}
     </ButtonWrapper>
   );
 };

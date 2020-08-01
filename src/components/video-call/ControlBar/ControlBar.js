@@ -30,7 +30,8 @@ const ControlBar = ({
   onMouseEnter,
   onMouseLeave,
   visible,
-  muted
+  muted,
+  micMuted
 }) => {
   const variants = {
     visible: { opacity: 1, y: 0, transition: { type: "tween" } },
@@ -51,7 +52,7 @@ const ControlBar = ({
       onMouseLeave={onMouseLeave}
     >
       <SpeakerButton onClick={() => onButtonClick("speaker")} muted={muted} />
-      <MicButton onClick={() => onButtonClick("mic")} />
+      <MicButton onClick={() => onButtonClick("mic")} micMuted={micMuted} />
       <FlipButton onClick={() => onButtonClick("flip")} />
       <EndCallButton onClick={() => onButtonClick("end")} />
     </Bar>

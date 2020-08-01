@@ -22,6 +22,7 @@ const VideoCallUI = () => {
   const [controlBarVisibility, setControlBarVisibility] = useState("visible");
   const [localVideoVisible, setLocalVideoVisible] = useState("hidden");
   const [muted, setMuted] = useState(true);
+  const [micMuted, setMicMuted] = useState(false);
   const role = useRef("");
   const [videoCall, setVideoCall] = useState(
     new VideoCall(localVideo, remoteVideo)
@@ -81,11 +82,13 @@ const VideoCallUI = () => {
           remoteVideo.current.muted = !prev;
           return !prev;
         });
-        console.log("toggle speaker");
         break;
 
       case "mic":
-        console.log("toggle mic");
+        setMicMuted(prev => {
+          videoCall.micMuted(!prev);
+          return !prev;
+        });
         break;
 
       case "flip":
@@ -118,6 +121,7 @@ const VideoCallUI = () => {
         onMouseLeave={handleMouseLeave}
         visible={controlBarVisibility}
         muted={muted}
+        micMuted={micMuted}
       />
     </VideoPageContainer>
   );

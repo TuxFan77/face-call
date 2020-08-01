@@ -208,6 +208,17 @@ function VideoCall(localVideo, remoteVideo) {
     }
   }
 
+  // Enables / disables the local audio track
+  this.micMuted = state => {
+    if (localVideo.current.srcObject) {
+      localVideo.current.srcObject.getTracks().forEach(track => {
+        if (track.kind === "audio") {
+          track.enabled = !state;
+        }
+      });
+    }
+  };
+
   // End the call and cleans up resources
   this.endCall = () => {
     console.log("endCall");
@@ -230,7 +241,6 @@ function VideoCall(localVideo, remoteVideo) {
     }
 
     if (remoteVideo.current.srcObject) {
-      // remoteVideo.current.pause();
       remoteVideo.current.srcObject.getTracks().forEach(track => track.stop());
       remoteVideo.current.removeAttribute("src");
       remoteVideo.current.removeAttribute("srcObject");
