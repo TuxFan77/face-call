@@ -30,7 +30,7 @@ const ControlBar = ({
   onMouseEnter,
   onMouseLeave,
   visible,
-  muted,
+  speakerMuted,
   micMuted
 }) => {
   const variants = {
@@ -51,7 +51,10 @@ const ControlBar = ({
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
-      <SpeakerButton onClick={() => onButtonClick("speaker")} muted={muted} />
+      <SpeakerButton
+        onClick={() => onButtonClick("speaker")}
+        speakerMuted={speakerMuted}
+      />
       <MicButton onClick={() => onButtonClick("mic")} micMuted={micMuted} />
       <FlipButton onClick={() => onButtonClick("flip")} />
       <EndCallButton onClick={() => onButtonClick("end")} />

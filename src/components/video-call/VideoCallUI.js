@@ -21,7 +21,7 @@ const VideoCallUI = () => {
   const mouseMoveListening = useRef(true);
   const [controlBarVisibility, setControlBarVisibility] = useState("visible");
   const [localVideoVisible, setLocalVideoVisible] = useState("hidden");
-  const [muted, setMuted] = useState(true);
+  const [speakerMuted, setSpeakerMuted] = useState(true);
   const [micMuted, setMicMuted] = useState(false);
   const role = useRef("");
   const [videoCall, setVideoCall] = useState(
@@ -78,7 +78,7 @@ const VideoCallUI = () => {
   function handleControlBarButtonClick(button) {
     switch (button) {
       case "speaker":
-        setMuted(prev => {
+        setSpeakerMuted(prev => {
           remoteVideo.current.muted = !prev;
           return !prev;
         });
@@ -120,7 +120,7 @@ const VideoCallUI = () => {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         visible={controlBarVisibility}
-        muted={muted}
+        speakerMuted={speakerMuted}
         micMuted={micMuted}
       />
     </VideoPageContainer>

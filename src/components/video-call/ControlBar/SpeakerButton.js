@@ -4,10 +4,10 @@ import { ReactComponent as SpeakerOffButton } from "../../../images/speaker-off-
 import { ReactComponent as SpeakerOnButton } from "../../../images/speaker-on-button.svg";
 import ButtonWrapper from "./ButtonWrapper";
 
-const SpeakerButton = ({ onClick, muted }) => {
+const SpeakerButton = ({ onClick, speakerMuted }) => {
   return (
     <ButtonWrapper>
-      {muted ? (
+      {speakerMuted ? (
         <SpeakerOffButton onClick={onClick} />
       ) : (
         <SpeakerOnButton onClick={onClick} />
