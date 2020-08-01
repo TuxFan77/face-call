@@ -34,12 +34,13 @@ const VideoCallUI = () => {
   }, [query]);
 
   const [videoCall, setVideoCall] = useState(
-    new VideoCall(localVideo, remoteVideo, role)
+    new VideoCall(localVideo, remoteVideo)
   );
 
   useEffect(() => {
     setTimeout(() => setControlBarVisibility("hidden"), CONTROL_BAR_DELAY);
     videoCall.setLocalVideoVisibility = state => setLocalVideoVisible(state);
+    videoCall.role = role.current;
     videoCall.start();
 
     return () => {

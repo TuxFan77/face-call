@@ -7,8 +7,8 @@ import getIceServers from "../../web-rtc/getIceServers";
 
 import { v4 as uuidv4 } from "uuid";
 
-function VideoCall(localVideo, remoteVideo, role) {
-  this.role = role;
+function VideoCall(localVideo, remoteVideo) {
+  this.role = "";
   this.sendToServer = sendToServer;
   this.setLocalVideoVisibility = null;
   const cameras = [];
@@ -27,12 +27,12 @@ function VideoCall(localVideo, remoteVideo, role) {
         this.endCall
       );
 
-      this.sendToServer({
+      sendToServer({
         type: "set-user-id",
         userId
       });
 
-      if (role === "caller") startCall();
+      if (this.role === "caller") startCall();
     } catch (err) {
       console.log(err);
     }
@@ -209,7 +209,7 @@ function VideoCall(localVideo, remoteVideo, role) {
   }
 
   // End the call and cleans up resources
-  this.endCall = function () {
+  this.endCall = () => {
     console.log("endCall");
 
     if (this.setLocalVideoVisibility) this.setLocalVideoVisibility("hidden");
