@@ -50,12 +50,6 @@ const ControlBar = ({
       animate={controls}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      onTouchStart={e => {
-        console.log("onTouchStart");
-        e.preventDefault();
-      }}
-      onTouchMove={() => console.log("onTouchMove")}
-      onTouchEnd={() => console.log("onTouchEnd")}
     >
       <SpeakerButton
         onClick={() => onButtonClick("speaker")}

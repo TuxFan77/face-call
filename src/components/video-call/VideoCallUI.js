@@ -74,7 +74,7 @@ const VideoCallUI = () => {
   }
 
   function handleMouseLeave() {
-    console.log("handleMouseEnter");
+    console.log("handleMouseLeave");
     mouseMoveListening.current = true;
   }
 
