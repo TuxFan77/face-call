@@ -51,6 +51,7 @@ const VideoCallUI = () => {
 
   function handleMouseMove() {
     if (!mouseMoveListening.current) return;
+    console.log("handleMouseMove");
     mouseMoveListening.current = false;
     throttleTimeoutID.current = setTimeout(
       () => (mouseMoveListening.current = true),
@@ -65,6 +66,7 @@ const VideoCallUI = () => {
   }
 
   function handleMouseEnter() {
+    console.log("handleMouseEnter");
     mouseMoveListening.current = false;
     clearTimeout(throttleTimeoutID.current);
     clearTimeout(debounceTimeoutID.current);
@@ -72,6 +74,7 @@ const VideoCallUI = () => {
   }
 
   function handleMouseLeave() {
+    console.log("handleMouseEnter");
     mouseMoveListening.current = true;
   }
 
