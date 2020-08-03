@@ -65,7 +65,7 @@ function VideoCall(localVideo, remoteVideo) {
   // Cycles through the available cameras on the device
   this.switchCameras = () => {
     if (cameras.length < 2) {
-      console.log("Only one camera");
+      console.log("Only one camera.");
       return;
     }
 
