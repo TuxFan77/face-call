@@ -72,26 +72,34 @@ function VideoCall(localVideo, remoteVideo) {
     currentCamera = ++currentCamera % cameras.length;
     console.log(cameras[currentCamera].label);
 
-    navigator.mediaDevices
-      .getUserMedia({
-        video: {
-          deviceId: {
-            exact: cameras[currentCamera].deviceId
-          }
-        }
-      })
-      .then(stream => {
-        const videoTrack = stream.getVideoTracks()[0];
-        console.log(videoTrack);
-        videoTrack.stop();
-        // if (peerConnection) {
-        //   const sender = peerConnection.getSenders().find(s => {
-        //     return s.track.kind === videoTrack.kind;
-        //   });
-        //   sender.replaceTrack(videoTrack);
-        // }
-      })
-      .catch(console.log);
+    if (peerConnection) {
+      const videoSender = peerConnection
+        .getSenders()
+        .find(sender => sender.track.kind === "video");
+      console.log(videoSender);
+      videoSender.track.stop();
+    }
+
+    // navigator.mediaDevices
+    //   .getUserMedia({
+    //     video: {
+    //       deviceId: {
+    //         exact: cameras[currentCamera].deviceId
+    //       }
+    //     }
+    //   })
+    //   .then(stream => {
+    //     const videoTrack = stream.getVideoTracks()[0];
+    //     console.log(videoTrack);
+    //     videoTrack.stop();
+    //     if (peerConnection) {
+    //       const sender = peerConnection.getSenders().find(s => {
+    //         return s.track.kind === videoTrack.kind;
+    //       });
+    //       sender.replaceTrack(videoTrack);
+    //     }
+    //   })
+    //   .catch(console.log);
   };
 
   // Gets the media stream
