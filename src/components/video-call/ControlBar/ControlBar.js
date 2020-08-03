@@ -16,8 +16,8 @@ const Bar = styled(motion.div)`
   justify-content: space-around;
   align-items: center;
   width: 90vw;
-  @media screen and (min-width: 768px) {
-    width: 40vw;
+  @media screen and (min-width: 1025px) {
+    width: 50vw;
   }
   bottom: 0;
   height: ${barHeight};
