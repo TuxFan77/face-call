@@ -48,16 +48,19 @@ const ControlBar = ({
     <Bar
       initial={"visible"}
       animate={controls}
+      onTouchEnd={e => {
+        e.preventDefault();
+        onButtonClick(e.target.dataset.button);
+      }}
+      onClick={e => onButtonClick(e.target.dataset.button)}
+      onContextMenu={e => e.preventDefault()}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
-      <SpeakerButton
-        onClick={() => onButtonClick("speaker")}
-        speakerMuted={speakerMuted}
-      />
-      <MicButton onClick={() => onButtonClick("mic")} micMuted={micMuted} />
-      <FlipButton onClick={() => onButtonClick("flip")} />
-      <EndCallButton onClick={() => onButtonClick("end")} />
+      <SpeakerButton buttonType={"speaker"} speakerMuted={speakerMuted} />
+      <MicButton buttonType={"mic"} micMuted={micMuted} />
+      <FlipButton buttonType={"flip"} />
+      <EndCallButton buttonType={"end"} />
     </Bar>
   );
 };

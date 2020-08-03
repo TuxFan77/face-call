@@ -115,9 +115,6 @@ const VideoCallUI = () => {
       variants={videoPageVariants}
       transition={pageTransition}
       onMouseMove={handleMouseMove}
-      onTouchStart={() => console.log("touchstart")}
-      onTouchMove={() => console.log("touchmove")}
-      onTouchEnd={() => console.log("touchend")}
     >
       <RemoteVideo ref={remoteVideo} />
       <LocalVideo ref={localVideo} visible={localVideoVisible} />

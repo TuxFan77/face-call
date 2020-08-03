@@ -3,10 +3,10 @@ import React from "react";
 import { ReactComponent as Button } from "../../../images/flip-button.svg";
 import ButtonWrapper from "./ButtonWrapper";
 
-const FlipButton = props => {
+const FlipButton = ({ buttonType }) => {
   return (
-    <ButtonWrapper>
-      <Button onClick={props.onClick} />
+    <ButtonWrapper buttonType={buttonType}>
+      <Button />
     </ButtonWrapper>
   );
 };

@@ -3,10 +3,10 @@ import React from "react";
 import { ReactComponent as Button } from "../../../images/hang-up-button.svg";
 import ButtonWrapper from "./ButtonWrapper";
 
-const EndCallButton = props => {
+const EndCallButton = ({ buttonType }) => {
   return (
-    <ButtonWrapper>
-      <Button onClick={props.onClick} />
+    <ButtonWrapper buttonType={buttonType}>
+      <Button />
     </ButtonWrapper>
   );
 };
