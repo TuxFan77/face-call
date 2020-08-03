@@ -84,7 +84,14 @@ function VideoCall(localVideo, remoteVideo) {
         const videoTrack = stream.getVideoTracks()[0];
         console.log(videoTrack);
         videoTrack.stop();
-      });
+        // if (peerConnection) {
+        //   const sender = peerConnection.getSenders().find(s => {
+        //     return s.track.kind === videoTrack.kind;
+        //   });
+        //   sender.replaceTrack(videoTrack);
+        // }
+      })
+      .catch(console.log);
   };
 
   // Gets the media stream

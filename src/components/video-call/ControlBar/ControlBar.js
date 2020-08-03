@@ -57,10 +57,10 @@ const ControlBar = ({
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
-      <SpeakerButton buttonType={"speaker"} speakerMuted={speakerMuted} />
-      <MicButton buttonType={"mic"} micMuted={micMuted} />
-      <FlipButton buttonType={"flip"} />
-      <EndCallButton buttonType={"end"} />
+      <SpeakerButton speakerMuted={speakerMuted} />
+      <MicButton micMuted={micMuted} />
+      <FlipButton />
+      <EndCallButton />
     </Bar>
   );
 };
