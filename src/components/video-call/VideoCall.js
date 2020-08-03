@@ -64,16 +64,16 @@ function VideoCall(localVideo, remoteVideo) {
 
   // Cycles through the available cameras on the device
   this.switchCameras = () => {
-    if (cameras.length < 2) {
-      console.log("Only one camera.");
-      return;
-    }
+    // if (cameras.length < 2) {
+    //   console.log("Only one camera.");
+    //   return;
+    // }
 
-    currentCamera = ++currentCamera % cameras.length;
-    console.log(cameras[currentCamera]);
+    // currentCamera = ++currentCamera % cameras.length;
+    // console.log(cameras[currentCamera]);
 
     const stream = localVideo.current.srcObject;
-    console.log(stream.getVideoTracks()[0]);
+    console.log(stream);
   };
 
   // Gets the media stream
