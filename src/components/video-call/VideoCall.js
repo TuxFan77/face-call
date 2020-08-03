@@ -11,7 +11,7 @@ function VideoCall(localVideo, remoteVideo) {
   this.role = "";
   this.setLocalVideoVisibility = null;
   const cameras = [];
-  let currentCamera = 0;
+  // let currentCamera = 0;
   let peerConnection = null;
   const userId = uuidv4();
 
