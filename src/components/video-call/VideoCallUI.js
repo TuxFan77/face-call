@@ -93,6 +93,7 @@ const VideoCallUI = () => {
 
       case "flip":
         console.log("toggle flip");
+        videoCall.switchCameras();
         break;
 
       case "end":

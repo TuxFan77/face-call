@@ -9,9 +9,9 @@ import { v4 as uuidv4 } from "uuid";
 
 function VideoCall(localVideo, remoteVideo) {
   this.role = "";
-  this.sendToServer = sendToServer;
   this.setLocalVideoVisibility = null;
   const cameras = [];
+  let currentCamera = 0;
   let peerConnection = null;
   const userId = uuidv4();
 
@@ -55,13 +55,23 @@ function VideoCall(localVideo, remoteVideo) {
       .then(devices => {
         devices.forEach(device => {
           if (device.kind === "videoinput") {
-            console.log(device.label);
-            cameras.push(device.label);
+            cameras.push(device);
           }
         });
       })
       .catch(err => err);
   }
+
+  // Cycles through the available cameras on the device
+  this.switchCameras = () => {
+    if (cameras.length < 2) {
+      console.log("Only one camera");
+      return;
+    }
+
+    currentCamera = ++currentCamera % cameras.length;
+    console.log(cameras[currentCamera]);
+  };
 
   // Gets the media stream
   async function getMediaStream() {
