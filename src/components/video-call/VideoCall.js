@@ -11,7 +11,7 @@ function VideoCall(localVideo, remoteVideo) {
   this.role = "";
   this.setLocalVideoVisibility = null;
   const cameras = [];
-  // let currentCamera = 0;
+  let currentCamera = 0;
   let peerConnection = null;
   const userId = uuidv4();
 
@@ -69,11 +69,22 @@ function VideoCall(localVideo, remoteVideo) {
     //   return;
     // }
 
-    // currentCamera = ++currentCamera % cameras.length;
-    // console.log(cameras[currentCamera]);
+    currentCamera = ++currentCamera % cameras.length;
+    console.log(cameras[currentCamera].label);
 
-    const stream = localVideo.current.srcObject;
-    console.log(stream);
+    navigator.mediaDevices
+      .getUserMedia({
+        video: {
+          deviceId: {
+            exact: cameras[currentCamera].deviceId
+          }
+        }
+      })
+      .then(stream => {
+        const videoTrack = stream.getVideoTracks()[0];
+        console.log(videoTrack);
+        videoTrack.stop();
+      });
   };
 
   // Gets the media stream
