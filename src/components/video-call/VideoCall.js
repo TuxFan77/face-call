@@ -71,6 +71,9 @@ function VideoCall(localVideo, remoteVideo) {
 
     currentCamera = ++currentCamera % cameras.length;
     console.log(cameras[currentCamera]);
+
+    const stream = localVideo.current.srcObject;
+    console.log(stream.getVideoTracks()[0]);
   };
 
   // Gets the media stream
