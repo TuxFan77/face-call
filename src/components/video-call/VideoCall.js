@@ -63,7 +63,7 @@ function VideoCall(localVideo, remoteVideo) {
   }
 
   // Cycles through the available cameras on the device
-  this.switchCameras = () => {
+  this.switchCameras = async () => {
     // if (cameras.length < 2) {
     //   console.log("Only one camera.");
     //   return;
@@ -72,13 +72,39 @@ function VideoCall(localVideo, remoteVideo) {
     currentCamera = ++currentCamera % cameras.length;
     console.log(cameras[currentCamera].label);
 
-    if (peerConnection) {
-      const videoSender = peerConnection
-        .getSenders()
-        .find(sender => sender.track.kind === "video");
-      console.log(videoSender);
-      videoSender.track.stop();
-    }
+    console.log(
+      "Local before: ",
+      localVideo.current.srcObject.getVideoTracks()[0].id
+    );
+    console.log("Sender before: ", getVideoSender(peerConnection).track.id);
+
+    const newStream = await navigator.mediaDevices.getUserMedia({
+      video: {
+        deviceId: {
+          exact: cameras[currentCamera].deviceId
+        }
+      }
+    });
+
+    const oldVideoTrack = localVideo.current.srcObject.getVideoTracks()[0];
+    const newVideoTrack = newStream.getVideoTracks()[0];
+    localVideo.current.srcObject.removeTrack(oldVideoTrack);
+    localVideo.current.srcObject.addTrack(newVideoTrack);
+    getVideoSender(peerConnection).replaceTrack(newVideoTrack);
+
+    console.log(
+      "Local after: ",
+      localVideo.current.srcObject.getVideoTracks()[0].id
+    );
+    console.log("Sender after: ", getVideoSender(peerConnection).track.id);
+
+    // setTimeout(() => {
+    //   // console.log(localVideo.current.srcObject.getTracks());
+    //   if (peerConnection) {
+    //     const videoSender = getVideoSender(peerConnection);
+    //     videoSender.replaceTrack(newVideoTrack);
+    //   }
+    // }, 3000);
 
     // navigator.mediaDevices
     //   .getUserMedia({
@@ -101,6 +127,11 @@ function VideoCall(localVideo, remoteVideo) {
     //   })
     //   .catch(console.log);
   };
+
+  // Gets the current video sender from the peer connection
+  function getVideoSender(pc) {
+    return pc.getSenders().find(sender => sender.track.kind === "video");
+  }
 
   // Gets the media stream
   async function getMediaStream() {
