@@ -85,16 +85,14 @@ function VideoCall(localVideo, remoteVideo) {
       localVideo.current.srcObject.removeTrack(oldVideoTrack);
       oldVideoTrack.stop();
       localVideo.current.srcObject.addTrack(newVideoTrack);
-      await getVideoSender(peerConnection).replaceTrack(newVideoTrack);
+      await peerConnection
+        .getSenders()
+        .find(sender => sender.track.kind === "video")
+        .replaceTrack(newVideoTrack);
     } catch (error) {
       console.log(error);
     }
   };
-
-  // Gets the current video sender from the peer connection
-  function getVideoSender(pc) {
-    return pc.getSenders().find(sender => sender.track.kind === "video");
-  }
 
   // Gets the media stream
   async function getMediaStream() {
