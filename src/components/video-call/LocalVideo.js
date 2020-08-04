@@ -52,8 +52,11 @@ const LocalVideo = React.forwardRef((props, ref) => {
 
   useEffect(() => {
     controls.start(() => variants[visible]);
-    console.log("LocalVideo facingMode: ", facingMode);
-  }, [controls, variants, visible, facingMode]);
+  }, [controls, variants, visible]);
+
+  useEffect(() => console.log("LocalVideo facingMode: ", facingMode), [
+    facingMode
+  ]);
 
   return (
     <DragConstraints ref={constraints}>
