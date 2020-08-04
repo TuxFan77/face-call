@@ -64,69 +64,31 @@ function VideoCall(localVideo, remoteVideo) {
 
   // Cycles through the available cameras on the device
   this.switchCameras = async () => {
-    // if (cameras.length < 2) {
-    //   console.log("Only one camera.");
-    //   return;
-    // }
+    if (cameras.length < 2) {
+      console.log("Only one camera detected on this device");
+      return;
+    }
 
     currentCamera = ++currentCamera % cameras.length;
-    console.log(cameras[currentCamera].label);
-
-    console.log(
-      "Local before: ",
-      localVideo.current.srcObject.getVideoTracks()[0].id
-    );
-    console.log("Sender before: ", getVideoSender(peerConnection).track.id);
-
-    const newStream = await navigator.mediaDevices.getUserMedia({
-      video: {
-        deviceId: {
-          exact: cameras[currentCamera].deviceId
+    //console.log(cameras[currentCamera].label);
+    try {
+      const newStream = await navigator.mediaDevices.getUserMedia({
+        video: {
+          deviceId: {
+            exact: cameras[currentCamera].deviceId
+          }
         }
-      }
-    });
+      });
 
-    const oldVideoTrack = localVideo.current.srcObject.getVideoTracks()[0];
-    const newVideoTrack = newStream.getVideoTracks()[0];
-    localVideo.current.srcObject.removeTrack(oldVideoTrack);
-    oldVideoTrack.stop();
-    localVideo.current.srcObject.addTrack(newVideoTrack);
-    getVideoSender(peerConnection).replaceTrack(newVideoTrack);
-
-    console.log(
-      "Local after: ",
-      localVideo.current.srcObject.getVideoTracks()[0].id
-    );
-    console.log("Sender after: ", getVideoSender(peerConnection).track.id);
-
-    // setTimeout(() => {
-    //   // console.log(localVideo.current.srcObject.getTracks());
-    //   if (peerConnection) {
-    //     const videoSender = getVideoSender(peerConnection);
-    //     videoSender.replaceTrack(newVideoTrack);
-    //   }
-    // }, 3000);
-
-    // navigator.mediaDevices
-    //   .getUserMedia({
-    //     video: {
-    //       deviceId: {
-    //         exact: cameras[currentCamera].deviceId
-    //       }
-    //     }
-    //   })
-    //   .then(stream => {
-    //     const videoTrack = stream.getVideoTracks()[0];
-    //     console.log(videoTrack);
-    //     videoTrack.stop();
-    //     if (peerConnection) {
-    //       const sender = peerConnection.getSenders().find(s => {
-    //         return s.track.kind === videoTrack.kind;
-    //       });
-    //       sender.replaceTrack(videoTrack);
-    //     }
-    //   })
-    //   .catch(console.log);
+      const oldVideoTrack = localVideo.current.srcObject.getVideoTracks()[0];
+      const newVideoTrack = newStream.getVideoTracks()[0];
+      localVideo.current.srcObject.removeTrack(oldVideoTrack);
+      oldVideoTrack.stop();
+      localVideo.current.srcObject.addTrack(newVideoTrack);
+      await getVideoSender(peerConnection).replaceTrack(newVideoTrack);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // Gets the current video sender from the peer connection
