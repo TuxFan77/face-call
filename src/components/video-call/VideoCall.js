@@ -10,6 +10,7 @@ import { v4 as uuidv4 } from "uuid";
 function VideoCall(localVideo, remoteVideo) {
   this.role = "";
   this.setLocalVideoVisibility = null;
+  this.onFacingMode = null;
   const cameras = [];
   let currentCamera = 0;
   let peerConnection = null;
@@ -42,6 +43,8 @@ function VideoCall(localVideo, remoteVideo) {
   const initLocalVideo = async () => {
     console.log("initLocalVideo");
     const stream = await getMediaStream();
+    if (this.onFacingMode)
+      this.onFacingMode(getFacingMode(stream.getVideoTracks()[0]));
     localVideo.current.srcObject = stream;
     localVideo.current.play();
     if (this.setLocalVideoVisibility) this.setLocalVideoVisibility("visible");
@@ -82,14 +85,11 @@ function VideoCall(localVideo, remoteVideo) {
 
       const oldVideoTrack = localVideo.current.srcObject.getVideoTracks()[0];
       const newVideoTrack = newStream.getVideoTracks()[0];
-      console.log("facingMode: ", getFacingMode(newVideoTrack));
+      if (this.onFacingMode) this.onFacingMode(getFacingMode(newVideoTrack));
       localVideo.current.srcObject.removeTrack(oldVideoTrack);
       oldVideoTrack.stop();
       localVideo.current.srcObject.addTrack(newVideoTrack);
-      await peerConnection
-        .getSenders()
-        .find(sender => sender.track.kind === "video")
-        .replaceTrack(newVideoTrack);
+      await getVideoTrack(peerConnection).replaceTrack(newVideoTrack);
     } catch (error) {
       console.log(error);
     }
@@ -101,6 +101,11 @@ function VideoCall(localVideo, remoteVideo) {
     const settings = track.getSettings();
     if (settings.facingMode) return settings.facingMode;
     return "";
+  }
+
+  // Returns the video track of an RTCPeerConnection object
+  function getVideoTrack(pc) {
+    return pc.getSenders().find(sender => sender.track.kind === "video");
   }
 
   // Gets the media stream

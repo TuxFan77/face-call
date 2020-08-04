@@ -19,6 +19,7 @@ const VideoCallUI = () => {
   const debounceTimeoutID = useRef(null);
   const throttleTimeoutID = useRef(null);
   const mouseMoveListening = useRef(true);
+  const [facingMode, setFacingMode] = useState("");
   const [controlBarVisibility, setControlBarVisibility] = useState("visible");
   const [localVideoVisibility, setLocalVideoVisibility] = useState("hidden");
   const [speakerMuted, setSpeakerMuted] = useState(true);
@@ -40,6 +41,7 @@ const VideoCallUI = () => {
   useEffect(() => {
     setTimeout(() => setControlBarVisibility("hidden"), CONTROL_BAR_DELAY);
     videoCall.setLocalVideoVisibility = state => setLocalVideoVisibility(state);
+    videoCall.onFacingMode = facingMode => setFacingMode(facingMode);
     videoCall.role = role.current;
     videoCall.start();
 
@@ -115,7 +117,11 @@ const VideoCallUI = () => {
       onMouseMove={handleMouseMove}
     >
       <RemoteVideo ref={remoteVideo} />
-      <LocalVideo ref={localVideo} visible={localVideoVisibility} />
+      <LocalVideo
+        ref={localVideo}
+        visible={localVideoVisibility}
+        facingMode={facingMode}
+      />
       <ControlBar
         onButtonClick={handleControlBarButtonClick}
         onMouseEnter={handleMouseEnter}

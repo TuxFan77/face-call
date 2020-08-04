@@ -25,6 +25,8 @@ const DragConstraints = styled(motion.div)`
 `;
 
 const LocalVideo = React.forwardRef((props, ref) => {
+  const { visible, facingMode } = props;
+
   const variants = {
     visible: {
       opacity: 1,
@@ -49,7 +51,8 @@ const LocalVideo = React.forwardRef((props, ref) => {
   useEffect(() => ref.current.setAttribute("muted", "true"), [ref]);
 
   useEffect(() => {
-    controls.start(() => variants[props.visible]);
+    controls.start(() => variants[visible]);
+    console.log("LocalVideo facingMode: ", facingMode);
   });
 
   return (
