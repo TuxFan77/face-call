@@ -3,11 +3,11 @@ import {
   sendToServer,
   closeWebSocket
 } from "../../web-socket/webSocket";
-import getIceServers from "../../web-rtc/getIceServers";
-
 import { v4 as uuidv4 } from "uuid";
 
-function VideoCall(localVideo, remoteVideo) {
+import getIceServers from "../../web-rtc/getIceServers";
+
+function VideoCall(localVideo, remoteVideo, logging = false) {
   this.role = "";
   this.setLocalVideoVisibility = null;
   this.onFacingMode = null;
@@ -35,13 +35,13 @@ function VideoCall(localVideo, remoteVideo) {
 
       if (this.role === "caller") startCall();
     } catch (err) {
-      console.log(err);
+      log(err);
     }
   };
 
   // Initialize the local video DOM element with the webcam feed
   const initLocalVideo = async () => {
-    console.log("initLocalVideo");
+    log("initLocalVideo");
     const stream = await getMediaStream();
     if (this.onFacingMode)
       this.onFacingMode(getFacingMode(stream.getVideoTracks()[0]));
@@ -52,7 +52,7 @@ function VideoCall(localVideo, remoteVideo) {
 
   // Enumerates the cameras on the device and adds them to the cameras array
   function getCameras() {
-    console.log("getCameras");
+    log("getCameras");
     return navigator.mediaDevices
       .enumerateDevices()
       .then(devices => {
@@ -68,7 +68,7 @@ function VideoCall(localVideo, remoteVideo) {
   // Cycles through the available cameras on the device
   this.switchCameras = async () => {
     if (cameras.length < 2) {
-      console.log("Only one camera detected on this device");
+      log("Only one camera detected on this device");
       return;
     }
 
@@ -91,7 +91,7 @@ function VideoCall(localVideo, remoteVideo) {
       localVideo.current.srcObject.addTrack(newVideoTrack);
       await getVideoTrack(peerConnection).replaceTrack(newVideoTrack);
     } catch (error) {
-      console.log(error);
+      log(error);
     }
   };
 
@@ -110,10 +110,10 @@ function VideoCall(localVideo, remoteVideo) {
 
   // Gets the media stream
   async function getMediaStream() {
-    console.log("getMediaStream");
+    log("getMediaStream");
 
     const { platform } = navigator;
-    console.log(`platform: ${platform}`);
+    log(`platform: ${platform}`);
 
     const constraints = { audio: true };
 
@@ -132,7 +132,7 @@ function VideoCall(localVideo, remoteVideo) {
   // Start a video call
   // This function is called if we're the peer that's initiaiting the call
   async function startCall() {
-    console.log("startCall");
+    log("startCall");
 
     try {
       peerConnection = new RTCPeerConnection(await getIceServers());
@@ -145,14 +145,14 @@ function VideoCall(localVideo, remoteVideo) {
         .getTracks()
         .forEach(track => peerConnection.addTrack(track, localStream));
     } catch (error) {
-      console.log(error);
+      log(error);
     }
   }
 
   // Handles the negotiationneeded event on the peerConnection object
   // Fires when tracks are added to the peerConnection that initiated the call
   async function handleNegotiationNeeded() {
-    console.log("handleNegotiationNeeded");
+    log("handleNegotiationNeeded");
 
     try {
       const offer = await peerConnection.createOffer();
@@ -164,14 +164,14 @@ function VideoCall(localVideo, remoteVideo) {
         payload: offer
       });
     } catch (error) {
-      console.log(error);
+      log(error);
     }
   }
 
   // Handles incoming video offer message over the web socket connection
   // Fires if we're the callee and we receive an offer from the caller
   async function handleVideoOfferMessage(offer) {
-    console.log("handleVideoOfferMessage");
+    log("handleVideoOfferMessage");
 
     try {
       peerConnection = new RTCPeerConnection(await getIceServers());
@@ -196,21 +196,21 @@ function VideoCall(localVideo, remoteVideo) {
         payload: answer
       });
     } catch (error) {
-      console.log(error);
+      log(error);
     }
   }
 
   // Handles incoming video answer message over the web socket connection
   // Fires if we're the caller and we're receiving an answer to our offer
   async function handleVideoAnswerMessage(answer) {
-    console.log("handleVideoAnswerMessage");
+    log("handleVideoAnswerMessage");
 
     try {
       await peerConnection.setRemoteDescription(
         new RTCSessionDescription(answer)
       );
     } catch (error) {
-      console.log(error);
+      log(error);
     }
   }
 
@@ -218,16 +218,16 @@ function VideoCall(localVideo, remoteVideo) {
   // Adds the tracks to the remote video player
   // Fires when remote tracks come in
   function handleAddTrack(e) {
-    console.log("handleAddTrack");
+    log("handleAddTrack");
     if (remoteVideo.current.srcObject) return;
     remoteVideo.current.srcObject = e.streams[0];
   }
 
   // Sends locally generated ICE candidates to the remote peer
   function handleNewLocalICECandidate(e) {
-    console.log("handleNewLocalICECandidate");
+    log("handleNewLocalICECandidate");
     if (!e.candidate) {
-      console.log("NO LOCAL CANDIDATE");
+      log("NO LOCAL CANDIDATE");
       return;
     }
     sendToServer({
@@ -240,15 +240,15 @@ function VideoCall(localVideo, remoteVideo) {
   // Receives ICE candidates from the remote peer
   // and adds them to the local peer connection
   async function handleNewRemoteICECandidate(candidate) {
-    console.log("handleNewRemoteICECandidate");
+    log("handleNewRemoteICECandidate");
     if (!peerConnection) {
-      console.log("NO REMOTE CANDIDATE");
+      log("NO REMOTE CANDIDATE");
       return;
     }
     try {
       await peerConnection.addIceCandidate(candidate);
     } catch (error) {
-      console.log(error);
+      log(error);
     }
   }
 
@@ -265,7 +265,7 @@ function VideoCall(localVideo, remoteVideo) {
 
   // End the call and cleans up resources
   this.endCall = () => {
-    console.log("endCall");
+    log("endCall");
 
     if (this.setLocalVideoVisibility) this.setLocalVideoVisibility("hidden");
 
@@ -292,6 +292,12 @@ function VideoCall(localVideo, remoteVideo) {
 
     peerConnection = null;
   };
+
+  function log(message) {
+    if (!logging) return;
+    const timestamp = Date.now();
+    console.log(`${timestamp}: ${message}`);
+  }
 }
 
 export default VideoCall;

@@ -26,7 +26,7 @@ const VideoCallUI = () => {
   const [micMuted, setMicMuted] = useState(false);
   const role = useRef("");
   const [videoCall, setVideoCall] = useState(
-    new VideoCall(localVideo, remoteVideo)
+    new VideoCall(localVideo, remoteVideo, true)
   );
 
   const query = useQuery();
@@ -94,7 +94,6 @@ const VideoCallUI = () => {
         break;
 
       case "flip":
-        console.log("toggle flip");
         videoCall.switchCameras();
         break;
 
