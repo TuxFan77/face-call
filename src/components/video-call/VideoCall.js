@@ -82,8 +82,7 @@ function VideoCall(localVideo, remoteVideo) {
 
       const oldVideoTrack = localVideo.current.srcObject.getVideoTracks()[0];
       const newVideoTrack = newStream.getVideoTracks()[0];
-      const settings = newVideoTrack.getSettings();
-      if (settings.facingMode) console.log(settings.facingMode);
+      console.log("facingMode: ", getFacingMode(newVideoTrack));
       localVideo.current.srcObject.removeTrack(oldVideoTrack);
       oldVideoTrack.stop();
       localVideo.current.srcObject.addTrack(newVideoTrack);
@@ -95,6 +94,14 @@ function VideoCall(localVideo, remoteVideo) {
       console.log(error);
     }
   };
+
+  // Gets the facing mode of the passed in video track.
+  // Returns an empty string if the facing mode isn't on the track.
+  function getFacingMode(track) {
+    const settings = track.getSettings();
+    if (settings.facingMode) return settings.facingMode;
+    return "";
+  }
 
   // Gets the media stream
   async function getMediaStream() {
