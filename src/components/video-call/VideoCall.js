@@ -70,7 +70,7 @@ function VideoCall(localVideo, remoteVideo) {
     }
 
     currentCamera = ++currentCamera % cameras.length;
-    //console.log(cameras[currentCamera].label);
+
     try {
       const newStream = await navigator.mediaDevices.getUserMedia({
         video: {
@@ -82,6 +82,8 @@ function VideoCall(localVideo, remoteVideo) {
 
       const oldVideoTrack = localVideo.current.srcObject.getVideoTracks()[0];
       const newVideoTrack = newStream.getVideoTracks()[0];
+      const settings = newVideoTrack.getSettings();
+      if (settings.facingMode) console.log(settings.facingMode);
       localVideo.current.srcObject.removeTrack(oldVideoTrack);
       oldVideoTrack.stop();
       localVideo.current.srcObject.addTrack(newVideoTrack);
