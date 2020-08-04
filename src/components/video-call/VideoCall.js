@@ -89,6 +89,7 @@ function VideoCall(localVideo, remoteVideo) {
     const oldVideoTrack = localVideo.current.srcObject.getVideoTracks()[0];
     const newVideoTrack = newStream.getVideoTracks()[0];
     localVideo.current.srcObject.removeTrack(oldVideoTrack);
+    oldVideoTrack.stop();
     localVideo.current.srcObject.addTrack(newVideoTrack);
     getVideoSender(peerConnection).replaceTrack(newVideoTrack);
 
