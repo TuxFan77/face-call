@@ -51,3 +51,18 @@ h2 {
 p {
   font-size: 1.25rem;
 }
+
+*::-webkit-media-controls-panel {
+  display: none;
+  -webkit-appearance: none;
+}
+
+*::--webkit-media-controls-play-button {
+  display: none;
+  -webkit-appearance: none;
+}
+
+*::-webkit-media-controls-start-playback-button {
+  display: none;
+  -webkit-appearance: none;
+}
