@@ -86,9 +86,9 @@ function VideoCall(localVideo, remoteVideo, logging = false) {
       const oldVideoTrack = localVideo.current.srcObject.getVideoTracks()[0];
       const newVideoTrack = newStream.getVideoTracks()[0];
       if (this.onFacingMode) this.onFacingMode(getFacingMode(newVideoTrack));
+      localVideo.current.srcObject.addTrack(newVideoTrack);
       localVideo.current.srcObject.removeTrack(oldVideoTrack);
       oldVideoTrack.stop();
-      localVideo.current.srcObject.addTrack(newVideoTrack);
       await getVideoTrack(peerConnection).replaceTrack(newVideoTrack);
     } catch (error) {
       log(error);
