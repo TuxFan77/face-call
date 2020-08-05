@@ -52,7 +52,7 @@ p {
   font-size: 1.25rem;
 }
 
-/*  Needed to hide player controls in Safari Only */
+/*  Needed to hide player controls in Safari only */
 
 video::-webkit-media-controls-panel {
   display: none !important;

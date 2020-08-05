@@ -30,7 +30,6 @@ const RemoteVideo = React.forwardRef((props, ref) => {
   useEffect(() => ref.current.setAttribute("muted", ""), [ref]);
 
   useEffect(() => {
-    console.log(visible);
     controls.start(visible);
   }, [controls, visible]);
 
