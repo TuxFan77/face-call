@@ -64,12 +64,13 @@ const LocalVideo = React.forwardRef((props, ref) => {
   // Explicitly set the "muted" attribute on the DOM element so Safari will autoplay
   useEffect(() => ref.current.setAttribute("muted", ""), [ref]);
 
+  // Show or hide the local video
   useEffect(() => {
     controls.start(() => variants[visible]);
   }, [controls, variants, visible]);
 
+  // Mirror / unmirror local video depending on if it's the user facing camera or not
   useEffect(() => {
-    console.log("facingMode: ", facingMode);
     controls.start(() => (facingMode ? variants[facingMode] : variants.user));
   }, [controls, variants, facingMode]);
 
