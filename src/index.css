@@ -52,6 +52,6 @@ p {
   font-size: 1.25rem;
 }
 
-video::-webkit-media-controls {
+video::-webkit-media-controls-play-button {
   appearance: none;
 }
