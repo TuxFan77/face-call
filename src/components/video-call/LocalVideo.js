@@ -5,8 +5,8 @@ import { motion, useAnimation } from "framer-motion";
 const Video = styled(motion.video)`
   position: absolute;
   height: 20vh;
-  right: 2vw;
-  top: 2vw;
+  right: 0;
+  top: 0;
   background: black;
   border-radius: 0.75rem;
   border: 1.5px solid darkgrey;
@@ -62,7 +62,7 @@ const LocalVideo = React.forwardRef((props, ref) => {
   const constraints = useRef(null);
 
   // Explicitly set the "muted" attribute on the DOM element so Safari will autoplay
-  useEffect(() => ref.current.setAttribute("muted", "true"), [ref]);
+  useEffect(() => ref.current.setAttribute("muted", ""), [ref]);
 
   useEffect(() => {
     controls.start(() => variants[visible]);

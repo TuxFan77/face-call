@@ -27,7 +27,7 @@ const RemoteVideo = React.forwardRef((props, ref) => {
   const controls = useAnimation();
 
   // Explicitly set the "muted" attribute on the DOM element so Safari will autoplay
-  useEffect(() => ref.current.setAttribute("muted", "true"), [ref]);
+  useEffect(() => ref.current.setAttribute("muted", ""), [ref]);
 
   useEffect(() => {
     console.log(visible);
