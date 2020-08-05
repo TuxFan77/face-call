@@ -53,5 +53,5 @@ p {
 }
 
 video::-webkit-media-controls {
-  display: none;
+  appearance: none;
 }
