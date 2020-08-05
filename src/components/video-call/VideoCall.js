@@ -9,8 +9,8 @@ import getIceServers from "../../web-rtc/getIceServers";
 
 function VideoCall(localVideo, remoteVideo, logging = false) {
   this.role = "";
-  this.setLocalVideoVisibility = null;
-  this.onFacingMode = null;
+  this.onLocalVideoVisibility = () => {};
+  this.onFacingMode = () => {};
   const cameras = [];
   let currentCamera = 0;
   let peerConnection = null;
@@ -43,11 +43,10 @@ function VideoCall(localVideo, remoteVideo, logging = false) {
   const initLocalVideo = async () => {
     log("initLocalVideo");
     const stream = await getMediaStream();
-    if (this.onFacingMode)
-      this.onFacingMode(getFacingMode(stream.getVideoTracks()[0]));
+    this.onFacingMode(getFacingMode(stream.getVideoTracks()[0]));
     localVideo.current.srcObject = stream;
     localVideo.current.play();
-    if (this.setLocalVideoVisibility) this.setLocalVideoVisibility("visible");
+    this.onLocalVideoVisibility("visible");
   };
 
   // Enumerates the cameras on the device and adds them to the cameras array
@@ -85,7 +84,7 @@ function VideoCall(localVideo, remoteVideo, logging = false) {
 
       const oldVideoTrack = localVideo.current.srcObject.getVideoTracks()[0];
       const newVideoTrack = newStream.getVideoTracks()[0];
-      if (this.onFacingMode) this.onFacingMode(getFacingMode(newVideoTrack));
+      this.onFacingMode(getFacingMode(newVideoTrack));
       localVideo.current.srcObject.addTrack(newVideoTrack);
       localVideo.current.srcObject.removeTrack(oldVideoTrack);
       oldVideoTrack.stop();
@@ -267,7 +266,7 @@ function VideoCall(localVideo, remoteVideo, logging = false) {
   this.endCall = () => {
     log("endCall");
 
-    if (this.setLocalVideoVisibility) this.setLocalVideoVisibility("hidden");
+    this.onLocalVideoVisibility("hidden");
 
     sendToServer({
       type: "end-call",
