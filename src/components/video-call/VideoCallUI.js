@@ -21,7 +21,8 @@ const VideoCallUI = () => {
   const mouseMoveListening = useRef(true);
   const [facingMode, setFacingMode] = useState("");
   const [controlBarVisibility, setControlBarVisibility] = useState("visible");
-  const [localVideoVisibility, onLocalVideoVisibility] = useState("hidden");
+  const [localVideoVisibility, setLocalVideoVisibility] = useState("hidden");
+  const [remoteVideoVisibility, setRemoteVideoVisibility] = useState("hidden");
   const [speakerMuted, setSpeakerMuted] = useState(true);
   const [micMuted, setMicMuted] = useState(false);
   const role = useRef("");
@@ -41,7 +42,9 @@ const VideoCallUI = () => {
   useEffect(() => {
     setTimeout(() => setControlBarVisibility("hidden"), CONTROL_BAR_DELAY);
     videoCall.onLocalVideoVisibility = visibility =>
-      onLocalVideoVisibility(visibility);
+      setLocalVideoVisibility(visibility);
+    videoCall.onRemoteVideoVisibility = visibility =>
+      setRemoteVideoVisibility(visibility);
     videoCall.onFacingMode = facingMode => setFacingMode(facingMode);
     videoCall.role = role.current;
     videoCall.start();
@@ -116,7 +119,7 @@ const VideoCallUI = () => {
       transition={pageTransition}
       onMouseMove={handleMouseMove}
     >
-      <RemoteVideo ref={remoteVideo} />
+      <RemoteVideo ref={remoteVideo} visible={remoteVideoVisibility} />
       <LocalVideo
         ref={localVideo}
         visible={localVideoVisibility}

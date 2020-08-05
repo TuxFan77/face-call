@@ -10,6 +10,7 @@ import getIceServers from "../../web-rtc/getIceServers";
 function VideoCall(localVideo, remoteVideo, logging = false) {
   this.role = "";
   this.onLocalVideoVisibility = () => {};
+  this.onRemoteVideoVisibility = () => {};
   this.onFacingMode = () => {};
   const cameras = [];
   let currentCamera = 0;
@@ -216,11 +217,12 @@ function VideoCall(localVideo, remoteVideo, logging = false) {
   // Handles incoming tracks from the remote peer
   // Adds the tracks to the remote video player
   // Fires when remote tracks come in
-  function handleAddTrack(e) {
+  const handleAddTrack = e => {
     log("handleAddTrack");
     if (remoteVideo.current.srcObject) return;
     remoteVideo.current.srcObject = e.streams[0];
-  }
+    this.onRemoteVideoVisibility("visible");
+  };
 
   // Sends locally generated ICE candidates to the remote peer
   function handleNewLocalICECandidate(e) {
@@ -267,6 +269,7 @@ function VideoCall(localVideo, remoteVideo, logging = false) {
     log("endCall");
 
     this.onLocalVideoVisibility("hidden");
+    this.onRemoteVideoVisibility("hidden");
 
     sendToServer({
       type: "end-call",
