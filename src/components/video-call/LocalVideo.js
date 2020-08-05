@@ -42,6 +42,20 @@ const LocalVideo = React.forwardRef((props, ref) => {
       scale: 0,
       rotateY: 180,
       transition: { duration: 0.3 }
+    },
+    user: {
+      rotateY: 180,
+      transition: {
+        type: "tween",
+        duration: 0.3
+      }
+    },
+    environment: {
+      rotateY: 0,
+      transition: {
+        type: "tween",
+        duration: 0.3
+      }
     }
   };
   const controls = useAnimation();
@@ -54,9 +68,10 @@ const LocalVideo = React.forwardRef((props, ref) => {
     controls.start(() => variants[visible]);
   }, [controls, variants, visible]);
 
-  useEffect(() => console.log("LocalVideo facingMode: ", facingMode), [
-    facingMode
-  ]);
+  useEffect(() => {
+    console.log("facingMode: ", facingMode);
+    controls.start(() => (facingMode ? variants[facingMode] : variants.user));
+  }, [controls, variants, facingMode]);
 
   return (
     <DragConstraints ref={constraints}>
