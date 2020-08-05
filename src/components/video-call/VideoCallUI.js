@@ -94,11 +94,7 @@ const VideoCallUI = () => {
         break;
 
       case "flip":
-        // videoCall.switchCameras();
-        setFacingMode(prev => {
-          if (prev === "" || prev === "user") return "environment";
-          return "user";
-        });
+        videoCall.switchCameras();
         break;
 
       case "end":
