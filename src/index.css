@@ -52,6 +52,7 @@ p {
   font-size: 1.25rem;
 }
 
+video::-webkit-media-controls-pause-button,
 video::-webkit-media-controls-play-button {
-  appearance: none;
+  background-image: none;
 }
