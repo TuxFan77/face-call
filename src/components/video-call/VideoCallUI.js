@@ -40,11 +40,14 @@ const VideoCallUI = () => {
   }, [query]);
 
   useEffect(() => {
-    setTimeout(() => setControlBarVisibility("hidden"), CONTROL_BAR_DELAY);
     videoCall.onLocalVideoVisibility = visibility =>
       setLocalVideoVisibility(visibility);
-    videoCall.onRemoteVideoVisibility = visibility =>
+    videoCall.onRemoteVideoVisibility = visibility => {
       setRemoteVideoVisibility(visibility);
+      if (visibility === "hidden") setControlBarVisibility("visible");
+      else
+        setTimeout(() => setControlBarVisibility("hidden"), CONTROL_BAR_DELAY);
+    };
     videoCall.onFacingMode = facingMode => setFacingMode(facingMode);
     videoCall.role = role.current;
     videoCall.start();
@@ -56,7 +59,8 @@ const VideoCallUI = () => {
   }, [videoCall]);
 
   function handleMouseMove() {
-    if (!mouseMoveListening.current) return;
+    if (!mouseMoveListening.current || remoteVideoVisibility === "hidden")
+      return;
     mouseMoveListening.current = false;
     throttleTimeoutID.current = setTimeout(
       () => (mouseMoveListening.current = true),
@@ -71,6 +75,7 @@ const VideoCallUI = () => {
   }
 
   function handleMouseEnter() {
+    if (remoteVideoVisibility === "hidden") return;
     mouseMoveListening.current = false;
     clearTimeout(throttleTimeoutID.current);
     clearTimeout(debounceTimeoutID.current);
@@ -78,6 +83,7 @@ const VideoCallUI = () => {
   }
 
   function handleMouseLeave() {
+    if (remoteVideoVisibility === "hidden") return;
     mouseMoveListening.current = true;
   }
 
