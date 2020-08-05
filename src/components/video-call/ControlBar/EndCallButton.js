@@ -5,7 +5,7 @@ import ButtonWrapper from "./ButtonWrapper";
 
 const EndCallButton = () => {
   return (
-    <ButtonWrapper buttonType={"end"}>
+    <ButtonWrapper buttonType={"end"} title={"End the call"}>
       <Button />
     </ButtonWrapper>
   );

@@ -6,7 +6,10 @@ import ButtonWrapper from "./ButtonWrapper";
 
 const MicButton = ({ micMuted }) => {
   return (
-    <ButtonWrapper buttonType={"mic"}>
+    <ButtonWrapper
+      buttonType={"mic"}
+      title={micMuted ? "Unmute the microphone" : "Mute the microphone"}
+    >
       {micMuted ? <MicOffButton /> : <MicOnButton />}
     </ButtonWrapper>
   );

@@ -12,8 +12,12 @@ const Wrapper = styled(motion.div)`
   }
 `;
 
-const ButtonWrapper = ({ buttonType, children }) => {
-  return <Wrapper data-button={buttonType}>{children}</Wrapper>;
+const ButtonWrapper = ({ buttonType, title, children }) => {
+  return (
+    <Wrapper data-button={buttonType} title={title}>
+      {children}
+    </Wrapper>
+  );
 };
 
 export default ButtonWrapper;

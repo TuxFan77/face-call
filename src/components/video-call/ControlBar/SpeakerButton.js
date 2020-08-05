@@ -6,7 +6,10 @@ import ButtonWrapper from "./ButtonWrapper";
 
 const SpeakerButton = ({ speakerMuted }) => {
   return (
-    <ButtonWrapper buttonType={"speaker"}>
+    <ButtonWrapper
+      buttonType={"speaker"}
+      title={speakerMuted ? "Unmute the speaker" : "Mute the speaker"}
+    >
       {speakerMuted ? <SpeakerOffButton /> : <SpeakerOnButton />}
     </ButtonWrapper>
   );
