@@ -51,3 +51,7 @@ h2 {
 p {
   font-size: 1.25rem;
 }
+
+video::-webkit-media-controls {
+  display: none;
+}
