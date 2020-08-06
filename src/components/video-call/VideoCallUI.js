@@ -60,6 +60,7 @@ const VideoCallUI = () => {
   }, [videoCall]);
 
   function delayedHideControlBar() {
+    console.log("delayedHideControlBar");
     clearTimeout(controlBarTimeoutID.current);
     controlBarTimeoutID.current = setTimeout(
       () => setControlBarVisibility("hidden"),
