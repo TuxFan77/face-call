@@ -46,7 +46,8 @@ const VideoCallUI = () => {
       setLocalVideoVisibility(visibility);
     videoCall.onRemoteVideoVisibility = visibility => {
       setRemoteVideoVisibility(visibility);
-      if (visibility === "visible") delayedHideControlBar();
+      if (visibility === "visible")
+        delayedHideControlBar(CONTROL_BAR_DELAY * 2);
     };
     videoCall.onFacingMode = facingMode => setFacingMode(facingMode);
     videoCall.role = role.current;
@@ -58,10 +59,10 @@ const VideoCallUI = () => {
     };
   }, [videoCall]);
 
-  function delayedHideControlBar() {
+  function delayedHideControlBar(delay = CONTROL_BAR_DELAY) {
     controlBarTimeoutID.current = setTimeout(
       () => setControlBarVisibility("hidden"),
-      CONTROL_BAR_DELAY
+      delay
     );
   }
 
