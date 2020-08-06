@@ -59,6 +59,10 @@ const VideoCallUI = () => {
   }, [videoCall]);
 
   function handleMouseMove() {
+    console.log("handleMouseMove");
+    console.log(`listening: ${mouseMoveListening.current}`);
+    console.log(`visibility: ${remoteVideoVisibility}`);
+
     if (!mouseMoveListening.current || remoteVideoVisibility === "hidden")
       return;
     mouseMoveListening.current = false;
@@ -75,6 +79,8 @@ const VideoCallUI = () => {
   }
 
   function handleMouseEnter() {
+    console.log("handleMouseEnter");
+    console.log(`visibility: ${remoteVideoVisibility}`);
     if (remoteVideoVisibility === "hidden") return;
     mouseMoveListening.current = false;
     clearTimeout(throttleTimeoutID.current);
@@ -83,6 +89,8 @@ const VideoCallUI = () => {
   }
 
   function handleMouseLeave() {
+    console.log("handleMouseLeave");
+    console.log(`visibility: ${remoteVideoVisibility}`);
     if (remoteVideoVisibility === "hidden") return;
     mouseMoveListening.current = true;
   }
