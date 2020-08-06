@@ -16,11 +16,12 @@ const VideoCallUI = () => {
   const remoteVideo = useRef(null);
   const CONTROL_BAR_DELAY = 1500;
   const THROTTLE_DELAY = CONTROL_BAR_DELAY / 2;
-  const debounceTimeoutID = useRef(null);
+  const controlBarTimeoutID = useRef(null);
   const throttleTimeoutID = useRef(null);
   const mouseMoveListening = useRef(true);
   const [facingMode, setFacingMode] = useState("");
   const [controlBarVisibility, setControlBarVisibility] = useState("visible");
+  // const [controlBarLocked, setControlBarLocked] = useState(true);
   const [localVideoVisibility, setLocalVideoVisibility] = useState("hidden");
   const [remoteVideoVisibility, setRemoteVideoVisibility] = useState("hidden");
   const [speakerMuted, setSpeakerMuted] = useState(true);
@@ -40,13 +41,12 @@ const VideoCallUI = () => {
   }, [query]);
 
   useEffect(() => {
+    setControlBarVisibility("visible");
     videoCall.onLocalVideoVisibility = visibility =>
       setLocalVideoVisibility(visibility);
     videoCall.onRemoteVideoVisibility = visibility => {
       setRemoteVideoVisibility(visibility);
-      if (visibility === "hidden") setControlBarVisibility("visible");
-      else
-        setTimeout(() => setControlBarVisibility("hidden"), CONTROL_BAR_DELAY);
+      if (visibility === "visible") delayedHideControlBar();
     };
     videoCall.onFacingMode = facingMode => setFacingMode(facingMode);
     videoCall.role = role.current;
@@ -58,40 +58,33 @@ const VideoCallUI = () => {
     };
   }, [videoCall]);
 
-  function handleMouseMove() {
-    console.log("handleMouseMove");
-    console.log(`listening: ${mouseMoveListening.current}`);
-    console.log(`visibility: ${remoteVideoVisibility}`);
+  function delayedHideControlBar() {
+    controlBarTimeoutID.current = setTimeout(
+      () => setControlBarVisibility("hidden"),
+      CONTROL_BAR_DELAY
+    );
+  }
 
-    if (!mouseMoveListening.current || remoteVideoVisibility === "hidden")
-      return;
+  function handleMouseMove() {
+    if (!mouseMoveListening.current) return;
     mouseMoveListening.current = false;
     throttleTimeoutID.current = setTimeout(
       () => (mouseMoveListening.current = true),
       THROTTLE_DELAY
     );
     setControlBarVisibility("visible");
-    clearTimeout(debounceTimeoutID.current);
-    debounceTimeoutID.current = setTimeout(
-      () => setControlBarVisibility("hidden"),
-      CONTROL_BAR_DELAY
-    );
+    clearTimeout(controlBarTimeoutID.current);
+    if (remoteVideoVisibility === "visible") delayedHideControlBar();
   }
 
   function handleMouseEnter() {
-    console.log("handleMouseEnter");
-    console.log(`visibility: ${remoteVideoVisibility}`);
-    if (remoteVideoVisibility === "hidden") return;
     mouseMoveListening.current = false;
     clearTimeout(throttleTimeoutID.current);
-    clearTimeout(debounceTimeoutID.current);
+    clearTimeout(controlBarTimeoutID.current);
     setControlBarVisibility("visible");
   }
 
   function handleMouseLeave() {
-    console.log("handleMouseLeave");
-    console.log(`visibility: ${remoteVideoVisibility}`);
-    if (remoteVideoVisibility === "hidden") return;
     mouseMoveListening.current = true;
   }
 
