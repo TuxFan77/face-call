@@ -14,14 +14,13 @@ import {
 const VideoCallUI = () => {
   const localVideo = useRef(null);
   const remoteVideo = useRef(null);
-  const CONTROL_BAR_DELAY = 1500;
+  const CONTROL_BAR_DELAY = 2500;
   const THROTTLE_DELAY = CONTROL_BAR_DELAY / 2;
   const controlBarTimeoutID = useRef(null);
   const throttleTimeoutID = useRef(null);
   const mouseMoveListening = useRef(true);
   const [facingMode, setFacingMode] = useState("");
   const [controlBarVisibility, setControlBarVisibility] = useState("visible");
-  // const [controlBarLocked, setControlBarLocked] = useState(true);
   const [localVideoVisibility, setLocalVideoVisibility] = useState("hidden");
   const [remoteVideoVisibility, setRemoteVideoVisibility] = useState("hidden");
   const [speakerMuted, setSpeakerMuted] = useState(true);
@@ -46,8 +45,7 @@ const VideoCallUI = () => {
       setLocalVideoVisibility(visibility);
     videoCall.onRemoteVideoVisibility = visibility => {
       setRemoteVideoVisibility(visibility);
-      if (visibility === "visible")
-        delayedHideControlBar(CONTROL_BAR_DELAY * 2);
+      if (visibility === "visible") delayedHideControlBar(CONTROL_BAR_DELAY);
     };
     videoCall.onFacingMode = facingMode => setFacingMode(facingMode);
     videoCall.role = role.current;
@@ -59,10 +57,10 @@ const VideoCallUI = () => {
     };
   }, [videoCall]);
 
-  function delayedHideControlBar(delay = CONTROL_BAR_DELAY) {
+  function delayedHideControlBar() {
     controlBarTimeoutID.current = setTimeout(
       () => setControlBarVisibility("hidden"),
-      delay
+      CONTROL_BAR_DELAY
     );
   }
 
