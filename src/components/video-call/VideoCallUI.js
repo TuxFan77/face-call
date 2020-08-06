@@ -62,10 +62,10 @@ const VideoCallUI = () => {
   function delayedHideControlBar() {
     console.log("delayedHideControlBar");
     clearTimeout(controlBarTimeoutID.current);
-    controlBarTimeoutID.current = setTimeout(
-      () => setControlBarVisibility("hidden"),
-      CONTROL_BAR_DELAY
-    );
+    controlBarTimeoutID.current = setTimeout(() => {
+      console.log(`setControlBarVisibility("hidden")`);
+      setControlBarVisibility("hidden");
+    }, CONTROL_BAR_DELAY);
   }
 
   function handleMouseMove() {
