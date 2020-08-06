@@ -27,7 +27,7 @@ const VideoCallUI = () => {
   const [micMuted, setMicMuted] = useState(false);
   const role = useRef("");
   const [videoCall, setVideoCall] = useState(
-    new VideoCall(localVideo, remoteVideo, true)
+    new VideoCall(localVideo, remoteVideo)
   );
 
   const query = useQuery();
@@ -44,6 +44,7 @@ const VideoCallUI = () => {
     videoCall.onLocalVideoVisibility = visibility =>
       setLocalVideoVisibility(visibility);
     videoCall.onRemoteVideoVisibility = visibility => {
+      console.log(`setRemoteVideoVisibility(${visibility})`);
       setRemoteVideoVisibility(visibility);
       setControlBarVisibility("visible");
       if (visibility === "visible") delayedHideControlBar();
