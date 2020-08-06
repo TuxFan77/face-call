@@ -76,7 +76,10 @@ const VideoCallUI = () => {
       THROTTLE_DELAY
     );
     setControlBarVisibility("visible");
-    if (remoteVideoVisibility === "visible") delayedHideControlBar();
+    if (remoteVideoVisibility === "visible") {
+      console.log("handleMouseMove -> delayedHideControlBar()");
+      delayedHideControlBar();
+    }
   }
 
   function handleMouseEnter() {
