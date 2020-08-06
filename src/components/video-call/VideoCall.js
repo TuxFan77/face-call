@@ -67,6 +67,7 @@ function VideoCall(localVideo, remoteVideo, logging = false) {
 
   // Cycles through the available cameras on the device
   this.switchCameras = async () => {
+    if (!peerConnection) return;
     if (cameras.length < 2) {
       log("Only one camera detected on this device");
       return;
