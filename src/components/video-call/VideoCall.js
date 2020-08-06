@@ -2,10 +2,10 @@ import {
   initWebSocket,
   sendToServer,
   closeWebSocket
-} from "../../web-socket/webSocket";
+} from "../../communication/webSocket";
 import { v4 as uuidv4 } from "uuid";
 
-import getIceServers from "../../web-rtc/getIceServers";
+import getIceServers from "../../communication/getIceServers";
 
 function VideoCall(localVideo, remoteVideo, logging = false) {
   this.role = "";
