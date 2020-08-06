@@ -46,8 +46,11 @@ const VideoCallUI = () => {
     videoCall.onRemoteVideoVisibility = visibility => {
       console.log(`setRemoteVideoVisibility(${visibility})`);
       setRemoteVideoVisibility(visibility);
-      setControlBarVisibility("visible");
       if (visibility === "visible") delayedHideControlBar();
+      else {
+        clearTimeout(controlBarTimeoutID.current);
+        setControlBarVisibility("visible");
+      }
     };
     videoCall.onFacingMode = facingMode => setFacingMode(facingMode);
     videoCall.role = role.current;
