@@ -14,9 +14,6 @@ exports.handler = function (event, context, callback) {
     })
     .then(message =>
       callback(null, {
-        headers: {
-          "Access-Control-Allow-Origin": "localhost"
-        },
         statusCode: 200,
         body: JSON.stringify(message)
       })
