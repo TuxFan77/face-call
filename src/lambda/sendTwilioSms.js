@@ -1,12 +1,10 @@
-const querystring = require("querystring");
-
 exports.handler = function (event, context, callback) {
   const accountSid = process.env.TWILIO_ACCOUNT_SID;
   const authToken = process.env.TWILIO_AUTH_TOKEN;
   const client = require("twilio")(accountSid, authToken);
 
-  const params = querystring.parse(event.body);
-  const { message, from, to } = params;
+  const body = JSON.parse(event.body);
+  const { message, from, to } = body;
 
   client.messages
     .create({
@@ -16,6 +14,9 @@ exports.handler = function (event, context, callback) {
     })
     .then(message =>
       callback(null, {
+        headers: {
+          "Access-Control-Allow-Origin": "localhost"
+        },
         statusCode: 200,
         body: JSON.stringify(message)
       })
