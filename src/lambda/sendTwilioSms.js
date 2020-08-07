@@ -1,13 +1,18 @@
+const querystring = require("querystring");
+
 exports.handler = function (event, context, callback) {
   const accountSid = process.env.TWILIO_ACCOUNT_SID;
   const authToken = process.env.TWILIO_AUTH_TOKEN;
   const client = require("twilio")(accountSid, authToken);
 
+  const params = querystring.parse(event.body);
+  const { message, from, to } = params;
+
   client.messages
     .create({
-      body: "A test message",
-      from: "+14244445805",
-      to: "+17802352335"
+      body: message,
+      from,
+      to
     })
     .then(message =>
       callback(null, {
