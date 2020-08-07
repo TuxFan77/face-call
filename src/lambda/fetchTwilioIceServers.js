@@ -8,7 +8,7 @@ exports.handler = function (event, context, callback) {
     .then(token =>
       callback(null, {
         headers: {
-          "Access-Control-Allow-Origin": "*"
+          "Access-Control-Allow-Origin": "localhost"
         },
         statusCode: 200,
         body: JSON.stringify(token)
