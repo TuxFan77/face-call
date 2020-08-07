@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Card from "../../styles/global/Card";
 import CardContent from "../../styles/global/CardContent";
 import LargeButton from "../../styles/global/LargeButton";
+import sendSms from "../../communication/sendSms";
 
 const Heading = styled.h1`
   margin-bottom: 3rem;
@@ -31,7 +32,17 @@ const SendInvitesCard = ({ caller, recipients }) => {
             <li key={i}>{recipient}</li>
           ))}
         </RecipientList>
-        <LargeButton to="/videoCall?isCaller=true">Go!</LargeButton>
+        <LargeButton
+          onClick={() => {
+            sendSms({
+              message: "Hi Jayden",
+              to: "+15875664898"
+            });
+          }}
+          to="/videoCall?isCaller=true"
+        >
+          Go!
+        </LargeButton>
       </CardContent>
     </Card>
   );
