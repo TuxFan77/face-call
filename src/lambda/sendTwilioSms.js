@@ -1,7 +1,6 @@
 exports.handler = function (event, context, callback) {
-  if (event.httpMethod !== "POST") {
+  if (event.httpMethod !== "POST")
     callback(null, { statusCode: 405, body: "Method Not Allowed" });
-  }
 
   const accountSid = process.env.TWILIO_ACCOUNT_SID;
   const authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -10,6 +9,9 @@ exports.handler = function (event, context, callback) {
 
   const body = JSON.parse(event.body);
   const { message, to } = body;
+
+  if (!message || !body)
+    callback(null, { statusCode: 400, body: "Bad Request" });
 
   client.messages
     .create({
