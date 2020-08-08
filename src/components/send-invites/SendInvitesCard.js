@@ -19,7 +19,8 @@ const Heading = styled.h1`
 
 const SendInvitesCard = ({ caller, recipients }) => {
   const message = `Video call invitation from ${caller}.
-  Click here to join the call: ${window.origin}${PATH}`;
+Click here to join the call:
+${window.origin}${PATH}`;
 
   return (
     <Card>
