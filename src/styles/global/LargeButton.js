@@ -18,7 +18,7 @@ const StyledLink = styled(Link)`
   width: 100%;
 
   &:focus {
-    outline-style: none;
+    outline-style: dotted;
   }
 
   &:active,
@@ -28,11 +28,13 @@ const StyledLink = styled(Link)`
 `;
 
 const LargeButton = React.forwardRef((props, ref) => {
-  if (props.disabled) console.log("disabled");
-  else console.log("enabled");
+  // Emulate button behaviour by triggering a click on spacebar press
+  function handleKeyUp(e) {
+    if (e.keyCode === 32) ref.current.click();
+  }
 
   return (
-    <StyledLink ref={ref} {...props}>
+    <StyledLink ref={ref} {...props} onKeyUp={handleKeyUp}>
       {props.children}
     </StyledLink>
   );
