@@ -39,6 +39,11 @@ const VideoCallUI = () => {
     }
   }, [query]);
 
+  // Force all participants to be the caller for now. Will change after
+  // the perfect negotiation pattern is implemented. This actually seems
+  // to work.
+  role.current = "caller";
+
   useEffect(() => {
     setControlBarVisibility("visible");
     videoCall.onLocalVideoVisibility = visibility =>
