@@ -11,10 +11,6 @@ const Heading = styled.h1`
   margin-bottom: 3rem;
 `;
 
-const InputField = styled(Input)`
-  margin: 3rem 0;
-`;
-
 const NameEntryCard = ({ name, handleNameEntry }) => {
   const [callerName, setName] = useState(name);
   const history = useHistory();
@@ -33,7 +29,8 @@ const NameEntryCard = ({ name, handleNameEntry }) => {
           <label htmlFor="name-input">
             <h2>Enter your name:</h2>
           </label>
-          <InputField
+          <Input
+            style={{ margin: "3rem 0" }}
             type="text"
             id="name-input"
             autoComplete="off"
