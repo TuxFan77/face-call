@@ -6,7 +6,7 @@ import Card from "../../styles/global/Card";
 import CardContent from "../../styles/global/CardContent";
 import Input from "../../styles/global/Input";
 import SubmitButton from "../../styles/global/SubmitButton";
-import phoneRegEx from "./PhoneRegEx";
+import { phoneRegEx, emailRegEx } from "./RegEx";
 
 const Heading = styled.h1`
   margin-bottom: 1.5rem;
@@ -22,6 +22,7 @@ const InputField = styled(Input)`
 
 const RecipientEntryCard = ({ recipient, handleRecipientEntry }) => {
   const [inputValue, setRecipient] = useState(recipient);
+  // const [contactType, setContactType] = useState("");
   const history = useHistory();
 
   return (
@@ -35,16 +36,20 @@ const RecipientEntryCard = ({ recipient, handleRecipientEntry }) => {
             history.push("/sendInvites");
           }}
         >
-          <Instruction>Enter your recipient's mobile number:</Instruction>
+          <Instruction>
+            Enter your recipient's mobile number or email address:
+          </Instruction>
           <InputField
             autoFocus
-            type="tel"
+            type="text"
             value={inputValue}
             onChange={e => setRecipient(e.target.value)}
           />
           <SubmitButton
             type="submit"
-            disabled={!phoneRegEx.test(inputValue)}
+            disabled={
+              !phoneRegEx.test(inputValue) && !emailRegEx.test(inputValue)
+            }
             value="Next"
           />
         </form>
