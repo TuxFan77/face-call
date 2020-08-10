@@ -6,7 +6,7 @@ import CardContent from "../../styles/global/CardContent";
 import LargeButton from "../../styles/global/LargeButton";
 import sendSms from "../../communication/sendSms";
 
-const PATH = "/videoCall?isCaller=true";
+const PATH = "/videoCall";
 
 const Heading = styled.h1`
   margin-bottom: 3rem;
@@ -17,9 +17,10 @@ const Heading = styled.h1`
 //   margin: 1.5rem 0;
 // `;
 
-const SendInvitesCard = ({ caller, recipients }) => {
-  const message = `Video call invitation from ${caller}.
+const SendInvitesCard = ({ caller, recipient }) => {
+  const message = `${caller} has sent you a video call invitation.
 Click here to join the call:
+
 ${window.origin}${PATH}`;
 
   return (
@@ -27,10 +28,7 @@ ${window.origin}${PATH}`;
       <CardContent>
         <Heading>Step 3</Heading>
         <h2>Send invite and start your call.</h2>
-        <p>
-          Sending the following text message to your recipient at{" "}
-          {recipients[0]}:
-        </p>
+        <p>Sending to {recipient}:</p>
         <p>{message}</p>
         {/* <RecipientList>
           {recipients.map((recipient, i) => (
@@ -41,7 +39,7 @@ ${window.origin}${PATH}`;
           onClick={() => {
             sendSms({
               message,
-              to: recipients[0]
+              to: recipient
             });
           }}
           to="/videoCall"

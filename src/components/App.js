@@ -25,7 +25,7 @@ function App() {
   const location = useLocation();
 
   const [caller, setCaller] = useState("");
-  const [recipients, setRecipients] = useState([]);
+  const [recipient, setRecipient] = useState("");
 
   return (
     <>
@@ -44,13 +44,12 @@ function App() {
             </Route>
             <Route path="/enterRecipients">
               <RecipientEntry
-                handleRecipientEntry={recipient =>
-                  setRecipients([...recipients, recipient])
-                }
+                recipient={recipient}
+                handleRecipientEntry={recipient => setRecipient(recipient)}
               />
             </Route>
             <Route path="/sendInvites">
-              <SendInvites caller={caller} recipients={recipients} />
+              <SendInvites caller={caller} recipient={recipient} />
             </Route>
             <Route path="/videoCall">
               <VideoCallUI />

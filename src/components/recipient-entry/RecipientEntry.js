@@ -5,7 +5,7 @@ import RecipientEntryCard from "./RecipientEntryCard";
 import RecipientEntryIllustration from "./RecipientEntryIllustration";
 import { pageVariants, pageTransition } from "../../animation/pageTransition";
 
-const RecipientEntry = ({ handleRecipientEntry }) => {
+const RecipientEntry = ({ recipient, handleRecipientEntry }) => {
   return (
     <PageContainer
       initial="in"
@@ -14,7 +14,10 @@ const RecipientEntry = ({ handleRecipientEntry }) => {
       variants={pageVariants}
       transition={pageTransition}
     >
-      <RecipientEntryCard handleRecipientEntry={handleRecipientEntry} />
+      <RecipientEntryCard
+        recipient={recipient}
+        handleRecipientEntry={handleRecipientEntry}
+      />
       <RecipientEntryIllustration />
     </PageContainer>
   );

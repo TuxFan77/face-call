@@ -31,6 +31,7 @@ const NameEntryCard = ({ name, handleNameEntry }) => {
           </label>
           <Input
             style={{ margin: "3rem 0" }}
+            autoFocus
             type="text"
             id="name-input"
             autoComplete="off"

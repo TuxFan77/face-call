@@ -1,11 +1,10 @@
-import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 import { primaryGradient, primaryFontColor } from "../constants/colors";
 import { mainFontFamily, primaryFontSize } from "../constants/fonts";
 
-const StyledLink = styled(Link)`
+const LargeButton = styled(Link)`
   background: ${primaryGradient};
   border: none;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
@@ -26,18 +25,5 @@ const StyledLink = styled(Link)`
     color: ${primaryFontColor};
   }
 `;
-
-const LargeButton = React.forwardRef((props, ref) => {
-  // Emulate button behaviour by triggering a click on spacebar press
-  function handleKeyUp(e) {
-    if (e.keyCode === 32) ref.current.click();
-  }
-
-  return (
-    <StyledLink ref={ref} {...props} onKeyUp={handleKeyUp}>
-      {props.children}
-    </StyledLink>
-  );
-});
 
 export default LargeButton;

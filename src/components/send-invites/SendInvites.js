@@ -5,7 +5,7 @@ import SendInvitesCard from "./SendInvitesCard";
 import SendInvitesIllustration from "./SendInvitesIllustration";
 import { pageVariants, pageTransition } from "../../animation/pageTransition";
 
-const SendInvites = ({ caller, recipients }) => {
+const SendInvites = ({ caller, recipient }) => {
   return (
     <PageContainer
       initial="in"
@@ -14,7 +14,7 @@ const SendInvites = ({ caller, recipients }) => {
       variants={pageVariants}
       transition={pageTransition}
     >
-      <SendInvitesCard caller={caller} recipients={recipients} />
+      <SendInvitesCard caller={caller} recipient={recipient} />
       <SendInvitesIllustration />
     </PageContainer>
   );
