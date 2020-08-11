@@ -31,11 +31,8 @@ const NameEntryCard = ({ name, handleNameEntry }) => {
           </label>
           <Input
             style={{ margin: "3rem 0" }}
-            autoFocus
-            spellCheck={false}
             type="text"
             id="name-input"
-            autoComplete="off"
             value={callerName}
             onChange={e => setName(e.target.value)}
           />

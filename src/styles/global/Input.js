@@ -1,7 +1,21 @@
+import React from "react";
 import styled from "styled-components";
+
 import { mainFontFamily } from "../constants/fonts";
 
-const Input = styled.input`
+export const Input = props => {
+  return <StyledInput {...props}>{props.children}</StyledInput>;
+};
+
+Input.defaultProps = {
+  autoFocus: true,
+  autoComplete: "off",
+  spellCheck: false
+};
+
+export default Input;
+
+const StyledInput = styled.input`
   border-radius: 9999px;
   border: none;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
@@ -14,5 +28,3 @@ const Input = styled.input`
     outline-style: none;
   }
 `;
-
-export default Input;

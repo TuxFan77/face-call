@@ -43,8 +43,6 @@ const RecipientEntryCard = ({ recipient, handleRecipientEntry }) => {
             </RadioSelect>
           </RadioGroup>
           <InputField
-            autoFocus
-            spellCheck={false}
             type={contactMethod === "sms" ? "tel" : "email"}
             value={inputValue}
             onChange={e => setRecipient(e.target.value)}
