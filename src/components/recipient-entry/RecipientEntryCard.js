@@ -11,7 +11,7 @@ import { phoneRegEx, emailRegEx } from "./RegEx";
 
 const RecipientEntryCard = ({ recipient, handleRecipientEntry }) => {
   const [inputValue, setRecipient] = useState(recipient);
-  // const [contactType, setContactType] = useState("");
+  const [inviteViaSMS, setInviteViaSMS] = useState(true);
   const history = useHistory();
 
   return (
@@ -26,22 +26,32 @@ const RecipientEntryCard = ({ recipient, handleRecipientEntry }) => {
           }}
         >
           <Instruction>Contact your recipient via:</Instruction>
-          <Options>
-            <RadioSelect name="contact" checked>
+          <RadioGroup
+            onChange={e =>
+              e.target.id === "sms"
+                ? setInviteViaSMS(true)
+                : setInviteViaSMS(false)
+            }
+          >
+            <RadioSelect id="sms" name="contact">
               Text
             </RadioSelect>
-            <RadioSelect name="contact">Email</RadioSelect>
-          </Options>
+            <RadioSelect id="email" name="contact">
+              Email
+            </RadioSelect>
+          </RadioGroup>
           <InputField
             autoFocus
-            type="text"
+            type={inviteViaSMS ? "tel" : "email"}
             value={inputValue}
             onChange={e => setRecipient(e.target.value)}
           />
           <SubmitButton
             type="submit"
             disabled={
-              !phoneRegEx.test(inputValue) && !emailRegEx.test(inputValue)
+              inviteViaSMS
+                ? !phoneRegEx.test(inputValue)
+                : !emailRegEx.test(inputValue)
             }
             value="Next"
           />
@@ -59,7 +69,7 @@ const Instruction = styled.h2`
   margin-bottom: 1.5rem;
 `;
 
-const Options = styled.div`
+const RadioGroup = styled.div`
   display: flex;
   justify-content: space-between;
 

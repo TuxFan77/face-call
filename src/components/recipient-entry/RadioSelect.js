@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 
-const RadioSelect = ({ name, checked, children }) => {
+const RadioSelect = ({ name, id, children }) => {
   return (
     <Wrapper>
       <Label>
-        <input type="radio" name={name} defaultChecked={checked} />
+        <input type="radio" id={id} name={name} />
         {children}
       </Label>
     </Wrapper>
