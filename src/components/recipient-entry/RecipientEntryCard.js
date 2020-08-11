@@ -11,7 +11,7 @@ import { phoneRegEx, emailRegEx } from "./RegEx";
 
 const RecipientEntryCard = ({ recipient, handleRecipientEntry }) => {
   const [inputValue, setRecipient] = useState(recipient);
-  const [inviteViaSMS, setInviteViaSMS] = useState(true);
+  const [contactMethod, setContactMethod] = useState("sms");
   const history = useHistory();
 
   return (
@@ -26,30 +26,32 @@ const RecipientEntryCard = ({ recipient, handleRecipientEntry }) => {
           }}
         >
           <Instruction>Contact your recipient via:</Instruction>
-          <RadioGroup
-            onChange={e =>
-              e.target.id === "sms"
-                ? setInviteViaSMS(true)
-                : setInviteViaSMS(false)
-            }
-          >
-            <RadioSelect id="sms" name="contact">
+          <RadioGroup onChange={e => setContactMethod(e.target.id)}>
+            <RadioSelect
+              id="sms"
+              name="contact"
+              checked={contactMethod === "sms"}
+            >
               Text
             </RadioSelect>
-            <RadioSelect id="email" name="contact">
+            <RadioSelect
+              id="email"
+              name="contact"
+              checked={contactMethod === "email"}
+            >
               Email
             </RadioSelect>
           </RadioGroup>
           <InputField
             autoFocus
-            type={inviteViaSMS ? "tel" : "email"}
+            type={contactMethod === "sms" ? "tel" : "email"}
             value={inputValue}
             onChange={e => setRecipient(e.target.value)}
           />
           <SubmitButton
             type="submit"
             disabled={
-              inviteViaSMS
+              contactMethod === "sms"
                 ? !phoneRegEx.test(inputValue)
                 : !emailRegEx.test(inputValue)
             }
