@@ -32,6 +32,7 @@ const NameEntryCard = ({ name, handleNameEntry }) => {
           <Input
             style={{ margin: "3rem 0" }}
             autoFocus
+            spellCheck={false}
             type="text"
             id="name-input"
             autoComplete="off"
