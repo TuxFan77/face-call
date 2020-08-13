@@ -1,7 +1,7 @@
 import React from "react";
 
 import { DescriptionContainer, List } from "./DescriptionStyles";
-import LargeButton from "../../styles/global/LargeButton";
+import Button from "../../styles/global/Button";
 
 const Description = () => {
   return (
@@ -13,7 +13,7 @@ const Description = () => {
         <li>Free to use</li>
       </List>
 
-      <LargeButton to="/enterName">Get Started</LargeButton>
+      <Button to="/enterName">Get Started</Button>
     </DescriptionContainer>
   );
 };

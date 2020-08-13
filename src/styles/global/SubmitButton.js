@@ -1,10 +1,10 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-import LargeButton from "./LargeButton";
+import Button from "./Button";
 
-// Use the styles from LargeButton and turn it into a motion component
-const Button = motion.custom(LargeButton);
+// Use the styles from Button and turn it into a motion component
+const AnimatedButton = motion.custom(Button);
 
 const SubmitButton = props => {
   const variants = {
@@ -13,7 +13,7 @@ const SubmitButton = props => {
   };
 
   return (
-    <Button
+    <AnimatedButton
       as="input" // Renders as an input element to the DOM
       type="submit"
       variants={variants}

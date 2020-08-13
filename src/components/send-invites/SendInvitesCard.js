@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import Card from "../../styles/global/Card";
 import CardContent from "../../styles/global/CardContent";
-import LargeButton from "../../styles/global/LargeButton";
+import Button from "../../styles/global/Button";
 import sendSms from "../../communication/sendSms";
 
 const PATH = "/videoCall";
@@ -50,9 +50,9 @@ ${window.origin}${PATH}`;
             <li key={i}>{recipient}</li>
           ))}
         </RecipientList> */}
-        <LargeButton onClick={handleClick} to="/videoCall">
+        <Button onClick={handleClick} to="/videoCall">
           Go!
-        </LargeButton>
+        </Button>
       </CardContent>
     </Card>
   );

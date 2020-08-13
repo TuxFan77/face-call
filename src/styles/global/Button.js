@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { primaryGradient, primaryFontColor } from "../constants/colors";
 import { mainFontFamily, primaryFontSize } from "../constants/fonts";
 
-const LargeButton = styled(Link)`
+const Button = styled(Link)`
   background: ${primaryGradient};
   border: none;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
@@ -26,4 +26,4 @@ const LargeButton = styled(Link)`
   }
 `;
 
-export default LargeButton;
+export default Button;
