@@ -49,7 +49,6 @@ const RecipientEntryCard = ({ recipient, handleRecipientEntry }) => {
             onChange={e => setRecipient(e.target.value)}
           />
           <SubmitButton
-            type="submit"
             disabled={
               contactMethod === "sms"
                 ? !phoneRegEx.test(inputValue)

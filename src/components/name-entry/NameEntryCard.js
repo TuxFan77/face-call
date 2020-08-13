@@ -36,11 +36,7 @@ const NameEntryCard = ({ name, handleNameEntry }) => {
             value={callerName}
             onChange={e => setName(e.target.value)}
           />
-          <SubmitButton
-            type="submit"
-            disabled={callerName.length === 0}
-            value="Next"
-          />
+          <SubmitButton disabled={callerName.length === 0} value="Next" />
         </form>
       </CardContent>
     </Card>

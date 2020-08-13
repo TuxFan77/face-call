@@ -1,36 +1,10 @@
 import React from "react";
-import styled from "styled-components";
 import { motion } from "framer-motion";
 
-import { primaryGradient, primaryFontColor } from "../constants/colors";
-import { mainFontFamily, primaryFontSize } from "../constants/fonts";
+import LargeButton from "./LargeButton";
 
-const Button = styled(motion.input)`
-  background: ${primaryGradient};
-  border: none;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
-  text-align: center;
-  cursor: pointer;
-  padding: 0.15em 0;
-  font-size: ${primaryFontSize};
-  font-family: ${mainFontFamily};
-  color: ${primaryFontColor};
-  width: 100%;
-
-  &:disabled {
-    opacity: 0.4;
-    cursor: default;
-  }
-
-  &:focus {
-    outline-style: dotted;
-  }
-
-  &:active,
-  &:visited {
-    color: ${primaryFontColor};
-  }
-`;
+// Use the styles from LargeButton and turn it into a motion component
+const Button = motion.custom(LargeButton);
 
 const SubmitButton = props => {
   const variants = {
@@ -40,6 +14,8 @@ const SubmitButton = props => {
 
   return (
     <Button
+      as="input" // Renders as an input element to the DOM
+      type="submit"
       variants={variants}
       animate={props.disabled ? "disabled" : "active"}
       {...props}
