@@ -10,8 +10,8 @@ import RadioSelect from "./RadioSelect";
 import { phoneRegEx, emailRegEx } from "./RegEx";
 
 const RecipientEntryCard = ({ recipient, handleRecipientEntry }) => {
-  const [inputValue, setRecipient] = useState(recipient);
-  const [contactMethod, setContactMethod] = useState("sms");
+  const [inputValue, setRecipient] = useState(recipient.contact);
+  const [contactMethod, setContactMethod] = useState(recipient.type);
   const history = useHistory();
 
   return (
@@ -21,7 +21,7 @@ const RecipientEntryCard = ({ recipient, handleRecipientEntry }) => {
         <form
           onSubmit={e => {
             e.preventDefault();
-            handleRecipientEntry(inputValue);
+            handleRecipientEntry({ contact: inputValue, type: contactMethod });
             history.push("/sendInvites");
           }}
         >

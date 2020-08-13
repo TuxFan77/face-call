@@ -23,27 +23,34 @@ Click here to join the call:
 
 ${window.origin}${PATH}`;
 
+  function handleClick() {
+    if (recipient.type === "sms") {
+      return sendSms({
+        message,
+        to: recipient.contact
+      });
+    }
+
+    if (recipient.type === "email") {
+      return console.log(
+        `Contacting recipient via ${recipient.type} at ${recipient.contact}`
+      );
+    }
+  }
+
   return (
     <Card>
       <CardContent>
         <Heading>Step 3</Heading>
         <h2>Send invite and start your call.</h2>
-        <p>Sending to {recipient}:</p>
+        <p>Sending to {recipient.contact}:</p>
         <p>{message}</p>
         {/* <RecipientList>
           {recipients.map((recipient, i) => (
             <li key={i}>{recipient}</li>
           ))}
         </RecipientList> */}
-        <LargeButton
-          onClick={() => {
-            sendSms({
-              message,
-              to: recipient
-            });
-          }}
-          to="/videoCall"
-        >
+        <LargeButton onClick={handleClick} to="/videoCall">
           Go!
         </LargeButton>
       </CardContent>

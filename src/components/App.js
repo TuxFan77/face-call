@@ -25,7 +25,7 @@ function App() {
   const location = useLocation();
 
   const [caller, setCaller] = useState("");
-  const [recipient, setRecipient] = useState("");
+  const [recipient, setRecipient] = useState({ contact: "", type: "sms" });
 
   return (
     <>
