@@ -51,7 +51,7 @@ const RecipientEntryCard = ({ recipient, handleRecipientEntry }) => {
           <SubmitButton
             disabled={
               contactMethod === "sms"
-                ? !phoneRegEx.test(inputValue)
+                ? !phoneRegEx.test(inputValue) || inputValue.length < 10
                 : !emailRegEx.test(inputValue)
             }
             value="Next"
