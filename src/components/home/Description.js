@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { accentColor } from "../../styles/constants/colors";
+import colors from "../../styles/constants/colors";
 import {
   bulletDiameter,
   listMarginTopBottom,
@@ -50,7 +50,7 @@ export const List = styled.ul`
         height: ${bulletDiameter};
         width: ${bulletDiameter};
         border-radius: 50%;
-        background-color: ${accentColor};
+        background-color: ${colors.accent};
         display: block;
         position: absolute;
         left: calc(50% - ${bulletDiameter} / 2);

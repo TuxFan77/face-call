@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-import { primaryGradient, primaryFontColor } from "../constants/colors";
+import colors from "../constants/colors";
 import { mainFontFamily, primaryFontSize } from "../constants/fonts";
 
 const Button = styled(Link)`
-  background: ${primaryGradient};
+  background: ${colors.primaryGradient};
   border: none;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
   text-align: center;
@@ -13,7 +13,7 @@ const Button = styled(Link)`
   padding: 0.15em 0;
   font-size: ${primaryFontSize};
   font-family: ${mainFontFamily};
-  color: ${primaryFontColor};
+  color: ${colors.primaryFont};
   width: 100%;
 
   &:focus {
@@ -22,7 +22,7 @@ const Button = styled(Link)`
 
   &:active,
   &:visited {
-    color: ${primaryFontColor};
+    color: ${colors.primaryFont};
   }
 `;
 
