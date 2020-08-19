@@ -5,11 +5,11 @@ import colors from "../../styles/constants/colors";
 import {
   bulletDiameter,
   listMarginTopBottom,
-  listFontSize
+  listFontSize,
 } from "../../styles/constants/sizes";
 import Button from "../../styles/global/Button";
 
-const Description = () => {
+const HomeDescription = () => {
   return (
     <DescriptionContainer>
       <h1>Video calling in your web browser</h1>
@@ -65,4 +65,4 @@ export const List = styled.ul`
   }
 `;
 
-export default Description;
+export default HomeDescription;
