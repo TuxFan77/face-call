@@ -2,7 +2,7 @@ import React from "react";
 
 import PageContainer from "../../styles/global/PageContainer";
 import Description from "./Description";
-import VideoCallIllustration from "./HomeIllustration";
+import HomeIllustration from "./HomeIllustration";
 import { pageVariants, pageTransition } from "../../animation/pageTransition";
 
 const Home = () => {
@@ -15,7 +15,7 @@ const Home = () => {
       transition={pageTransition}
     >
       <Description />
-      <VideoCallIllustration />
+      <HomeIllustration />
     </PageContainer>
   );
 };
