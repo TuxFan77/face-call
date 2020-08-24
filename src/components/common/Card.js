@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import colors from "../../styles/constants/colors";
+import colors from "../../styles/colors";
 
 const Card = styled.div`
   width: 100%;

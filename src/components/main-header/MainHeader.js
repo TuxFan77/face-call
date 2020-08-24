@@ -2,10 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-import colors from "../../styles/constants/colors";
+import colors from "../../styles/colors";
 import Container from "../common/SiteContainer";
-import { mainHeaderHeight } from "../../styles/constants/sizes";
-import { primaryFontSize } from "../../styles/constants/fonts";
+import { mainHeaderHeight } from "../../styles/sizes";
+import { primaryFontSize } from "../../styles/fonts";
 
 const MainHeader = () => {
   return (

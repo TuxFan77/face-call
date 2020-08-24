@@ -1,12 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 
-import colors from "../../styles/constants/colors";
+import colors from "../../styles/colors";
 import {
   bulletDiameter,
   listMarginTopBottom,
   listFontSize,
-} from "../../styles/constants/sizes";
+} from "../../styles/sizes";
 import Button from "../common/LinkButton";
 
 const HomeDescription = () => {

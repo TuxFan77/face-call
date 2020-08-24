@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { mainFontFamily } from "../../styles/constants/fonts";
+import { mainFontFamily } from "../../styles/fonts";
 
 export const Input = props => {
   return <StyledInput {...props}>{props.children}</StyledInput>;

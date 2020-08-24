@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-import { mainHeaderHeight } from "../../styles/constants/sizes";
+import { mainHeaderHeight } from "../../styles/sizes";
 
 const VideoPageContainer = styled(motion.div)`
   position: fixed;

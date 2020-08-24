@@ -3,7 +3,7 @@ import { AnimatePresence } from "framer-motion";
 import { Route, Switch, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
-import { mainHeaderHeight } from "../styles/constants/sizes";
+import { mainHeaderHeight } from "../styles/sizes";
 import MainHeader from "./main-header/MainHeader";
 import Home from "./home/Home";
 import NameEntry from "./name-entry/NameEntry";
