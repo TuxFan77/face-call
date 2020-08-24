@@ -1,6 +1,6 @@
 import React from "react";
 
-import PageContainer from "../../styles/global/PageContainer";
+import PageContainer from "../common/PageContainer";
 import NameEntryCard from "./NameEntryCard";
 import NameEntryIllustration from "./NameEntryIllustration";
 import { pageVariants, pageTransition } from "../../animation/pageTransition";

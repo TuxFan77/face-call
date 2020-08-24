@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import { ReactComponent as ConnectionIllustration } from "../../images/connection.svg";
-import IllustrationWrapperBase from "../../styles/global/IllustrationWrapper";
+import IllustrationWrapperBase from "../common/IllustrationWrapper";
 
 const IllustrationWrapper = styled(IllustrationWrapperBase)`
   margin-left: 8rem;

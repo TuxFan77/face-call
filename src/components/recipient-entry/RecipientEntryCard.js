@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 
-import Card from "../../styles/global/Card";
-import CardContent from "../../styles/global/CardContent";
-import Input from "../../styles/global/Input";
-import SubmitButton from "../../styles/global/SubmitButton";
+import Card from "../common/Card";
+import CardContent from "../common/CardContent";
+import Input from "../common/Input";
+import SubmitButton from "../common/SubmitButton";
 import RadioSelect from "./RadioSelect";
 import { phoneRegEx, emailRegEx } from "./RegEx";
 

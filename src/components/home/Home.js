@@ -1,6 +1,6 @@
 import React from "react";
 
-import PageContainer from "../../styles/global/PageContainer";
+import PageContainer from "../common/PageContainer";
 import HomeDescription from "./HomeDescription";
 import HomeIllustration from "./HomeIllustration";
 import { pageVariants, pageTransition } from "../../animation/pageTransition";

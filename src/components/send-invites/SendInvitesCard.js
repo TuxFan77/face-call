@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-import Card from "../../styles/global/Card";
-import CardContent from "../../styles/global/CardContent";
-import Button from "../../styles/global/Button";
+import Card from "../common/Card";
+import CardContent from "../common/CardContent";
+import LinkButton from "../common/LinkButton";
 import sendSms from "../../communication/sendSms";
 
 const PATH = "/videoCall";
@@ -27,7 +27,7 @@ ${window.origin}${PATH}`;
     if (recipient.type === "sms") {
       return sendSms({
         message,
-        to: recipient.contact
+        to: recipient.contact,
       });
     }
 
@@ -50,9 +50,9 @@ ${window.origin}${PATH}`;
             <li key={i}>{recipient}</li>
           ))}
         </RecipientList> */}
-        <Button onClick={handleClick} to="/videoCall">
+        <LinkButton onClick={handleClick} to="/videoCall">
           Go!
-        </Button>
+        </LinkButton>
       </CardContent>
     </Card>
   );

@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-import colors from "../constants/colors";
-import { mainFontFamily, primaryFontSize } from "../constants/fonts";
+import colors from "../../styles/constants/colors";
+import { mainFontFamily, primaryFontSize } from "../../styles/constants/fonts";
 
 const Button = styled(Link)`
   background: ${colors.primaryGradient};

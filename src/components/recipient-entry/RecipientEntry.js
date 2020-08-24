@@ -1,6 +1,6 @@
 import React from "react";
 
-import PageContainer from "../../styles/global/PageContainer";
+import PageContainer from "../common/PageContainer";
 import RecipientEntryCard from "./RecipientEntryCard";
 import RecipientEntryIllustration from "./RecipientEntryIllustration";
 import { pageVariants, pageTransition } from "../../animation/pageTransition";

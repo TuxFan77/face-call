@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 import colors from "../../styles/constants/colors";
-import Container from "../../styles/global/SiteContainer";
+import Container from "../common/SiteContainer";
 import { mainHeaderHeight } from "../../styles/constants/sizes";
 import { primaryFontSize } from "../../styles/constants/fonts";
 

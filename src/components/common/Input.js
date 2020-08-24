@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { mainFontFamily } from "../constants/fonts";
+import { mainFontFamily } from "../../styles/constants/fonts";
 
 export const Input = props => {
   return <StyledInput {...props}>{props.children}</StyledInput>;
@@ -10,7 +10,7 @@ export const Input = props => {
 Input.defaultProps = {
   autoFocus: true,
   autoComplete: "off",
-  spellCheck: false
+  spellCheck: false,
 };
 
 export default Input;

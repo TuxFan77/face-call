@@ -7,7 +7,7 @@ import {
   listMarginTopBottom,
   listFontSize,
 } from "../../styles/constants/sizes";
-import Button from "../../styles/global/Button";
+import Button from "../common/LinkButton";
 
 const HomeDescription = () => {
   return (
