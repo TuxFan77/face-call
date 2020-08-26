@@ -5,9 +5,9 @@ import getIceServers from "../../communication/getIceServers";
 
 function VideoCall(localVideo, remoteVideo, logging = false) {
   this.role = "";
-  this.onLocalVideoVisibility = () => {};
-  this.onRemoteVideoVisibility = () => {};
-  this.onFacingMode = () => {};
+  this.onLocalVideoVisibility = null;
+  this.onRemoteVideoVisibility = null;
+  this.onFacingMode = null;
   const cameras = [];
   let currentCamera = 0;
   let peerConnection = null;
