@@ -8,7 +8,7 @@ import RemoteVideo from "./RemoteVideo";
 import { useQuery } from "../../hooks/hooks";
 import {
   videoPageVariants,
-  pageTransition
+  pageTransition,
 } from "../../animation/pageTransition";
 
 const VideoCallUI = () => {

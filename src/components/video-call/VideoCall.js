@@ -1,10 +1,6 @@
-import {
-  initWebSocket,
-  sendToServer,
-  closeWebSocket
-} from "../../communication/webSocket";
-import { v4 as uuidv4 } from "uuid";
+// import { v4 as uuidv4 } from "uuid";
 
+import Signaling from "../../communication/signaling";
 import getIceServers from "../../communication/getIceServers";
 
 function VideoCall(localVideo, remoteVideo, logging = false) {
@@ -15,24 +11,20 @@ function VideoCall(localVideo, remoteVideo, logging = false) {
   const cameras = [];
   let currentCamera = 0;
   let peerConnection = null;
-  const userId = uuidv4();
+  let signaling;
+  // const roomId = uuidv4();
 
   // Starts a video call
   this.start = async function () {
     try {
       await initLocalVideo();
       await getCameras();
-      await initWebSocket(
-        handleVideoOfferMessage,
-        handleVideoAnswerMessage,
-        handleNewRemoteICECandidate,
-        this.endCall
-      );
 
-      sendToServer({
-        type: "set-user-id",
-        userId
-      });
+      signaling = new Signaling();
+      signaling.onOffer = handleVideoOfferMessage;
+      signaling.onAnswer = handleVideoAnswerMessage;
+      signaling.onCandidate = handleNewRemoteICECandidate;
+      signaling.onEndCall = this.endCall;
 
       if (this.role === "caller") startCall();
     } catch (err) {
@@ -79,9 +71,9 @@ function VideoCall(localVideo, remoteVideo, logging = false) {
       const newStream = await navigator.mediaDevices.getUserMedia({
         video: {
           deviceId: {
-            exact: cameras[currentCamera].deviceId
-          }
-        }
+            exact: cameras[currentCamera].deviceId,
+          },
+        },
       });
 
       const oldVideoTrack = localVideo.current.srcObject.getVideoTracks()[0];
@@ -123,7 +115,7 @@ function VideoCall(localVideo, remoteVideo, logging = false) {
     } else {
       constraints.video = {
         width: { min: 640, ideal: 1280, max: 1920 },
-        height: { min: 480, ideal: 720, max: 1080 }
+        height: { min: 480, ideal: 720, max: 1080 },
       };
     }
 
@@ -158,12 +150,7 @@ function VideoCall(localVideo, remoteVideo, logging = false) {
     try {
       const offer = await peerConnection.createOffer();
       await peerConnection.setLocalDescription(offer);
-
-      sendToServer({
-        type: "video-offer",
-        userId,
-        payload: offer
-      });
+      signaling.sendOffer(offer);
     } catch (error) {
       log(error);
     }
@@ -190,12 +177,7 @@ function VideoCall(localVideo, remoteVideo, logging = false) {
       );
       const answer = await peerConnection.createAnswer();
       await peerConnection.setLocalDescription(answer);
-
-      sendToServer({
-        type: "video-answer",
-        userId,
-        payload: answer
-      });
+      signaling.sendAnswer(answer);
     } catch (error) {
       log(error);
     }
@@ -232,11 +214,7 @@ function VideoCall(localVideo, remoteVideo, logging = false) {
       log("NO LOCAL CANDIDATE");
       return;
     }
-    sendToServer({
-      type: "new-ice-candidate",
-      userId,
-      payload: e.candidate
-    });
+    signaling.sendCandidate(e.candidate);
   }
 
   // Receives ICE candidates from the remote peer
@@ -272,13 +250,7 @@ function VideoCall(localVideo, remoteVideo, logging = false) {
     this.onLocalVideoVisibility("hidden");
     this.onRemoteVideoVisibility("hidden");
 
-    sendToServer({
-      type: "end-call",
-      userId,
-      payload: ""
-    });
-
-    closeWebSocket();
+    signaling.endCall();
 
     if (localVideo.current.srcObject) {
       localVideo.current.pause();
