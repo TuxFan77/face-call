@@ -12,11 +12,6 @@ const Heading = styled.h1`
   margin-bottom: 3rem;
 `;
 
-// const RecipientList = styled.ul`
-//   font-size: 1.5rem;
-//   margin: 1.5rem 0;
-// `;
-
 const SendInvitesCard = ({ caller, recipient }) => {
   const message = `${caller} has sent you a video call invitation.
 Click here to join the call:
@@ -45,11 +40,6 @@ ${window.origin}${PATH}`;
         <h2>Send invite and start your call.</h2>
         <p>Sending to {recipient.contact}:</p>
         <p>{message}</p>
-        {/* <RecipientList>
-          {recipients.map((recipient, i) => (
-            <li key={i}>{recipient}</li>
-          ))}
-        </RecipientList> */}
         <LinkButton onClick={handleClick} to="/videoCall">
           Go!
         </LinkButton>
