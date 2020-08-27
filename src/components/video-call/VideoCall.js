@@ -1,5 +1,3 @@
-// import { v4 as uuidv4 } from "uuid";
-
 import Signaling from "../../communication/signaling";
 import getIceServers from "../../communication/getIceServers";
 
@@ -12,7 +10,6 @@ function VideoCall(localVideo, remoteVideo, logging = false) {
   let currentCamera = 0;
   let peerConnection = null;
   let signaling;
-  // const roomId = uuidv4();
 
   // Starts a video call
   this.start = async function () {
