@@ -7,19 +7,21 @@ import CardContent from "../common/CardContent";
 import LinkButton from "../common/LinkButton";
 import sendSms from "../../communication/sendSms";
 
-const PATH = "/videoCall";
+const room = uuidv4();
+const PATH = `/videoCall`;
 
 const Heading = styled.h1`
   margin-bottom: 3rem;
 `;
 
 const SendInvitesCard = ({ caller, recipient, handleRoom }) => {
-  useEffect(() => handleRoom(uuidv4()), [handleRoom]);
+  useEffect(() => handleRoom(room), [handleRoom]);
 
   const message = `${caller} has sent you a video call invitation.
+
 Click here to join the call:
 
-${window.origin}${PATH}`;
+${window.origin}${PATH}/${room}`;
 
   function handleClick() {
     if (recipient.type === "sms") {
@@ -31,7 +33,7 @@ ${window.origin}${PATH}`;
 
     if (recipient.type === "email") {
       return console.log(
-        `Contacting recipient via ${recipient.type} at ${recipient.contact}`
+        `Contacting recipient via ${recipient.type} at ${recipient.contact}: ${message}`
       );
     }
   }
@@ -41,9 +43,8 @@ ${window.origin}${PATH}`;
       <CardContent>
         <Heading>Step 3</Heading>
         <h2>Send invite and start your call.</h2>
-        <p>Sending to {recipient.contact}:</p>
-        <p>{message}</p>
-        <LinkButton onClick={handleClick} to="/videoCall">
+        <p>Sending video chat invite link to {recipient.contact}</p>
+        <LinkButton onClick={handleClick} to={PATH}>
           Go!
         </LinkButton>
       </CardContent>
