@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
+import { v4 as uuidv4 } from "uuid";
 
 import Card from "../common/Card";
 import CardContent from "../common/CardContent";
@@ -12,7 +13,9 @@ const Heading = styled.h1`
   margin-bottom: 3rem;
 `;
 
-const SendInvitesCard = ({ caller, recipient }) => {
+const SendInvitesCard = ({ caller, recipient, handleRoom }) => {
+  useEffect(() => handleRoom(uuidv4()), [handleRoom]);
+
   const message = `${caller} has sent you a video call invitation.
 Click here to join the call:
 
