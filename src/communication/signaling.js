@@ -1,5 +1,8 @@
 import io from "socket.io-client";
-const SIGNALING_SERVER_URL = "https://webrtc-socketio-signaling.herokuapp.com/";
+const SIGNALING_SERVER_URL =
+  window.location.hostname === "localhost"
+    ? "http://localhost:3001"
+    : "https://webrtc-socketio-signaling.herokuapp.com/";
 
 function Signaling(url = SIGNALING_SERVER_URL) {
   const socket = io(url);
@@ -10,7 +13,10 @@ function Signaling(url = SIGNALING_SERVER_URL) {
   this.onEndCall = null;
 
   socket.on("connect", () => {
-    console.log(socket.id, "connected");
+    console.log(
+      socket.id,
+      `connected to signaling server ${SIGNALING_SERVER_URL}`
+    );
 
     socket.on("video-offer", offer => {
       this.onOffer(offer);
