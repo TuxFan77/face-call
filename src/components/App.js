@@ -26,6 +26,7 @@ function App() {
 
   const [caller, setCaller] = useState("");
   const [recipient, setRecipient] = useState({ contact: "", type: "sms" });
+  const [room, setRoom] = useState("");
 
   return (
     <>
@@ -37,22 +38,23 @@ function App() {
               <Home />
             </Route>
             <Route path="/enterName">
-              <NameEntry
-                name={caller}
-                handleNameEntry={name => setCaller(name)}
-              />
+              <NameEntry name={caller} handleNameEntry={setCaller} />
             </Route>
             <Route path="/enterRecipients">
               <RecipientEntry
                 recipient={recipient}
-                handleRecipientEntry={recipient => setRecipient(recipient)}
+                handleRecipientEntry={setRecipient}
               />
             </Route>
             <Route path="/sendInvites">
-              <SendInvites caller={caller} recipient={recipient} />
+              <SendInvites
+                caller={caller}
+                recipient={recipient}
+                handleRoom={setRoom}
+              />
             </Route>
             <Route path="/videoCall">
-              <VideoCallUI />
+              <VideoCallUI room={room} />
             </Route>
           </Switch>
         </AnimatePresence>
