@@ -7,6 +7,7 @@ const SIGNALING_SERVER_URL =
 function Signaling(url = SIGNALING_SERVER_URL) {
   const socket = io(url);
 
+  this.onJoinRoom = null;
   this.onOffer = null;
   this.onAnswer = null;
   this.onCandidate = null;
@@ -17,6 +18,10 @@ function Signaling(url = SIGNALING_SERVER_URL) {
       socket.id,
       `connected to signaling server ${SIGNALING_SERVER_URL}`
     );
+
+    socket.on("join-room", result => {
+      this.onJoinRoom(result);
+    });
 
     socket.on("video-offer", offer => {
       this.onOffer(offer);
@@ -54,6 +59,10 @@ function Signaling(url = SIGNALING_SERVER_URL) {
 
   this.endCall = () => {
     socket.emit("end-call");
+    socket.disconnect();
+  };
+
+  this.disconnect = () => {
     socket.disconnect();
   };
 }
