@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
 
 import VideoCall from "./VideoCall";
 import VideoPageContainer from "./VideoPageContainer";
 import LocalVideo from "./LocalVideo";
 import ControlBar from "./ControlBar/ControlBar";
 import RemoteVideo from "./RemoteVideo";
-import { useQuery } from "../../hooks/hooks";
 import {
   videoPageVariants,
   pageTransition,
@@ -26,22 +26,12 @@ const VideoCallUI = () => {
   const [speakerMuted, setSpeakerMuted] = useState(true);
   const [micMuted, setMicMuted] = useState(false);
   const role = useRef("");
+  const { room } = useParams();
   const [videoCall, setVideoCall] = useState(
-    new VideoCall(localVideo, remoteVideo)
+    new VideoCall(localVideo, remoteVideo, room)
   );
 
-  const query = useQuery();
-  useEffect(() => {
-    if (query.has("isCaller")) {
-      if (query.get("isCaller") === "true") {
-        role.current = "caller";
-      }
-    }
-  }, [query]);
-
-  // Force all participants to be the caller for now. Will change after
-  // the perfect negotiation pattern is implemented. This actually seems
-  // to work.
+  // TEMP - this will be changing
   role.current = "caller";
 
   useEffect(() => {
