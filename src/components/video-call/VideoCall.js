@@ -1,8 +1,7 @@
 import Signaling from "../../communication/signaling";
 import getIceServers from "../../communication/getIceServers";
 
-function VideoCall(localVideo, remoteVideo, logging = false) {
-  this.role = "";
+function VideoCall(localVideo, remoteVideo, room, logging = false) {
   this.onLocalVideoVisibility = null;
   this.onRemoteVideoVisibility = null;
   this.onFacingMode = null;
@@ -14,16 +13,27 @@ function VideoCall(localVideo, remoteVideo, logging = false) {
   // Starts a video call
   this.start = async function () {
     try {
-      await initLocalVideo();
-      await getCameras();
-
       signaling = new Signaling();
-      signaling.onOffer = handleVideoOfferMessage;
-      signaling.onAnswer = handleVideoAnswerMessage;
-      signaling.onCandidate = handleNewRemoteICECandidate;
-      signaling.onEndCall = this.endCall;
 
-      if (this.role === "caller") startCall();
+      signaling.onJoinRoom = async result => {
+        console.log("onJoinRoom:", result);
+        if (!result) {
+          console.log("room full... aborting call");
+          signaling.disconnect();
+          return;
+        }
+        signaling.onOffer = handleVideoOfferMessage;
+        signaling.onAnswer = handleVideoAnswerMessage;
+        signaling.onCandidate = handleNewRemoteICECandidate;
+        signaling.onEndCall = this.endCall;
+
+        await initLocalVideo();
+        await getCameras();
+
+        startCall();
+      };
+
+      signaling.joinRoom(room);
     } catch (err) {
       log(err);
     }
