@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 
@@ -14,9 +14,7 @@ const Heading = styled.h1`
   margin-bottom: 3rem;
 `;
 
-const SendInvitesCard = ({ caller, recipient, handleRoom }) => {
-  useEffect(() => handleRoom(room), [handleRoom]);
-
+const SendInvitesCard = ({ caller, recipient }) => {
   const message = `${caller} has sent you a video call invitation.
 
 Click here to join the call:
@@ -44,7 +42,7 @@ ${window.origin}${PATH}/${room}`;
         <Heading>Step 3</Heading>
         <h2>Send invite and start your call.</h2>
         <p>Sending video chat invite link to {recipient.contact}</p>
-        <LinkButton onClick={handleClick} to={PATH}>
+        <LinkButton onClick={handleClick} to={`${PATH}/${room}`}>
           Go!
         </LinkButton>
       </CardContent>
