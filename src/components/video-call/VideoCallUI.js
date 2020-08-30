@@ -53,6 +53,13 @@ const VideoCallUI = () => {
     };
   }, [videoCall]);
 
+  useEffect(() => {
+    localVideo.current.onplaying = () => console.log("local video playing");
+    localVideo.current.onsuspend = () => console.log("local video stopped");
+    remoteVideo.current.onplaying = () => console.log("remote video playing");
+    remoteVideo.current.onsuspend = () => console.log("remote video stopped");
+  }, []);
+
   function delayedHideControlBar() {
     clearTimeout(controlBarTimeoutID.current);
     controlBarTimeoutID.current = setTimeout(() => {
