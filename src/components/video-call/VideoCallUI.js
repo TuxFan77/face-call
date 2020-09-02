@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
+import { useMachine } from "@xstate/react";
 
 import VideoCall from "./VideoCall";
 import VideoPageContainer from "./VideoPageContainer";
@@ -10,6 +11,7 @@ import {
   videoPageVariants,
   pageTransition,
 } from "../../animation/pageTransition";
+import controlBarMachine from "./stateMachine";
 
 const VideoCallUI = () => {
   const localVideo = useRef(null);
@@ -21,6 +23,7 @@ const VideoCallUI = () => {
   const mouseMoveListening = useRef(true);
   const [facingMode, setFacingMode] = useState("");
   const [controlBarVisibility, setControlBarVisibility] = useState("visible");
+  const [current, send] = useMachine(controlBarMachine);
   const [localVideoVisibility, setLocalVideoVisibility] = useState("hidden");
   const [remoteVideoVisibility, setRemoteVideoVisibility] = useState("hidden");
   const [speakerMuted, setSpeakerMuted] = useState(true);
@@ -33,6 +36,8 @@ const VideoCallUI = () => {
 
   // TEMP - this will be changing
   role.current = "caller";
+
+  console.log(current);
 
   useEffect(() => {
     setControlBarVisibility("visible");
