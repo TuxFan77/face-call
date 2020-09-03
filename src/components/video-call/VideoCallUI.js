@@ -18,7 +18,7 @@ const VideoCallUI = () => {
   const THROTTLE_DELAY = CONTROL_BAR_DELAY / 2;
   const controlBarTimeoutID = useRef(null);
   const throttleTimeoutID = useRef(null);
-  const mouseMoveListening = useRef(true);
+  const isMouseMoveListening = useRef(true);
   const [facingMode, setFacingMode] = useState("");
   const [isControlBarVisible, setIsControlBarVisible] = useState(true);
   const [isLocalVideoVisible, setIsLocalVideoVisible] = useState(false);
@@ -70,27 +70,27 @@ const VideoCallUI = () => {
   }
 
   function handleMouseMove() {
-    if (!mouseMoveListening.current) return;
-    mouseMoveListening.current = false;
+    if (!isMouseMoveListening.current) return;
+    isMouseMoveListening.current = false;
     throttleTimeoutID.current = setTimeout(
-      () => (mouseMoveListening.current = true),
+      () => (isMouseMoveListening.current = true),
       THROTTLE_DELAY
     );
     setIsControlBarVisible(true);
-    if (isRemoteVideoVisible === "visible") {
+    if (isRemoteVideoVisible) {
       delayedHideControlBar();
     }
   }
 
   function handleMouseEnter() {
-    mouseMoveListening.current = false;
+    isMouseMoveListening.current = false;
     clearTimeout(throttleTimeoutID.current);
     clearTimeout(controlBarTimeoutID.current);
     setIsControlBarVisible(true);
   }
 
   function handleMouseLeave() {
-    mouseMoveListening.current = true;
+    isMouseMoveListening.current = true;
   }
 
   function handleControlBarButtonClick(button) {
