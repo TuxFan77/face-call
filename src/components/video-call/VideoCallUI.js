@@ -48,6 +48,10 @@ const VideoCallUI = () => {
       setIsLocalVideoVisible(false);
       console.log("local video stopped");
     };
+    localVideo.current.onpause = () => console.log("local video onpause");
+    localVideo.current.onstalled = () => console.log("local video onstalled");
+    localVideo.current.onended = () => console.log("local video onended");
+    localVideo.current.onabort = () => console.log("local video onabort");
 
     remoteVideo.current.onplaying = () => {
       console.log("remote video playing");

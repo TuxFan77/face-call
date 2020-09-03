@@ -253,7 +253,6 @@ function VideoCall(localVideo, remoteVideo, room, logging = false) {
     signaling.endCall();
 
     if (localVideo.current.srcObject) {
-      // localVideo.current.pause();
       localVideo.current.srcObject.getTracks().forEach(track => track.stop());
       localVideo.current.removeAttribute("src");
       localVideo.current.removeAttribute("srcObject");
