@@ -40,8 +40,14 @@ const VideoCallUI = () => {
   useEffect(() => {
     setIsControlBarVisible(true);
 
-    localVideo.current.onplaying = () => setIsLocalVideoVisible(true);
-    localVideo.current.onsuspend = () => setIsLocalVideoVisible(false);
+    localVideo.current.onplaying = () => {
+      setIsLocalVideoVisible(true);
+      console.log("local video playing");
+    };
+    localVideo.current.onsuspend = () => {
+      setIsLocalVideoVisible(false);
+      console.log("local video stopped");
+    };
 
     remoteVideo.current.onplaying = () => {
       console.log("remote video playing");
