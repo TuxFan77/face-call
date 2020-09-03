@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { useMachine } from "@xstate/react";
 
 import VideoCall from "./VideoCall";
 import VideoPageContainer from "./VideoPageContainer";
@@ -11,7 +10,6 @@ import {
   videoPageVariants,
   pageTransition,
 } from "../../animation/pageTransition";
-import controlBarMachine from "./stateMachine";
 
 const VideoCallUI = () => {
   const localVideo = useRef(null);
@@ -22,12 +20,11 @@ const VideoCallUI = () => {
   const throttleTimeoutID = useRef(null);
   const mouseMoveListening = useRef(true);
   const [facingMode, setFacingMode] = useState("");
-  const [controlBarVisibility, setControlBarVisibility] = useState("visible");
-  const [current, send] = useMachine(controlBarMachine);
-  const [localVideoVisibility, setLocalVideoVisibility] = useState("hidden");
-  const [remoteVideoVisibility, setRemoteVideoVisibility] = useState("hidden");
-  const [speakerMuted, setSpeakerMuted] = useState(true);
-  const [micMuted, setMicMuted] = useState(false);
+  const [isControlBarVisible, setIsControlBarVisible] = useState(true);
+  const [isLocalVideoVisible, setIsLocalVideoVisible] = useState(false);
+  const [isRemoteVideoVisible, setIsRemoteVideoVisible] = useState(false);
+  const [isSpeakerMuted, setIsSpeakerMuted] = useState(true);
+  const [isMicMuted, setIsMicMuted] = useState(false);
   const role = useRef("");
   const { room } = useParams();
   const [videoCall, setVideoCall] = useState(
@@ -37,17 +34,19 @@ const VideoCallUI = () => {
   // TEMP - this will be changing
   role.current = "caller";
 
-  console.log(current);
-
   useEffect(() => {
-    setControlBarVisibility("visible");
-    videoCall.onLocalVideoVisibility = visibility =>
-      setLocalVideoVisibility(visibility);
-    videoCall.onRemoteVideoVisibility = visibility => {
-      setRemoteVideoVisibility(visibility);
-      if (visibility === "visible") delayedHideControlBar();
-      else showAndLockControlBar();
+    setIsControlBarVisible(true);
+    localVideo.current.onplaying = () => setIsLocalVideoVisible(true);
+    localVideo.current.onsuspend = () => setIsLocalVideoVisible(false);
+    remoteVideo.current.onplaying = () => {
+      setIsRemoteVideoVisible(true);
+      delayedHideControlBar();
     };
+    remoteVideo.current.onsuspend = () => {
+      setIsRemoteVideoVisible(false);
+      showAndLockControlBar();
+    };
+
     videoCall.onFacingMode = facingMode => setFacingMode(facingMode);
     videoCall.role = role.current;
     videoCall.start();
@@ -58,32 +57,16 @@ const VideoCallUI = () => {
     };
   }, [videoCall]);
 
-  useEffect(() => {
-    const local = localVideo.current;
-    const remote = remoteVideo.current;
-    local.onplaying = () => console.log("local video playing");
-    local.onsuspend = () => console.log("local video stopped");
-    remote.onplaying = () => console.log("remote video playing");
-    remote.onsuspend = () => console.log("remote video stopped");
-
-    return () => {
-      local.onplaying = null;
-      local.onsuspend = null;
-      remote.onplaying = null;
-      remote.onsuspend = null;
-    };
-  }, []);
-
   function delayedHideControlBar() {
     clearTimeout(controlBarTimeoutID.current);
     controlBarTimeoutID.current = setTimeout(() => {
-      setControlBarVisibility("hidden");
+      setIsControlBarVisible(false);
     }, CONTROL_BAR_DELAY);
   }
 
   function showAndLockControlBar() {
     clearTimeout(controlBarTimeoutID.current);
-    setControlBarVisibility("visible");
+    setIsControlBarVisible(true);
   }
 
   function handleMouseMove() {
@@ -93,8 +76,8 @@ const VideoCallUI = () => {
       () => (mouseMoveListening.current = true),
       THROTTLE_DELAY
     );
-    setControlBarVisibility("visible");
-    if (remoteVideoVisibility === "visible") {
+    setIsControlBarVisible(true);
+    if (isRemoteVideoVisible === "visible") {
       delayedHideControlBar();
     }
   }
@@ -103,7 +86,7 @@ const VideoCallUI = () => {
     mouseMoveListening.current = false;
     clearTimeout(throttleTimeoutID.current);
     clearTimeout(controlBarTimeoutID.current);
-    setControlBarVisibility("visible");
+    setIsControlBarVisible(true);
   }
 
   function handleMouseLeave() {
@@ -113,15 +96,15 @@ const VideoCallUI = () => {
   function handleControlBarButtonClick(button) {
     switch (button) {
       case "speaker":
-        setSpeakerMuted(prev => {
+        setIsSpeakerMuted(prev => {
           remoteVideo.current.muted = !prev;
           return !prev;
         });
         break;
 
       case "mic":
-        setMicMuted(prev => {
-          videoCall.micMuted(!prev);
+        setIsMicMuted(prev => {
+          videoCall.isMicMuted(!prev);
           return !prev;
         });
         break;
@@ -148,19 +131,19 @@ const VideoCallUI = () => {
       transition={pageTransition}
       onMouseMove={handleMouseMove}
     >
-      <RemoteVideo ref={remoteVideo} visible={remoteVideoVisibility} />
+      <RemoteVideo ref={remoteVideo} visible={isRemoteVideoVisible} />
       <LocalVideo
         ref={localVideo}
-        visible={localVideoVisibility}
+        visible={isLocalVideoVisible}
         facingMode={facingMode}
       />
       <ControlBar
         onButtonClick={handleControlBarButtonClick}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        visible={controlBarVisibility}
-        speakerMuted={speakerMuted}
-        micMuted={micMuted}
+        visible={isControlBarVisible}
+        isSpeakerMuted={isSpeakerMuted}
+        isMicMuted={isMicMuted}
       />
     </VideoPageContainer>
   );

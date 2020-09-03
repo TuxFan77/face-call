@@ -4,13 +4,13 @@ import { ReactComponent as SpeakerOffButton } from "../../../images/speaker-off-
 import { ReactComponent as SpeakerOnButton } from "../../../images/speaker-on-button.svg";
 import ButtonWrapper from "./ButtonWrapper";
 
-const SpeakerButton = ({ speakerMuted }) => {
+const SpeakerButton = ({ isSpeakerMuted }) => {
   return (
     <ButtonWrapper
       buttonType={"speaker"}
-      title={speakerMuted ? "Unmute the speaker" : "Mute the speaker"}
+      title={isSpeakerMuted ? "Unmute the speaker" : "Mute the speaker"}
     >
-      {speakerMuted ? <SpeakerOffButton /> : <SpeakerOnButton />}
+      {isSpeakerMuted ? <SpeakerOffButton /> : <SpeakerOnButton />}
     </ButtonWrapper>
   );
 };

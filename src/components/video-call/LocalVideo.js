@@ -34,29 +34,29 @@ const LocalVideo = React.forwardRef((props, ref) => {
       rotateY: 180,
       transition: {
         delay: 1,
-        duration: 0.3
-      }
+        duration: 0.3,
+      },
     },
     hidden: {
       opacity: 0,
       scale: 0,
       rotateY: 180,
-      transition: { duration: 0.3 }
+      transition: { duration: 0.3 },
     },
     user: {
       rotateY: 180,
       transition: {
         type: "tween",
-        duration: 0.3
-      }
+        duration: 0.3,
+      },
     },
     environment: {
       rotateY: 0,
       transition: {
         type: "tween",
-        duration: 0.3
-      }
-    }
+        duration: 0.3,
+      },
+    },
   };
   const controls = useAnimation();
   const constraints = useRef(null);
@@ -66,7 +66,7 @@ const LocalVideo = React.forwardRef((props, ref) => {
 
   // Show or hide the local video
   useEffect(() => {
-    controls.start(() => variants[visible]);
+    controls.start(() => variants[visible ? "visible" : "hidden"]);
   }, [controls, variants, visible]);
 
   // Mirror / unmirror local video depending on if it's the user facing camera or not

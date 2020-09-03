@@ -2,8 +2,6 @@ import Signaling from "../../communication/signaling";
 import getIceServers from "../../communication/getIceServers";
 
 function VideoCall(localVideo, remoteVideo, room, logging = false) {
-  this.onLocalVideoVisibility = null;
-  this.onRemoteVideoVisibility = null;
   this.onFacingMode = null;
   const cameras = [];
   let currentCamera = 0;
@@ -46,7 +44,6 @@ function VideoCall(localVideo, remoteVideo, room, logging = false) {
     this.onFacingMode(getFacingMode(stream.getVideoTracks()[0]));
     localVideo.current.srcObject = stream;
     localVideo.current.play();
-    this.onLocalVideoVisibility("visible");
   };
 
   // Enumerates the cameras on the device and adds them to the cameras array
@@ -211,7 +208,6 @@ function VideoCall(localVideo, remoteVideo, room, logging = false) {
     log("handleAddTrack");
     if (remoteVideo.current.srcObject) return;
     remoteVideo.current.srcObject = e.streams[0];
-    this.onRemoteVideoVisibility("visible");
   };
 
   // Sends locally generated ICE candidates to the remote peer
@@ -240,7 +236,7 @@ function VideoCall(localVideo, remoteVideo, room, logging = false) {
   }
 
   // Enables / disables the local audio track
-  this.micMuted = state => {
+  this.isMicMuted = state => {
     if (localVideo.current.srcObject) {
       localVideo.current.srcObject.getTracks().forEach(track => {
         if (track.kind === "audio") {
@@ -253,9 +249,6 @@ function VideoCall(localVideo, remoteVideo, room, logging = false) {
   // End the call and cleans up resources
   this.endCall = () => {
     log("endCall");
-
-    this.onLocalVideoVisibility("hidden");
-    this.onRemoteVideoVisibility("hidden");
 
     signaling.endCall();
 

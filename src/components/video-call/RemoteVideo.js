@@ -17,11 +17,11 @@ const RemoteVideo = React.forwardRef((props, ref) => {
 
   const variants = {
     hidden: {
-      opacity: 0
+      opacity: 0,
     },
     visible: {
-      opacity: 1
-    }
+      opacity: 1,
+    },
   };
 
   const controls = useAnimation();
@@ -30,7 +30,7 @@ const RemoteVideo = React.forwardRef((props, ref) => {
   useEffect(() => ref.current.setAttribute("muted", ""), [ref]);
 
   useEffect(() => {
-    controls.start(visible);
+    controls.start(visible ? "visible" : "hidden");
   }, [controls, visible]);
 
   return (

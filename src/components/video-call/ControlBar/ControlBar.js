@@ -30,18 +30,18 @@ const ControlBar = ({
   onMouseEnter,
   onMouseLeave,
   visible,
-  speakerMuted,
-  micMuted
+  isSpeakerMuted,
+  isMicMuted,
 }) => {
   const variants = {
     visible: { opacity: 1, y: 0, transition: { type: "tween" } },
-    hidden: { opacity: 0, y: barHeight, transition: { type: "tween" } }
+    hidden: { opacity: 0, y: barHeight, transition: { type: "tween" } },
   };
 
   const controls = useAnimation();
 
   useEffect(() => {
-    controls.start(() => variants[visible]);
+    controls.start(() => variants[visible ? "visible" : "hidden"]);
   }, [controls, variants, visible]);
 
   return (
@@ -57,8 +57,8 @@ const ControlBar = ({
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
-      <SpeakerButton speakerMuted={speakerMuted} />
-      <MicButton micMuted={micMuted} />
+      <SpeakerButton isSpeakerMuted={isSpeakerMuted} />
+      <MicButton isMicMuted={isMicMuted} />
       <FlipButton />
       <EndCallButton />
     </Bar>
