@@ -42,22 +42,18 @@ const VideoCallUI = () => {
 
     localVideo.current.onplaying = () => {
       setIsLocalVideoVisible(true);
-      console.log("local video playing");
     };
     // Safari needs the onended event for the local video
     localVideo.current.onended = localVideo.current.onsuspend = () => {
       setIsLocalVideoVisible(false);
-      console.log("local video stopped");
     };
 
     remoteVideo.current.onplaying = () => {
-      console.log("remote video playing");
       setIsWaitingForPeer(false);
       setIsRemoteVideoVisible(true);
       delayedHideControlBar();
     };
     remoteVideo.current.onsuspend = () => {
-      console.log("remote video stopped");
       setIsRemoteVideoVisible(false);
       showAndLockControlBar();
     };
