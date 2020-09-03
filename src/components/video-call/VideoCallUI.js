@@ -36,12 +36,14 @@ const VideoCallUI = () => {
 
   useEffect(() => {
     setIsControlBarVisible(true);
+
     localVideo.current.onplaying = () => setIsLocalVideoVisible(true);
     localVideo.current.onsuspend = () => setIsLocalVideoVisible(false);
     remoteVideo.current.onplaying = () => {
       setIsRemoteVideoVisible(true);
       delayedHideControlBar();
     };
+
     remoteVideo.current.onsuspend = () => {
       setIsRemoteVideoVisible(false);
       showAndLockControlBar();
