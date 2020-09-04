@@ -21,7 +21,8 @@ const VideoCallUI = () => {
   const isMouseMoveListening = useRef(true);
   const [facingMode, setFacingMode] = useState("");
   const [isWaitingForPeer, setIsWaitingForPeer] = useState(true);
-  const [isControlBarVisible, setIsControlBarVisible] = useState(true);
+  const [isUnMutePromptShowing, setIsUnMutePromptShowing] = useState(false);
+  const [isControlBarVisible, setIsControlBarVisible] = useState(false);
   const [isLocalVideoVisible, setIsLocalVideoVisible] = useState(false);
   const [isRemoteVideoVisible, setIsRemoteVideoVisible] = useState(false);
   const [isSpeakerMuted, setIsSpeakerMuted] = useState(true);
@@ -36,6 +37,7 @@ const VideoCallUI = () => {
   role.current = "caller";
 
   console.log("waiting for peer: ", isWaitingForPeer);
+  console.log("unmute prompt showing: ", isUnMutePromptShowing);
 
   useEffect(() => {
     setIsControlBarVisible(true);
@@ -43,7 +45,7 @@ const VideoCallUI = () => {
     localVideo.current.onplaying = () => {
       setIsLocalVideoVisible(true);
     };
-    // Safari needs the onended event for the local video
+    // Safari needs the onended event to detect when the local video stops playing
     localVideo.current.onended = localVideo.current.onsuspend = () => {
       setIsLocalVideoVisible(false);
     };

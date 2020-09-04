@@ -11,6 +11,9 @@ function VideoCall(localVideo, remoteVideo, room, logging = false) {
   // Starts a video call
   this.start = async function () {
     try {
+      await initLocalVideo();
+      await getCameras();
+
       signaling = new Signaling();
 
       signaling.onJoinRoom = async result => {
@@ -24,9 +27,6 @@ function VideoCall(localVideo, remoteVideo, room, logging = false) {
         signaling.onAnswer = handleVideoAnswerMessage;
         signaling.onCandidate = handleNewRemoteICECandidate;
         signaling.onEndCall = this.endCall;
-
-        await initLocalVideo();
-        await getCameras();
 
         startCall();
       };
