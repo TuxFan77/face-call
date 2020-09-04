@@ -53,6 +53,7 @@ const VideoCallUI = () => {
     remoteVideo.current.onplaying = () => {
       setIsWaitingForPeer(false);
       setIsRemoteVideoVisible(true);
+      setIsUnMutePromptShowing(true);
       delayedHideControlBar();
     };
     remoteVideo.current.onsuspend = () => {
@@ -110,6 +111,7 @@ const VideoCallUI = () => {
     switch (button) {
       case "speaker":
         setIsSpeakerMuted(prev => {
+          setIsUnMutePromptShowing(false);
           remoteVideo.current.muted = !prev;
           return !prev;
         });
