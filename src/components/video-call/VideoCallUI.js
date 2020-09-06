@@ -68,6 +68,7 @@ const VideoCallUI = () => {
     videoCall.start();
 
     return () => {
+      setIsWaitingForPeer(false);
       videoCall.endCall();
       setVideoCall(null);
     };
@@ -131,6 +132,7 @@ const VideoCallUI = () => {
         break;
 
       case "end":
+        setIsWaitingForPeer(false);
         videoCall.endCall();
         break;
 
