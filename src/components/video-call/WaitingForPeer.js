@@ -65,7 +65,7 @@ const WaitingForPeer = () => {
         opacity: 1,
       }}
     >
-      <Caption>Waiting for the other caller to connect</Caption>
+      <Caption>Waiting for other participant to connect</Caption>
       <div>
         <AnimatedCircle position={1} />
         <AnimatedCircle position={2} />
