@@ -15,10 +15,10 @@ const Container = styled(motion.div)`
   height: 100%;
 `;
 
-// const Caption = styled.h2`
-//   color: ${colors.white};
-//   margin: 1rem;
-// `;
+const Caption = styled.p`
+  color: ${colors.white};
+  margin: 1rem;
+`;
 
 const Circle = styled(motion.div)`
   display: inline-block;
@@ -44,11 +44,11 @@ const AnimatedCircle = ({ position }) => {
     <Circle
       variants={{
         shrink: {
-          scale: [0.75, 0.75, 1],
+          scale: [0.6, 0.6, 1],
           transition,
         },
         grow: {
-          scale: [1, 1, 0.75],
+          scale: [1, 1, 0.6],
           transition,
         },
       }}
@@ -65,7 +65,7 @@ const WaitingForPeer = () => {
         opacity: 1,
       }}
     >
-      {/* <Caption>Waiting for the other caller</Caption> */}
+      <Caption>Waiting for the other caller to connect</Caption>
       <div>
         <AnimatedCircle position={1} />
         <AnimatedCircle position={2} />
