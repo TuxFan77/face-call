@@ -10,6 +10,7 @@ import {
   videoPageVariants,
   pageTransition,
 } from "../../animation/pageTransition";
+import WaitingForPeer from "./WaitingForPeer";
 
 const VideoCallUI = () => {
   const localVideo = useRef(null);
@@ -20,7 +21,7 @@ const VideoCallUI = () => {
   const throttleTimeoutID = useRef(null);
   const isMouseMoveListening = useRef(true);
   const [facingMode, setFacingMode] = useState("");
-  const [isWaitingForPeer, setIsWaitingForPeer] = useState(true);
+  const [isWaitingForPeer, setIsWaitingForPeer] = useState(false);
   const [isUnMutePromptShowing, setIsUnMutePromptShowing] = useState(false);
   const [isControlBarVisible, setIsControlBarVisible] = useState(false);
   const [isLocalVideoVisible, setIsLocalVideoVisible] = useState(false);
@@ -43,6 +44,7 @@ const VideoCallUI = () => {
     setIsControlBarVisible(true);
 
     localVideo.current.onplaying = () => {
+      setIsWaitingForPeer(true);
       setIsLocalVideoVisible(true);
     };
     // Safari needs the onended event to detect when the local video stops playing
@@ -147,6 +149,7 @@ const VideoCallUI = () => {
       onMouseMove={handleMouseMove}
     >
       <RemoteVideo ref={remoteVideo} visible={isRemoteVideoVisible} />
+      {isWaitingForPeer && <WaitingForPeer />}
       <LocalVideo
         ref={localVideo}
         visible={isLocalVideoVisible}

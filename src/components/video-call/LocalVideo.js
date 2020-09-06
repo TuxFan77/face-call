@@ -33,7 +33,7 @@ const LocalVideo = React.forwardRef((props, ref) => {
       scale: 1,
       rotateY: 180,
       transition: {
-        delay: 1,
+        // delay: 1,
         duration: 0.3,
       },
     },
