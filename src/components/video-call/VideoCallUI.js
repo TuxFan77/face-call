@@ -19,7 +19,7 @@ const VideoCallUI = () => {
   const THROTTLE_DELAY = CONTROL_BAR_DELAY / 2;
   const controlBarTimeoutID = useRef(null);
   const throttleTimeoutID = useRef(null);
-  const isMouseMoveListening = useRef(true);
+  const isMouseMoveListening = useRef(false);
   const [facingMode, setFacingMode] = useState("");
   const [isWaitingForPeer, setIsWaitingForPeer] = useState(false);
   const [isUnMutePromptShowing, setIsUnMutePromptShowing] = useState(false);
@@ -37,12 +37,9 @@ const VideoCallUI = () => {
   // TEMP - this will be changing
   role.current = "caller";
 
-  console.log("waiting for peer: ", isWaitingForPeer);
   console.log("unmute prompt showing: ", isUnMutePromptShowing);
 
   useEffect(() => {
-    setIsControlBarVisible(true);
-
     localVideo.current.onplaying = () => {
       setIsWaitingForPeer(true);
       setIsLocalVideoVisible(true);
@@ -56,6 +53,8 @@ const VideoCallUI = () => {
       setIsWaitingForPeer(false);
       setIsRemoteVideoVisible(true);
       setIsUnMutePromptShowing(true);
+      isMouseMoveListening.current = true;
+      setIsControlBarVisible(true);
       delayedHideControlBar();
     };
     remoteVideo.current.onsuspend = () => {
