@@ -37,7 +37,8 @@ const AnimatedCircle = ({ position }) => {
     ease: "easeInOut",
     duration,
     delay,
-    yoyo: Infinity,
+    repeat: Infinity,
+    repeatType: "reverse",
   };
 
   return (
