@@ -6,6 +6,7 @@ import colors from "../../styles/colors";
 
 const Container = styled(motion.div)`
   position: absolute;
+  margin-top: -2.5rem;
   display: flex;
   opacity: 0;
   flex-direction: column;
@@ -15,8 +16,9 @@ const Container = styled(motion.div)`
   height: 100%;
 `;
 
-const Caption = styled.p`
+const Caption = styled(motion.p)`
   color: ${colors.white};
+  opacity: 0;
   margin: 1rem;
 `;
 
@@ -61,12 +63,10 @@ const AnimatedCircle = ({ position }) => {
 
 const WaitingForPeer = () => {
   return (
-    <Container
-      animate={{
-        opacity: 1,
-      }}
-    >
-      <Caption>Waiting for other participant to connect</Caption>
+    <Container animate={{ opacity: 1 }}>
+      <Caption animate={{ opacity: 1, transition: { delay: 5 } }}>
+        Waiting for other participant to connect
+      </Caption>
       <div>
         <AnimatedCircle position={1} />
         <AnimatedCircle position={2} />
