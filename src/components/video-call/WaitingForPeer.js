@@ -32,7 +32,7 @@ const Circle = styled(motion.div)`
 
 const AnimatedCircle = ({ position }) => {
   const duration = 1;
-  const delay = (position * duration) / 5;
+  const delay = (position * duration) / 3.5;
   const transition = {
     ease: "easeInOut",
     duration,
