@@ -23,6 +23,7 @@ const StyledInput = styled.input`
   font-size: 1.5rem;
   font-family: ${mainFontFamily};
   padding: 0.5rem 1.5rem;
+  user-select: auto;
 
   &:focus {
     outline-style: none;
