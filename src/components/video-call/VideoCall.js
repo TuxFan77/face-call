@@ -3,6 +3,7 @@ import getIceServers from "../../communication/getIceServers";
 
 function VideoCall(localVideo, remoteVideo, room, logging = false) {
   this.onFacingMode = null;
+  this.onEndCallReceived = null;
   const cameras = [];
   let currentCamera = 0;
   let peerConnection = null;
@@ -250,6 +251,7 @@ function VideoCall(localVideo, remoteVideo, room, logging = false) {
   this.endCall = () => {
     log("endCall");
 
+    this.onEndCallReceived();
     signaling.endCall();
 
     if (localVideo.current.srcObject) {

@@ -11,6 +11,7 @@ import {
   pageTransition,
 } from "../../animation/pageTransition";
 import WaitingForPeer from "./WaitingForPeer";
+import UnmutePrompt from "./UnmutePrompt";
 
 const VideoCallUI = () => {
   const localVideo = useRef(null);
@@ -22,7 +23,7 @@ const VideoCallUI = () => {
   const isMouseMoveListening = useRef(false);
   const [facingMode, setFacingMode] = useState("");
   const [isWaitingForPeer, setIsWaitingForPeer] = useState(false);
-  const [isUnMutePromptShowing, setIsUnMutePromptShowing] = useState(false);
+  const [isUnMutePromptVisible, setIsUnMutePromptVisible] = useState(false);
   const [isControlBarVisible, setIsControlBarVisible] = useState(false);
   const [isLocalVideoVisible, setIsLocalVideoVisible] = useState(false);
   const [isRemoteVideoVisible, setIsRemoteVideoVisible] = useState(false);
@@ -37,8 +38,6 @@ const VideoCallUI = () => {
   // TEMP - this will be changing
   role.current = "caller";
 
-  console.log("unmute prompt showing: ", isUnMutePromptShowing);
-
   useEffect(() => {
     localVideo.current.onplaying = () => {
       setIsWaitingForPeer(true);
@@ -52,7 +51,7 @@ const VideoCallUI = () => {
     remoteVideo.current.onplaying = () => {
       setIsWaitingForPeer(false);
       setIsRemoteVideoVisible(true);
-      setIsUnMutePromptShowing(true);
+      setIsUnMutePromptVisible(true);
       isMouseMoveListening.current = true;
       setIsControlBarVisible(true);
       delayedHideControlBar();
@@ -64,10 +63,13 @@ const VideoCallUI = () => {
 
     videoCall.onFacingMode = facingMode => setFacingMode(facingMode);
     videoCall.role = role.current;
+    videoCall.onEndCallReceived = () => {
+      setIsWaitingForPeer(false);
+      setIsUnMutePromptVisible(false);
+    };
     videoCall.start();
 
     return () => {
-      setIsWaitingForPeer(false);
       videoCall.endCall();
       setVideoCall(null);
     };
@@ -109,20 +111,26 @@ const VideoCallUI = () => {
     isMouseMoveListening.current = true;
   }
 
+  function handleUnmutePromptClick() {
+    setIsSpeakerMuted(false);
+    setIsUnMutePromptVisible(false);
+    remoteVideo.current.muted = false;
+  }
+
   function handleControlBarButtonClick(button) {
     switch (button) {
       case "speaker":
-        setIsSpeakerMuted(prev => {
-          setIsUnMutePromptShowing(false);
-          remoteVideo.current.muted = !prev;
-          return !prev;
+        setIsSpeakerMuted(prevState => {
+          if (prevState) setIsUnMutePromptVisible(false);
+          remoteVideo.current.muted = !prevState;
+          return !prevState;
         });
         break;
 
       case "mic":
-        setIsMicMuted(prev => {
-          videoCall.isMicMuted(!prev);
-          return !prev;
+        setIsMicMuted(prevState => {
+          videoCall.isMicMuted(!prevState);
+          return !prevState;
         });
         break;
 
@@ -132,6 +140,7 @@ const VideoCallUI = () => {
 
       case "end":
         setIsWaitingForPeer(false);
+        setIsUnMutePromptVisible(false);
         videoCall.endCall();
         break;
 
@@ -151,6 +160,10 @@ const VideoCallUI = () => {
     >
       <RemoteVideo ref={remoteVideo} visible={isRemoteVideoVisible} />
       {isWaitingForPeer && <WaitingForPeer />}
+      <UnmutePrompt
+        visible={isUnMutePromptVisible}
+        onClick={handleUnmutePromptClick}
+      />
       <LocalVideo
         ref={localVideo}
         visible={isLocalVideoVisible}
