@@ -11,7 +11,7 @@ const Overlay = styled(motion.div)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: radial-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.5));
+  background: radial-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.5));
   width: 100%;
   height: 100%;
 `;
@@ -27,12 +27,12 @@ const UnmutePrompt = ({ visible, onClick }) => {
     <AnimatePresence>
       {visible && (
         <Overlay
-          key="overlay"
-          exit={{ opacity: 0, transition: { duration: 0.6 } }}
+          key="unmute-overlay"
+          exit={{ opacity: 0, transition: { duration: 0.3 } }}
         >
           <motion.div
-            key="icon"
-            exit={{ y: -50, transition: { type: "easeInOut", duration: 0.6 } }}
+            key="unmute-icon"
+            exit={{ y: -25, transition: { type: "easeInOut", duration: 0.3 } }}
             onClick={onClick}
             style={{ cursor: "pointer" }}
           >
