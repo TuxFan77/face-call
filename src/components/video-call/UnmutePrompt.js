@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import styled from "styled-components";
 
 import colors from "../../styles/colors";
+import { ReactComponent as SpeakerIcon } from "../../images/speaker-off-overlay.svg";
 
 const Overlay = styled(motion.div)`
   position: absolute;
@@ -17,6 +18,7 @@ const Overlay = styled(motion.div)`
 
 const Caption = styled(motion.p)`
   color: ${colors.white};
+  text-align: center;
   margin: 1rem;
 `;
 
@@ -25,16 +27,22 @@ const UnmutePrompt = ({ visible, onClick }) => {
     <AnimatePresence>
       {visible && (
         <Overlay
-          key="unmutePrompt"
+          key="overlay"
           exit={{ opacity: 0, transition: { duration: 0.6 } }}
         >
-          <Caption
-            key="unmuteCaption"
+          <motion.div
+            key="icon"
             exit={{ y: -50, transition: { type: "easeInOut", duration: 0.6 } }}
             onClick={onClick}
+            style={{ cursor: "pointer" }}
           >
-            Tap to unmute
-          </Caption>
+            <div
+              style={{ width: "16rem", height: "16rem", marginBottom: "-3rem" }}
+            >
+              <SpeakerIcon />
+            </div>
+            <Caption>Tap to unmute</Caption>
+          </motion.div>
         </Overlay>
       )}
     </AnimatePresence>
