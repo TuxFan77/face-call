@@ -63,7 +63,7 @@ const VideoCallUI = () => {
 
     videoCall.onFacingMode = facingMode => setFacingMode(facingMode);
     videoCall.role = role.current;
-    videoCall.onEndCallReceived = () => {
+    videoCall.onEndCall = () => {
       setIsWaitingForPeer(false);
       setIsUnMutePromptVisible(false);
     };
