@@ -6,14 +6,11 @@ import colors from "../../styles/colors";
 
 const Container = styled(motion.div)`
   position: absolute;
-  margin-top: -2.5rem;
+  padding-bottom: 2.5rem;
   display: flex;
   opacity: 0;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
 `;
 
 const Caption = styled(motion.p)`
