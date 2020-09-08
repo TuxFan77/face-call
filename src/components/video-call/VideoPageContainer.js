@@ -5,12 +5,12 @@ import { mainHeaderHeight } from "../../styles/sizes";
 
 const VideoPageContainer = styled(motion.div)`
   position: fixed;
-  z-index: 1000;
   width: 100%;
   top: ${mainHeaderHeight};
   bottom: 0;
   background: black;
   display: flex;
   justify-content: center;
+  align-items: center;
 `;
 export default VideoPageContainer;
