@@ -6,6 +6,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
+    "@xstate/react": "^0.8.1",
     "framer-motion": "^2.6.6",
     "netlify-lambda": "^1.6.3",
     "react": "^16.13.1",
@@ -16,7 +17,8 @@
     "styled-components": "^5.2.0",
     "twilio": "^3.49.1",
     "uuid": "^8.3.0",
-    "webrtc-adapter": "^7.7.0"
+    "webrtc-adapter": "^7.7.0",
+    "xstate": "^4.13.0"
   },
   "scripts": {
     "start": "react-scripts start",
