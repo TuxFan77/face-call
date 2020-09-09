@@ -39,6 +39,13 @@ const VideoCallUI = () => {
   role.current = "caller";
 
   useEffect(() => {
+    document.onvisibilitychange = () => {
+      const { visibilityState } = document;
+      visibilityState === "visible"
+        ? videoCall.muteVideo(false)
+        : videoCall.muteVideo(true);
+    };
+
     localVideo.current.onplaying = () => {
       setIsWaitingForPeer(true);
       setIsLocalVideoVisible(true);
@@ -129,7 +136,7 @@ const VideoCallUI = () => {
 
       case "mic":
         setIsMicMuted(prevState => {
-          videoCall.isMicMuted(!prevState);
+          videoCall.muteMic(!prevState);
           return !prevState;
         });
         break;

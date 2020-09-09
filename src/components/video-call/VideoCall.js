@@ -44,7 +44,6 @@ function VideoCall(localVideo, remoteVideo, room, logging = false) {
     const stream = await getMediaStream();
     this.onFacingMode(getFacingMode(stream.getVideoTracks()[0]));
     localVideo.current.srcObject = stream;
-    localVideo.current.play();
   };
 
   // Enumerates the cameras on the device and adds them to the cameras array
@@ -237,7 +236,7 @@ function VideoCall(localVideo, remoteVideo, room, logging = false) {
   }
 
   // Enables / disables the local audio track
-  this.isMicMuted = state => {
+  this.muteMic = state => {
     if (localVideo.current.srcObject) {
       localVideo.current.srcObject.getTracks().forEach(track => {
         if (track.kind === "audio") {
@@ -245,6 +244,15 @@ function VideoCall(localVideo, remoteVideo, room, logging = false) {
         }
       });
     }
+  };
+
+  // Enables / disables the video track
+  this.muteVideo = state => {
+    if (!peerConnection) return;
+    const track = getVideoTrack(peerConnection);
+    track.enabled = !state;
+    console.log("video muted: ", state);
+    console.log(track);
   };
 
   // End the call and cleans up resources

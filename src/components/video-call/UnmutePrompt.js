@@ -11,9 +11,18 @@ const Overlay = styled(motion.div)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: radial-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.5));
+  background: radial-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 1));
   width: 100%;
   height: 100%;
+`;
+
+const Container = styled(motion.div)`
+  cursor: pointer;
+`;
+const IconContainer = styled.div`
+  width: 16rem;
+  height: 16rem;
+  margin-bottom: -3rem;
 `;
 
 const Caption = styled(motion.p)`
@@ -30,19 +39,16 @@ const UnmutePrompt = ({ visible, onClick }) => {
           key="unmute-overlay"
           exit={{ opacity: 0, transition: { duration: 0.3 } }}
         >
-          <motion.div
+          <Container
             key="unmute-icon"
             exit={{ y: -25, transition: { type: "easeInOut", duration: 0.3 } }}
             onClick={onClick}
-            style={{ cursor: "pointer" }}
           >
-            <div
-              style={{ width: "16rem", height: "16rem", marginBottom: "-3rem" }}
-            >
+            <IconContainer>
               <SpeakerIcon />
-            </div>
+            </IconContainer>
             <Caption>Tap to unmute</Caption>
-          </motion.div>
+          </Container>
         </Overlay>
       )}
     </AnimatePresence>
