@@ -248,11 +248,12 @@ function VideoCall(localVideo, remoteVideo, room, logging = false) {
 
   // Enables / disables the video track
   this.muteVideo = state => {
-    if (!peerConnection) return;
-    const track = getVideoTrack(peerConnection);
-    track.enabled = !state;
-    console.log("video muted: ", state);
-    console.log(track);
+    if (localVideo.current.srcObject) {
+      const track = localVideo.current.srcObject.getVideoTracks()[0];
+      track.enabled = !state;
+      console.log("video muted: ", state);
+      console.log(track);
+    }
   };
 
   // End the call and cleans up resources

@@ -40,8 +40,7 @@ const VideoCallUI = () => {
 
   useEffect(() => {
     document.onvisibilitychange = () => {
-      const { visibilityState } = document;
-      visibilityState === "visible"
+      document.visibilityState === "visible"
         ? videoCall.muteVideo(false)
         : videoCall.muteVideo(true);
     };
