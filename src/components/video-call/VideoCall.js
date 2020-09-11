@@ -3,7 +3,6 @@ import getIceServers from "../../communication/getIceServers";
 
 function VideoCall(localVideo, remoteVideo, room, logging = false) {
   this.onFacingMode = null;
-  this.onEndCall = null;
   const cameras = [];
   let currentCamera = 0;
   let peerConnection = null;
@@ -251,8 +250,6 @@ function VideoCall(localVideo, remoteVideo, room, logging = false) {
     if (localVideo.current.srcObject) {
       const track = localVideo.current.srcObject.getVideoTracks()[0];
       track.enabled = !state;
-      console.log("video muted: ", state);
-      console.log(track);
     }
   };
 
@@ -260,7 +257,6 @@ function VideoCall(localVideo, remoteVideo, room, logging = false) {
   this.endCall = () => {
     log("endCall");
 
-    this.onEndCall();
     signaling.endCall();
 
     if (localVideo.current.srcObject) {
