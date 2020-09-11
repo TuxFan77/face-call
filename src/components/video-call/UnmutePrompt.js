@@ -32,16 +32,22 @@ const Caption = styled(motion.p)`
 `;
 
 const UnmutePrompt = ({ visible, onClick }) => {
+  const duration = 0.3;
+  const type = "easeInOut";
   return (
     <AnimatePresence>
       {visible && (
         <Overlay
           key="unmute-overlay"
-          exit={{ opacity: 0, transition: { duration: 0.3 } }}
+          initial={{ opacity: 0, transition: { duration } }}
+          animate={{ opacity: 1, transition: { duration } }}
+          exit={{ opacity: 0, transition: { duration } }}
         >
           <Container
             key="unmute-icon"
-            exit={{ y: -25, transition: { type: "easeInOut", duration: 0.3 } }}
+            initial={{ y: 0, opacity: 0, transition: { duration } }}
+            animate={{ y: 0, opacity: 1, transition: { duration } }}
+            exit={{ y: -25, opacity: 0, transition: { type, duration } }}
             onClick={onClick}
           >
             <IconContainer>
