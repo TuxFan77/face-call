@@ -1,6 +1,6 @@
 import { Machine } from "xstate";
 
-const videoCallMachine = Machine({
+export const videoCallMachine = Machine({
   id: "videocall",
   initial: "active",
   states: {
@@ -19,20 +19,21 @@ const videoCallMachine = Machine({
             unmutePrompt: {
               on: {
                 UNMUTE: "unmuted",
+                TOGGLE_MUTE: "unmuted",
                 PAUSE: "#videocall.active.paused",
                 END: "#videocall.confirmEnd",
               },
             },
             muted: {
               on: {
-                UNMUTE: "unmuted",
+                TOGGLE_MUTE: "unmuted",
                 PAUSE: "#videocall.active.paused",
                 END: "#videocall.confirmEnd",
               },
             },
             unmuted: {
               on: {
-                MUTE: "muted",
+                TOGGLE_MUTE: "muted",
                 PAUSE: "#videocall.active.paused",
                 END: "#videocall.confirmEnd",
               },
