@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
+import { useMachine } from "@xstate/react";
 
+import { videoCallMachine } from "../../state-machines/videoCallMachine";
 import VideoCall from "./VideoCall";
 import VideoPageContainer from "./VideoPageContainer";
 import LocalVideo from "./LocalVideo";
@@ -22,8 +24,7 @@ const VideoCallUI = () => {
   const throttleTimeoutID = useRef(null);
   const isMouseMoveListening = useRef(false);
   const [facingMode, setFacingMode] = useState("");
-  const [isWaitingForPeer, setIsWaitingForPeer] = useState(false);
-  const [isUnMutePromptVisible, setIsUnMutePromptVisible] = useState(false);
+  const [state, send] = useMachine(videoCallMachine);
   const [isControlBarVisible, setIsControlBarVisible] = useState(false);
   const [isLocalVideoVisible, setIsLocalVideoVisible] = useState(false);
   const [isRemoteVideoVisible, setIsRemoteVideoVisible] = useState(false);
@@ -39,14 +40,17 @@ const VideoCallUI = () => {
   role.current = "caller";
 
   useEffect(() => {
-    document.onvisibilitychange = () => {
-      document.visibilityState === "visible"
-        ? videoCall.muteVideo(false)
-        : videoCall.muteVideo(true);
-    };
+    const handleVisibility = () =>
+      document.hidden ? send("PAUSE") : send("UNPAUSE");
 
+    document.addEventListener("visibilitychange", handleVisibility);
+
+    return () =>
+      document.removeEventListener("visibilitychange", handleVisibility);
+  }, [send]);
+
+  useEffect(() => {
     localVideo.current.onplaying = () => {
-      setIsWaitingForPeer(true);
       setIsLocalVideoVisible(true);
     };
     // Safari needs the onended event to detect when the local video stops playing
@@ -55,9 +59,8 @@ const VideoCallUI = () => {
     };
 
     remoteVideo.current.onplaying = () => {
-      setIsWaitingForPeer(false);
+      send("PEER_CONNECTED");
       setIsRemoteVideoVisible(true);
-      setIsUnMutePromptVisible(true);
       isMouseMoveListening.current = true;
       setIsControlBarVisible(true);
       delayedHideControlBar();
@@ -69,17 +72,13 @@ const VideoCallUI = () => {
 
     videoCall.onFacingMode = facingMode => setFacingMode(facingMode);
     videoCall.role = role.current;
-    videoCall.onEndCall = () => {
-      setIsWaitingForPeer(false);
-      setIsUnMutePromptVisible(false);
-    };
     videoCall.start();
 
     return () => {
       videoCall.endCall();
       setVideoCall(null);
     };
-  }, [videoCall]);
+  }, [videoCall, send]);
 
   function delayedHideControlBar() {
     clearTimeout(controlBarTimeoutID.current);
@@ -118,16 +117,16 @@ const VideoCallUI = () => {
   }
 
   function handleUnmutePromptClick() {
+    send("UNMUTE");
     setIsSpeakerMuted(false);
-    setIsUnMutePromptVisible(false);
     remoteVideo.current.muted = false;
   }
 
   function handleControlBarButtonClick(button) {
     switch (button) {
       case "speaker":
+        send("TOGGLE_MUTE");
         setIsSpeakerMuted(prevState => {
-          if (prevState) setIsUnMutePromptVisible(false);
           remoteVideo.current.muted = !prevState;
           return !prevState;
         });
@@ -145,8 +144,6 @@ const VideoCallUI = () => {
         break;
 
       case "end":
-        setIsWaitingForPeer(false);
-        setIsUnMutePromptVisible(false);
         videoCall.endCall();
         break;
 
@@ -165,9 +162,9 @@ const VideoCallUI = () => {
       onMouseMove={handleMouseMove}
     >
       <RemoteVideo ref={remoteVideo} visible={isRemoteVideoVisible} />
-      {isWaitingForPeer && <WaitingForPeer />}
+      {state.matches("active.waiting") && <WaitingForPeer />}
       <UnmutePrompt
-        visible={isUnMutePromptVisible}
+        visible={state.matches("active.playing.unmutePrompt")}
         onClick={handleUnmutePromptClick}
       />
       <LocalVideo
