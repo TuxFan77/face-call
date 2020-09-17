@@ -39,6 +39,8 @@ const VideoCallUI = () => {
   // TEMP - this will be changing
   role.current = "caller";
 
+  useEffect(() => console.log(state), [state]);
+
   useEffect(() => {
     const handleVisibility = () =>
       document.hidden ? send("PAUSE") : send("UNPAUSE");
@@ -59,7 +61,7 @@ const VideoCallUI = () => {
     };
 
     remoteVideo.current.onplaying = () => {
-      send("PEER_CONNECTED");
+      send("CONNECT");
       setIsRemoteVideoVisible(true);
       isMouseMoveListening.current = true;
       setIsControlBarVisible(true);

@@ -1,7 +1,7 @@
-import { Machine } from "xstate";
+import { createMachine } from "xstate";
 
-export const videoCallMachine = Machine({
-  id: "videocall",
+export const videoCallMachine = createMachine({
+  id: "call",
   initial: "active",
   states: {
     active: {
@@ -9,59 +9,86 @@ export const videoCallMachine = Machine({
       states: {
         waiting: {
           on: {
-            PEER_CONNECTED: "playing",
-            END: "#videocall.confirmEnd",
+            CONNECT: "connected",
+            END: "#call.end",
           },
         },
-        playing: {
-          initial: "unmutePrompt",
+        connected: {
+          type: "parallel",
+          on: {
+            END: "#call.end",
+          },
           states: {
             unmutePrompt: {
-              on: {
-                UNMUTE: "unmuted",
-                TOGGLE_MUTE: "unmuted",
-                PAUSE: "#videocall.active.paused",
-                END: "#videocall.confirmEnd",
+              initial: "visible",
+              states: {
+                visible: {
+                  on: {
+                    UNMUTE: "hidden",
+                  },
+                },
+                hidden: {
+                  type: "final",
+                },
               },
             },
-            muted: {
-              on: {
-                TOGGLE_MUTE: "unmuted",
-                PAUSE: "#videocall.active.paused",
-                END: "#videocall.confirmEnd",
+            speaker: {
+              initial: "muted",
+              states: {
+                muted: {
+                  on: {
+                    UNMUTE: "unmuted",
+                  },
+                },
+                unmuted: {
+                  on: {
+                    MUTE: "muted",
+                  },
+                },
               },
             },
-            unmuted: {
-              on: {
-                TOGGLE_MUTE: "muted",
-                PAUSE: "#videocall.active.paused",
-                END: "#videocall.confirmEnd",
+            mic: {
+              initial: "disabled",
+              states: {
+                disabled: {
+                  on: {
+                    ENABLE_MIC: "enabled",
+                  },
+                },
+                enabled: {
+                  on: {
+                    DISABLE_MIC: "disabled",
+                  },
+                },
               },
             },
-            back: {
-              type: "history",
+            facingMode: {
+              initial: "user",
+              states: {
+                user: {},
+                environment: {},
+              },
             },
           },
         },
-        paused: {
-          on: {
-            UNPAUSE: "playing.back",
-            END: "#videocall.confirmEnd",
-          },
-        },
-        back: {
+        hist: {
           type: "history",
         },
       },
     },
-    confirmEnd: {
-      on: {
-        CANCEL_END: "active.back",
-        CONFIRM_END: "ended",
+    end: {
+      initial: "confirm",
+      states: {
+        confirm: {
+          on: {
+            CONFIRM: "confirmed",
+            CANCEL: "#call.active.hist",
+          },
+        },
+        confirmed: {
+          type: "final",
+        },
       },
-    },
-    ended: {
-      type: "final",
     },
   },
 });
