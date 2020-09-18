@@ -7,7 +7,7 @@ import ButtonWrapper from "./ButtonWrapper";
 const MicButton = ({ isMicMuted }) => {
   return (
     <ButtonWrapper
-      buttonType={"mic"}
+      event={"TOGGLE_MIC"}
       title={isMicMuted ? "Unmute the microphone" : "Mute the microphone"}
     >
       {isMicMuted ? <MicOffButton /> : <MicOnButton />}

@@ -52,7 +52,7 @@ const ControlBar = ({
         e.preventDefault();
         onButtonClick(e.target.dataset.button);
       }}
-      onClick={e => onButtonClick(e.target.dataset.button)}
+      onClick={e => onButtonClick(e.target.dataset.event)}
       onContextMenu={e => e.preventDefault()}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}

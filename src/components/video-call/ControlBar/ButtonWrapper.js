@@ -12,9 +12,9 @@ const Wrapper = styled(motion.div)`
   }
 `;
 
-const ButtonWrapper = ({ buttonType, title, children }) => {
+const ButtonWrapper = ({ event, title, children }) => {
   return (
-    <Wrapper data-button={buttonType} title={title}>
+    <Wrapper data-event={event} title={title}>
       {children}
     </Wrapper>
   );

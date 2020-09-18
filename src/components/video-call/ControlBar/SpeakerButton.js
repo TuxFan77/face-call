@@ -7,7 +7,7 @@ import ButtonWrapper from "./ButtonWrapper";
 const SpeakerButton = ({ isSpeakerMuted }) => {
   return (
     <ButtonWrapper
-      buttonType={"speaker"}
+      event={"TOGGLE_MUTE"}
       title={isSpeakerMuted ? "Unmute the speaker" : "Mute the speaker"}
     >
       {isSpeakerMuted ? <SpeakerOffButton /> : <SpeakerOnButton />}
