@@ -1,94 +1,113 @@
 import { createMachine } from "xstate";
 
-export const videoCallMachine = createMachine({
-  id: "call",
-  initial: "active",
-  states: {
-    active: {
-      initial: "waiting",
+export const createVideoCallMachine = videoCall =>
+  createMachine(
+    {
+      id: "call",
+      initial: "active",
+      context: {
+        videoCall,
+      },
       states: {
-        waiting: {
-          on: {
-            CONNECT: "connected",
-            END: "#call.end",
-          },
-        },
-        connected: {
-          type: "parallel",
-          on: {
-            END: "#call.end",
-          },
+        active: {
+          initial: "waiting",
           states: {
-            unmutePrompt: {
-              initial: "visible",
+            waiting: {
+              on: {
+                CONNECT: "connected",
+                END: "#call.end",
+              },
+            },
+            connected: {
+              type: "parallel",
+              on: {
+                END: "#call.end",
+              },
               states: {
-                visible: {
-                  on: {
-                    UNMUTE: "hidden",
+                unmutePrompt: {
+                  initial: "visible",
+                  states: {
+                    visible: {
+                      id: "unmutePrompt.visible",
+                      on: {
+                        UNMUTE: "hidden",
+                        TOGGLE_MUTE: "hidden",
+                      },
+                    },
+                    hidden: {
+                      type: "final",
+                    },
                   },
                 },
-                hidden: {
-                  type: "final",
+                speaker: {
+                  initial: "muted",
+                  states: {
+                    muted: {
+                      on: {
+                        UNMUTE: "unmuted",
+                        TOGGLE_MUTE: "unmuted",
+                      },
+                    },
+                    unmuted: {
+                      on: {
+                        TOGGLE_MUTE: "muted",
+                      },
+                    },
+                  },
+                },
+                mic: {
+                  initial: "enabled",
+                  states: {
+                    enabled: {
+                      on: {
+                        TOGGLE_MIC: "disabled",
+                      },
+                    },
+                    disabled: {
+                      on: {
+                        TOGGLE_MIC: "enabled",
+                      },
+                    },
+                  },
+                },
+                facingMode: {
+                  on: {
+                    FLIP: {
+                      actions: "switchCameras",
+                    },
+                  },
                 },
               },
             },
-            speaker: {
-              initial: "muted",
-              states: {
-                muted: {
-                  on: {
-                    UNMUTE: "unmuted",
-                  },
-                },
-                unmuted: {
-                  on: {
-                    MUTE: "muted",
-                  },
-                },
-              },
-            },
-            mic: {
-              initial: "disabled",
-              states: {
-                disabled: {
-                  on: {
-                    ENABLE_MIC: "enabled",
-                  },
-                },
-                enabled: {
-                  on: {
-                    DISABLE_MIC: "disabled",
-                  },
-                },
-              },
-            },
-            facingMode: {
-              initial: "user",
-              states: {
-                user: {},
-                environment: {},
-              },
+            hist: {
+              type: "history",
             },
           },
         },
-        hist: {
-          type: "history",
-        },
-      },
-    },
-    end: {
-      initial: "confirm",
-      states: {
-        confirm: {
-          on: {
-            CONFIRM: "confirmed",
-            CANCEL: "#call.active.hist",
+        end: {
+          initial: "confirm",
+          states: {
+            confirm: {
+              // TEMP: go to confirmed for now until we implement a confirm modal
+              // to show the user
+              always: {
+                target: "confirmed",
+              },
+              on: {
+                CONFIRM: "confirmed",
+                CANCEL: "#call.active.hist",
+              },
+            },
+            confirmed: {
+              type: "final",
+            },
           },
         },
-        confirmed: {
-          type: "final",
-        },
       },
     },
-  },
-});
+    {
+      actions: {
+        switchCameras: (c, e) => c.videoCall.switchCameras(),
+      },
+    }
+  );
