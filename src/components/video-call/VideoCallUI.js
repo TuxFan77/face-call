@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useMachine } from "@xstate/react";
 
-import { videoCallMachine } from "../../state-machines/videoCallMachine";
+import { createVideoCallMachine } from "../../state-machines/videoCallMachine";
 import VideoCall from "./VideoCall";
 import VideoPageContainer from "./VideoPageContainer";
 import LocalVideo from "./LocalVideo";
@@ -24,32 +24,21 @@ const VideoCallUI = () => {
   const throttleTimeoutID = useRef(null);
   const isMouseMoveListening = useRef(false);
   const [facingMode, setFacingMode] = useState("");
-  const [state, send] = useMachine(videoCallMachine);
   const [isControlBarVisible, setIsControlBarVisible] = useState(false);
   const [isLocalVideoVisible, setIsLocalVideoVisible] = useState(false);
   const [isRemoteVideoVisible, setIsRemoteVideoVisible] = useState(false);
-  const [isSpeakerMuted, setIsSpeakerMuted] = useState(true);
-  const [isMicMuted, setIsMicMuted] = useState(false);
-  const role = useRef("");
   const { room } = useParams();
   const [videoCall, setVideoCall] = useState(
     new VideoCall(localVideo, remoteVideo, room)
   );
-
-  // TEMP - this will be changing
-  role.current = "caller";
-
-  useEffect(() => console.log(state), [state]);
+  const [state, send] = useMachine(createVideoCallMachine(videoCall));
 
   useEffect(() => {
-    const handleVisibility = () =>
-      document.hidden ? send("PAUSE") : send("UNPAUSE");
-
-    document.addEventListener("visibilitychange", handleVisibility);
-
-    return () =>
-      document.removeEventListener("visibilitychange", handleVisibility);
-  }, [send]);
+    console.log(state);
+    remoteVideo.current.muted = state.matches("active.connected.speaker.muted");
+    videoCall.muteMic(state.matches("active.connected.mic.disabled"));
+    if (state.matches("end.confirmed")) videoCall.endCall();
+  }, [state, videoCall]);
 
   useEffect(() => {
     localVideo.current.onplaying = () => {
@@ -73,7 +62,7 @@ const VideoCallUI = () => {
     };
 
     videoCall.onFacingMode = facingMode => setFacingMode(facingMode);
-    videoCall.role = role.current;
+    videoCall.role = "caller";
     videoCall.start();
 
     return () => {
@@ -118,42 +107,6 @@ const VideoCallUI = () => {
     isMouseMoveListening.current = true;
   }
 
-  function handleUnmutePromptClick() {
-    send("UNMUTE");
-    setIsSpeakerMuted(false);
-    remoteVideo.current.muted = false;
-  }
-
-  function handleControlBarButtonClick(button) {
-    switch (button) {
-      case "speaker":
-        send("TOGGLE_MUTE");
-        setIsSpeakerMuted(prevState => {
-          remoteVideo.current.muted = !prevState;
-          return !prevState;
-        });
-        break;
-
-      case "mic":
-        setIsMicMuted(prevState => {
-          videoCall.muteMic(!prevState);
-          return !prevState;
-        });
-        break;
-
-      case "flip":
-        videoCall.switchCameras();
-        break;
-
-      case "end":
-        videoCall.endCall();
-        break;
-
-      default:
-        break;
-    }
-  }
-
   return (
     <VideoPageContainer
       initial="in"
@@ -166,8 +119,8 @@ const VideoCallUI = () => {
       <RemoteVideo ref={remoteVideo} visible={isRemoteVideoVisible} />
       {state.matches("active.waiting") && <WaitingForPeer />}
       <UnmutePrompt
-        visible={state.matches("active.playing.unmutePrompt")}
-        onClick={handleUnmutePromptClick}
+        visible={state.matches("active.connected.unmutePrompt.visible")}
+        onClick={send}
       />
       <LocalVideo
         ref={localVideo}
@@ -175,12 +128,12 @@ const VideoCallUI = () => {
         facingMode={facingMode}
       />
       <ControlBar
-        onButtonClick={handleControlBarButtonClick}
+        onButtonClick={send}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         visible={isControlBarVisible}
-        isSpeakerMuted={isSpeakerMuted}
-        isMicMuted={isMicMuted}
+        isSpeakerMuted={state.matches("active.connected.speaker.muted")}
+        isMicMuted={state.matches("active.connected.mic.disabled")}
       />
     </VideoPageContainer>
   );
