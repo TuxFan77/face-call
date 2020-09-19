@@ -5,7 +5,7 @@ import ButtonWrapper from "./ButtonWrapper";
 
 const FlipButton = () => {
   return (
-    <ButtonWrapper event={"FLIP"} title={"Switch cameras"}>
+    <ButtonWrapper event={"SWITCH_CAMERAS"} title={"Switch cameras"}>
       <Button />
     </ButtonWrapper>
   );
