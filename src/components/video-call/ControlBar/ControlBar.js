@@ -50,7 +50,7 @@ const ControlBar = ({
       animate={controls}
       onTouchEnd={e => {
         e.preventDefault();
-        onButtonClick(e.target.dataset.button);
+        onButtonClick(e.target.dataset.event);
       }}
       onClick={e => onButtonClick(e.target.dataset.event)}
       onContextMenu={e => e.preventDefault()}
