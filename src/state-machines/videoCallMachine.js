@@ -1,16 +1,26 @@
 import { createMachine } from "xstate";
 
-export const createVideoCallMachine = videoCall =>
+export const createVideoCallMachine = (videoCall, remoteVideo) =>
   createMachine(
     {
       id: "call",
-      initial: "active",
+      initial: "inactive",
       context: {
         videoCall,
+        remoteVideo,
       },
       states: {
+        inactive: {
+          on: {
+            playing: "active",
+          },
+        },
         active: {
           initial: "waiting",
+          on: {
+            ended: "end.callEnded",
+            suspend: "end.callEnded",
+          },
           states: {
             waiting: {
               on: {
@@ -19,6 +29,7 @@ export const createVideoCallMachine = videoCall =>
               },
             },
             connected: {
+              entry: "muteSpeaker",
               type: "parallel",
               on: {
                 END: "#call.end",
@@ -43,12 +54,14 @@ export const createVideoCallMachine = videoCall =>
                   initial: "muted",
                   states: {
                     muted: {
+                      entry: "muteSpeaker",
                       on: {
                         UNMUTE: "unmuted",
                         TOGGLE_MUTE: "unmuted",
                       },
                     },
                     unmuted: {
+                      entry: "unmuteSpeaker",
                       on: {
                         TOGGLE_MUTE: "muted",
                       },
@@ -59,11 +72,13 @@ export const createVideoCallMachine = videoCall =>
                   initial: "enabled",
                   states: {
                     enabled: {
+                      entry: "enableMic",
                       on: {
                         TOGGLE_MIC: "disabled",
                       },
                     },
                     disabled: {
+                      entry: "disableMic",
                       on: {
                         TOGGLE_MIC: "enabled",
                       },
@@ -72,7 +87,7 @@ export const createVideoCallMachine = videoCall =>
                 },
                 facingMode: {
                   on: {
-                    FLIP: {
+                    SWITCH_CAMERAS: {
                       actions: "switchCameras",
                     },
                   },
@@ -85,20 +100,21 @@ export const createVideoCallMachine = videoCall =>
           },
         },
         end: {
-          initial: "confirm",
+          initial: "confirmEnd",
           states: {
-            confirm: {
-              // TEMP: go to confirmed for now until we implement a confirm modal
+            confirmEnd: {
+              // TEMP: go to callEnded for now until we implement a confirm modal
               // to show the user
               always: {
-                target: "confirmed",
+                target: "callEnded",
               },
               on: {
-                CONFIRM: "confirmed",
+                CONFIRM: "callEnded",
                 CANCEL: "#call.active.hist",
               },
             },
-            confirmed: {
+            callEnded: {
+              entry: "endCall",
               type: "final",
             },
           },
@@ -108,6 +124,11 @@ export const createVideoCallMachine = videoCall =>
     {
       actions: {
         switchCameras: (c, e) => c.videoCall.switchCameras(),
+        muteSpeaker: (c, e) => (c.remoteVideo.current.muted = true),
+        unmuteSpeaker: (c, e) => (c.remoteVideo.current.muted = false),
+        enableMic: (c, e) => c.videoCall.muteMic(false),
+        disableMic: (c, e) => c.videoCall.muteMic(true),
+        endCall: (c, e) => c.videoCall.endCall(),
       },
     }
   );
