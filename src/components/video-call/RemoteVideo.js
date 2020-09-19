@@ -35,6 +35,7 @@ const RemoteVideo = React.forwardRef((props, ref) => {
 
   return (
     <Video
+      id="remoteVideo"
       initial={"hidden"}
       animate={controls}
       variants={variants}

@@ -37,9 +37,10 @@ const VideoCallUI = () => {
   if (state.changed) console.log(state);
 
   useEffect(() => {
-    localVideo.current.onplaying = send;
-    localVideo.current.onended = send; // Safari needs this event
-    localVideo.current.onsuspend = send;
+    const sendEventWithId = e => send({ type: e.type, id: e.target.id });
+    localVideo.current.onplaying = sendEventWithId;
+    localVideo.current.onended = sendEventWithId; // Safari needs this event
+    localVideo.current.onsuspend = sendEventWithId;
 
     remoteVideo.current.onplaying = () => {
       send("CONNECT");

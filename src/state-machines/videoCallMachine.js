@@ -12,7 +12,10 @@ export const createVideoCallMachine = (videoCall, remoteVideo) =>
       states: {
         inactive: {
           on: {
-            playing: "active",
+            playing: {
+              target: "active",
+              cond: "isLocalVideo",
+            },
           },
         },
         active: {
@@ -129,6 +132,10 @@ export const createVideoCallMachine = (videoCall, remoteVideo) =>
         enableMic: (c, e) => c.videoCall.muteMic(false),
         disableMic: (c, e) => c.videoCall.muteMic(true),
         endCall: (c, e) => c.videoCall.endCall(),
+      },
+      guards: {
+        isLocalVideo: (c, e) => e.id === "localVideo",
+        isRemoteVideo: (c, e) => e.id === "remoteVideo",
       },
     }
   );

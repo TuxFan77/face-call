@@ -80,6 +80,7 @@ const LocalVideo = React.forwardRef((props, ref) => {
         autoPlay
         playsInline
         muted
+        id="localVideo"
         initial={"hidden"}
         animate={controls}
         variants={variants}
