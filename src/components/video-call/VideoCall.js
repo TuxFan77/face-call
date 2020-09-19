@@ -236,6 +236,7 @@ function VideoCall(localVideo, remoteVideo, room, logging = false) {
 
   // Enables / disables the local audio track
   this.muteMic = state => {
+    log(`muteMic(${state})`);
     if (localVideo.current.srcObject) {
       localVideo.current.srcObject.getTracks().forEach(track => {
         if (track.kind === "audio") {
