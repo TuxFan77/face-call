@@ -25,29 +25,21 @@ const VideoCallUI = () => {
   const isMouseMoveListening = useRef(false);
   const [facingMode, setFacingMode] = useState("");
   const [isControlBarVisible, setIsControlBarVisible] = useState(false);
-  const [isLocalVideoVisible, setIsLocalVideoVisible] = useState(false);
   const [isRemoteVideoVisible, setIsRemoteVideoVisible] = useState(false);
   const { room } = useParams();
   const [videoCall, setVideoCall] = useState(
     new VideoCall(localVideo, remoteVideo, room)
   );
-  const [state, send] = useMachine(createVideoCallMachine(videoCall));
+  const [state, send] = useMachine(
+    createVideoCallMachine(videoCall, remoteVideo)
+  );
+
+  if (state.changed) console.log(state);
 
   useEffect(() => {
-    console.log(state);
-    remoteVideo.current.muted = state.matches("active.connected.speaker.muted");
-    videoCall.muteMic(state.matches("active.connected.mic.disabled"));
-    if (state.matches("end.confirmed")) videoCall.endCall();
-  }, [state, videoCall]);
-
-  useEffect(() => {
-    localVideo.current.onplaying = () => {
-      setIsLocalVideoVisible(true);
-    };
-    // Safari needs the onended event to detect when the local video stops playing
-    localVideo.current.onended = localVideo.current.onsuspend = () => {
-      setIsLocalVideoVisible(false);
-    };
+    localVideo.current.onplaying = send;
+    localVideo.current.onended = send; // Safari needs this event
+    localVideo.current.onsuspend = send;
 
     remoteVideo.current.onplaying = () => {
       send("CONNECT");
@@ -124,7 +116,7 @@ const VideoCallUI = () => {
       />
       <LocalVideo
         ref={localVideo}
-        visible={isLocalVideoVisible}
+        visible={state.matches("active")}
         facingMode={facingMode}
       />
       <ControlBar
