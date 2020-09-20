@@ -41,6 +41,29 @@ export const createVideoCallMachine = (videoCall, remoteVideo) =>
                 END: "#call.end",
               },
               states: {
+                controlBar: {
+                  initial: "momentary",
+                  states: {
+                    hidden: {
+                      on: {
+                        mousemove: "momentary",
+                      },
+                    },
+                    momentary: {
+                      on: {
+                        mouseenter: "visible",
+                      },
+                      after: {
+                        2500: "hidden",
+                      },
+                    },
+                    visible: {
+                      on: {
+                        mouseleave: "momentary",
+                      },
+                    },
+                  },
+                },
                 unmutePrompt: {
                   initial: "visible",
                   states: {
@@ -129,16 +152,16 @@ export const createVideoCallMachine = (videoCall, remoteVideo) =>
     },
     {
       actions: {
-        switchCameras: (c, e) => c.videoCall.switchCameras(),
-        muteSpeaker: (c, e) => (c.remoteVideo.current.muted = true),
-        unmuteSpeaker: (c, e) => (c.remoteVideo.current.muted = false),
-        enableMic: (c, e) => c.videoCall.muteMic(false),
-        disableMic: (c, e) => c.videoCall.muteMic(true),
-        endCall: (c, e) => c.videoCall.endCall(),
+        switchCameras: (c, _) => c.videoCall.switchCameras(),
+        muteSpeaker: (c, _) => (c.remoteVideo.current.muted = true),
+        unmuteSpeaker: (c, _) => (c.remoteVideo.current.muted = false),
+        enableMic: (c, _) => c.videoCall.muteMic(false),
+        disableMic: (c, _) => c.videoCall.muteMic(true),
+        endCall: (c, _) => c.videoCall.endCall(),
       },
       guards: {
-        isLocalVideo: (c, e) => e.target.id === "localVideo",
-        isRemoteVideo: (c, e) => e.target.id === "remoteVideo",
+        isLocalVideo: (_, e) => e.target.id === "localVideo",
+        isRemoteVideo: (_, e) => e.target.id === "remoteVideo",
       },
     }
   );
