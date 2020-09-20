@@ -19,7 +19,6 @@ const VideoCallUI = () => {
   const { room } = useParams();
   const localVideo = useRef(null);
   const remoteVideo = useRef(null);
-  const [facingMode, setFacingMode] = useState("");
   const [videoCall] = useState(new VideoCall(localVideo, remoteVideo, room));
   const [state, send] = useMachine(
     createVideoCallMachine(videoCall, remoteVideo)
@@ -33,9 +32,8 @@ const VideoCallUI = () => {
     localVideo.current.onended = send; // Safari needs this event
     localVideo.current.onsuspend = send;
     remoteVideo.current.onplaying = send;
-    videoCall.onFacingMode = fm => {
-      send({ type: "SET_FACING_MODE", facingMode: fm });
-      setFacingMode(fm);
+    videoCall.onFacingMode = facingMode => {
+      send({ type: "SET_FACING_MODE", facingMode });
     };
     videoCall.role = "caller";
     videoCall.start();
@@ -63,7 +61,7 @@ const VideoCallUI = () => {
       <LocalVideo
         ref={localVideo}
         visible={state.matches("active")}
-        facingMode={facingMode}
+        facingMode={state.context.currentFacingMode}
       />
       <ControlBar
         onButtonClick={send}

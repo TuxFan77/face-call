@@ -121,9 +121,7 @@ export const createVideoCallMachine = (videoCall, remoteVideo) =>
                       actions: "switchCameras",
                     },
                     SET_FACING_MODE: {
-                      actions: assign({
-                        currentFacingMode: (_, e) => e.facingMode,
-                      }),
+                      actions: "setFacingMode",
                     },
                   },
                 },
@@ -159,6 +157,9 @@ export const createVideoCallMachine = (videoCall, remoteVideo) =>
     {
       actions: {
         switchCameras: (c, _) => c.videoCall.switchCameras(),
+        setFacingMode: assign({
+          currentFacingMode: (_, e) => e.facingMode,
+        }),
         muteSpeaker: (c, _) => (c.remoteVideo.current.muted = true),
         unmuteSpeaker: (c, _) => (c.remoteVideo.current.muted = false),
         enableMic: (c, _) => c.videoCall.muteMic(false),
