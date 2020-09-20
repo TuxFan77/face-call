@@ -25,17 +25,17 @@ const VideoCallUI = () => {
     createVideoCallMachine(videoCall, remoteVideo)
   );
 
-  if (state.changed) console.log(state);
+  if (state.changed)
+    console.log("currentFacingMode: ", state.context.currentFacingMode);
 
   useEffect(() => {
     localVideo.current.onplaying = send;
     localVideo.current.onended = send; // Safari needs this event
     localVideo.current.onsuspend = send;
     remoteVideo.current.onplaying = send;
-    videoCall.onFacingMode = facingMode => {
-      console.log("facingMode: ", facingMode);
-      setFacingMode(facingMode);
-      send({ type: "SET_FACING_MODE", facingMode });
+    videoCall.onFacingMode = fm => {
+      send({ type: "SET_FACING_MODE", fm });
+      setFacingMode(fm);
     };
     videoCall.role = "caller";
     videoCall.start();
