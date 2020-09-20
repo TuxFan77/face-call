@@ -25,7 +25,6 @@ const VideoCallUI = () => {
   const isMouseMoveListening = useRef(false);
   const [facingMode, setFacingMode] = useState("");
   const [isControlBarVisible, setIsControlBarVisible] = useState(false);
-  const [isRemoteVideoVisible, setIsRemoteVideoVisible] = useState(false);
   const { room } = useParams();
   const [videoCall, setVideoCall] = useState(
     new VideoCall(localVideo, remoteVideo, room)
@@ -37,20 +36,17 @@ const VideoCallUI = () => {
   if (state.changed) console.log(state);
 
   useEffect(() => {
-    const sendEventWithId = e => send({ type: e.type, id: e.target.id });
-    localVideo.current.onplaying = sendEventWithId;
-    localVideo.current.onended = sendEventWithId; // Safari needs this event
-    localVideo.current.onsuspend = sendEventWithId;
+    localVideo.current.onplaying = send;
+    localVideo.current.onended = send; // Safari needs this event
+    localVideo.current.onsuspend = send;
 
-    remoteVideo.current.onplaying = () => {
-      send("CONNECT");
-      setIsRemoteVideoVisible(true);
+    remoteVideo.current.onplaying = e => {
+      send(e);
       isMouseMoveListening.current = true;
       setIsControlBarVisible(true);
       delayedHideControlBar();
     };
     remoteVideo.current.onsuspend = () => {
-      setIsRemoteVideoVisible(false);
       showAndLockControlBar();
     };
 
@@ -84,7 +80,7 @@ const VideoCallUI = () => {
       THROTTLE_DELAY
     );
     setIsControlBarVisible(true);
-    if (isRemoteVideoVisible) {
+    if (state.matches("active.connected")) {
       delayedHideControlBar();
     }
   }
@@ -109,7 +105,10 @@ const VideoCallUI = () => {
       transition={pageTransition}
       onMouseMove={handleMouseMove}
     >
-      <RemoteVideo ref={remoteVideo} visible={isRemoteVideoVisible} />
+      <RemoteVideo
+        ref={remoteVideo}
+        visible={state.matches("active.connected")}
+      />
       {state.matches("active.waiting") && <WaitingForPeer />}
       <UnmutePrompt
         visible={state.matches("active.connected.unmutePrompt.visible")}

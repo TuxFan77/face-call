@@ -27,7 +27,10 @@ export const createVideoCallMachine = (videoCall, remoteVideo) =>
           states: {
             waiting: {
               on: {
-                CONNECT: "connected",
+                playing: {
+                  target: "connected",
+                  cond: "isRemoteVideo",
+                },
                 END: "#call.end",
               },
             },
@@ -134,8 +137,8 @@ export const createVideoCallMachine = (videoCall, remoteVideo) =>
         endCall: (c, e) => c.videoCall.endCall(),
       },
       guards: {
-        isLocalVideo: (c, e) => e.id === "localVideo",
-        isRemoteVideo: (c, e) => e.id === "remoteVideo",
+        isLocalVideo: (c, e) => e.target.id === "localVideo",
+        isRemoteVideo: (c, e) => e.target.id === "remoteVideo",
       },
     }
   );
