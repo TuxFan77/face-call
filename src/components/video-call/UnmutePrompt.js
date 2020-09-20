@@ -18,6 +18,7 @@ const Overlay = styled(motion.div)`
 
 const Container = styled(motion.div)`
   cursor: pointer;
+  z-index: 1;
 `;
 const IconContainer = styled.div`
   width: 16rem;
