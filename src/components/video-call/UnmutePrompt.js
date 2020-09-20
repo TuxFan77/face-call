@@ -49,7 +49,10 @@ const UnmutePrompt = ({ visible, onClick }) => {
             initial={{ y: 0, opacity: 0, transition: { duration } }}
             animate={{ y: 0, opacity: 1, transition: { duration } }}
             exit={{ y: -25, opacity: 0, transition: { type, duration } }}
-            onClick={() => onClick("UNMUTE")}
+            onClick={e => {
+              e.preventDefault();
+              onClick("UNMUTE");
+            }}
           >
             <IconContainer>
               <SpeakerIcon />
