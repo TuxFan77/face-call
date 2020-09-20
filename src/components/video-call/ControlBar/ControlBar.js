@@ -44,15 +44,22 @@ const ControlBar = ({
     controls.start(() => variants[visible ? "visible" : "hidden"]);
   }, [controls, variants, visible]);
 
+  const handleClick = e => {
+    const { event } = e.target.dataset;
+    // Ignore click events on the control bar itself
+    if (event === undefined) return;
+    onButtonClick(event);
+  };
+
   return (
     <Bar
       initial={"visible"}
       animate={controls}
       onTouchEnd={e => {
         e.preventDefault();
-        onButtonClick(e.target.dataset.event);
+        handleClick(e);
       }}
-      onClick={e => onButtonClick(e.target.dataset.event)}
+      onClick={handleClick}
       onContextMenu={e => e.preventDefault()}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
