@@ -1,4 +1,4 @@
-import { createMachine } from "xstate";
+import { createMachine, assign } from "xstate";
 
 export const createVideoCallMachine = (videoCall, remoteVideo) =>
   createMachine(
@@ -8,6 +8,7 @@ export const createVideoCallMachine = (videoCall, remoteVideo) =>
       context: {
         videoCall,
         remoteVideo,
+        currentFacingMode: "",
       },
       states: {
         inactive: {
@@ -35,8 +36,8 @@ export const createVideoCallMachine = (videoCall, remoteVideo) =>
               },
             },
             connected: {
-              entry: "muteSpeaker",
               type: "parallel",
+              entry: "muteSpeaker",
               on: {
                 END: "#call.end",
               },
@@ -118,6 +119,11 @@ export const createVideoCallMachine = (videoCall, remoteVideo) =>
                   on: {
                     SWITCH_CAMERAS: {
                       actions: "switchCameras",
+                    },
+                    SET_FACING_MODE: {
+                      actions: assign({
+                        currentFacingMode: (_, e) => e.facingMode,
+                      }),
                     },
                   },
                 },

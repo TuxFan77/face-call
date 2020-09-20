@@ -16,13 +16,11 @@ import UnmutePrompt from "./UnmutePrompt";
 import { createVideoCallMachine } from "../../state-machines/videoCallMachine";
 
 const VideoCallUI = () => {
+  const { room } = useParams();
   const localVideo = useRef(null);
   const remoteVideo = useRef(null);
   const [facingMode, setFacingMode] = useState("");
-  const { room } = useParams();
-  const [videoCall, setVideoCall] = useState(
-    new VideoCall(localVideo, remoteVideo, room)
-  );
+  const [videoCall] = useState(new VideoCall(localVideo, remoteVideo, room));
   const [state, send] = useMachine(
     createVideoCallMachine(videoCall, remoteVideo)
   );
@@ -34,15 +32,14 @@ const VideoCallUI = () => {
     localVideo.current.onended = send; // Safari needs this event
     localVideo.current.onsuspend = send;
     remoteVideo.current.onplaying = send;
-
-    videoCall.onFacingMode = facingMode => setFacingMode(facingMode);
+    videoCall.onFacingMode = facingMode => {
+      console.log("facingMode: ", facingMode);
+      setFacingMode(facingMode);
+      send({ type: "SET_FACING_MODE", facingMode });
+    };
     videoCall.role = "caller";
     videoCall.start();
-
-    return () => {
-      videoCall.endCall();
-      setVideoCall(null);
-    };
+    return () => videoCall.endCall();
   }, [videoCall, send]);
 
   return (
