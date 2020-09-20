@@ -18,7 +18,6 @@ const Overlay = styled(motion.div)`
 
 const Container = styled(motion.div)`
   cursor: pointer;
-  z-index: 1;
 `;
 const IconContainer = styled.div`
   width: 16rem;
@@ -49,10 +48,11 @@ const UnmutePrompt = ({ visible, onClick }) => {
             initial={{ y: 0, opacity: 0, transition: { duration } }}
             animate={{ y: 0, opacity: 1, transition: { duration } }}
             exit={{ y: -25, opacity: 0, transition: { type, duration } }}
-            onClick={e => {
+            onTouchEnd={e => {
               e.preventDefault();
               onClick("UNMUTE");
             }}
+            onClick={() => onClick("UNMUTE")}
           >
             <IconContainer>
               <SpeakerIcon />
