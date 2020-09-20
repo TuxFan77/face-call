@@ -34,7 +34,7 @@ const VideoCallUI = () => {
     localVideo.current.onsuspend = send;
     remoteVideo.current.onplaying = send;
     videoCall.onFacingMode = fm => {
-      send({ type: "SET_FACING_MODE", fm });
+      send({ type: "SET_FACING_MODE", facingMode: fm });
       setFacingMode(fm);
     };
     videoCall.role = "caller";
