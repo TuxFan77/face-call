@@ -58,6 +58,7 @@ const ControlBar = ({
       onTouchEnd={e => {
         e.preventDefault();
         handleClick(e);
+        onMouseEnter("mouseenter");
       }}
       onClick={handleClick}
       onContextMenu={e => e.preventDefault()}
