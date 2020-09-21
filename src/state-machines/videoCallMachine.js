@@ -61,6 +61,7 @@ export const createVideoCallMachine = (videoCall, remoteVideo) =>
                     visible: {
                       on: {
                         mouseleave: "momentary",
+                        touchend: "momentary",
                       },
                     },
                   },

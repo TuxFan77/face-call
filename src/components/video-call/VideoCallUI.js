@@ -61,7 +61,7 @@ const VideoCallUI = () => {
         facingMode={state.context.currentFacingMode}
       />
       <ControlBar
-        onButtonClick={send}
+        onClick={send}
         onMouseEnter={send}
         onMouseLeave={send}
         visible={[

@@ -26,7 +26,7 @@ const Bar = styled(motion.div)`
 `;
 
 const ControlBar = ({
-  onButtonClick,
+  onClick,
   onMouseEnter,
   onMouseLeave,
   visible,
@@ -48,7 +48,7 @@ const ControlBar = ({
     const { event } = e.target.dataset;
     // Ignore click events on the control bar itself
     if (event === undefined) return;
-    onButtonClick(event);
+    onClick(event);
   };
 
   return (
@@ -58,6 +58,7 @@ const ControlBar = ({
       onTouchEnd={e => {
         e.preventDefault();
         handleClick(e);
+        onClick(e); // Send the touchend event as well
       }}
       onClick={handleClick}
       onContextMenu={e => e.preventDefault()}
