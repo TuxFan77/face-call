@@ -6,7 +6,7 @@ const Wrapper = styled.div`
   width: 4rem;
   border-radius: 50%;
   cursor: pointer;
-  transition: transform 150ms ease-in-out;
+  transition: transform 225ms ease-in-out;
   & > * {
     pointer-events: none;
   }
