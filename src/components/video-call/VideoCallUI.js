@@ -13,7 +13,6 @@ import {
 } from "../../animation/pageTransition";
 import WaitingForPeer from "./Notifications/WaitingForPeer";
 import UnmutePrompt from "./Notifications/UnmutePrompt";
-// import SpeakerStatus from "./Notifications/SpeakerStatus";
 import { createVideoCallMachine } from "../../state-machines/videoCallMachine";
 
 const VideoCallUI = () => {
@@ -56,12 +55,6 @@ const VideoCallUI = () => {
         visible={state.matches("active.connected.unmutePrompt.visible")}
         onClick={send}
       />
-      {/* <SpeakerStatus
-        visible={
-          state.matches("active.connected.speaker.muted") &&
-          !state.matches("active.connected.unmutePrompt.visible")
-        }
-      /> */}
       <LocalVideo
         ref={localVideo}
         visible={state.matches("active")}
