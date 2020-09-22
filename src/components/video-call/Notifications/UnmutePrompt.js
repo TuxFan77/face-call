@@ -2,8 +2,9 @@ import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import styled from "styled-components";
 
-import colors from "../../styles/colors";
-import { ReactComponent as SpeakerIcon } from "../../images/speaker-off-overlay.svg";
+import Caption from "./Caption";
+import IconContainer from "./IconContainer";
+import { ReactComponent as SpeakerIcon } from "../../../images/speaker-off-overlay.svg";
 
 const Overlay = styled(motion.div)`
   position: absolute;
@@ -18,17 +19,6 @@ const Overlay = styled(motion.div)`
 
 const Container = styled(motion.div)`
   cursor: pointer;
-`;
-const IconContainer = styled.div`
-  width: 16rem;
-  height: 16rem;
-  margin-bottom: -3rem;
-`;
-
-const Caption = styled(motion.p)`
-  color: ${colors.white};
-  text-align: center;
-  margin: 1rem;
 `;
 
 const UnmutePrompt = ({ visible, onClick }) => {

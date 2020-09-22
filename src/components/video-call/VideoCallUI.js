@@ -11,8 +11,9 @@ import {
   videoPageVariants,
   pageTransition,
 } from "../../animation/pageTransition";
-import WaitingForPeer from "./WaitingForPeer";
-import UnmutePrompt from "./UnmutePrompt";
+import WaitingForPeer from "./Notifications/WaitingForPeer";
+import UnmutePrompt from "./Notifications/UnmutePrompt";
+// import SpeakerStatus from "./Notifications/SpeakerStatus";
 import { createVideoCallMachine } from "../../state-machines/videoCallMachine";
 
 const VideoCallUI = () => {
@@ -50,11 +51,17 @@ const VideoCallUI = () => {
         ref={remoteVideo}
         visible={state.matches("active.connected")}
       />
-      {state.matches("active.waiting") && <WaitingForPeer />}
+      <WaitingForPeer visible={state.matches("active.waiting")} />
       <UnmutePrompt
         visible={state.matches("active.connected.unmutePrompt.visible")}
         onClick={send}
       />
+      {/* <SpeakerStatus
+        visible={
+          state.matches("active.connected.speaker.muted") &&
+          !state.matches("active.connected.unmutePrompt.visible")
+        }
+      /> */}
       <LocalVideo
         ref={localVideo}
         visible={state.matches("active")}

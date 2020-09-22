@@ -7,8 +7,13 @@ const Wrapper = styled(motion.div)`
   width: 4rem;
   border-radius: 50%;
   cursor: pointer;
+  transition: transform 150ms ease-in-out;
   & > * {
     pointer-events: none;
+  }
+  &:hover,
+  &:focus {
+    transform: scale(1.4) translateY(-0.5rem);
   }
 `;
 

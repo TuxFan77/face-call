@@ -2,22 +2,9 @@ import React from "react";
 import { motion } from "framer-motion";
 import styled from "styled-components";
 
-import colors from "../../styles/colors";
-
-const Container = styled(motion.div)`
-  position: absolute;
-  padding-bottom: 2.5rem;
-  display: flex;
-  opacity: 0;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const Caption = styled(motion.p)`
-  color: ${colors.white};
-  opacity: 0;
-  margin: 1rem;
-`;
+import colors from "../../../styles/colors";
+import Container from "./Container";
+import Caption from "./Caption";
 
 const Circle = styled(motion.div)`
   display: inline-block;
@@ -58,18 +45,25 @@ const AnimatedCircle = ({ position }) => {
   );
 };
 
-const WaitingForPeer = () => {
+const WaitingForPeer = ({ visible }) => {
   return (
-    <Container animate={{ opacity: 1 }}>
-      <Caption animate={{ opacity: 1, transition: { delay: 5 } }}>
-        Waiting for other participant to connect
-      </Caption>
-      <div>
-        <AnimatedCircle position={1} />
-        <AnimatedCircle position={2} />
-        <AnimatedCircle position={3} />
-      </div>
-    </Container>
+    <>
+      {visible && (
+        <Container initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+          <Caption
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1, transition: { delay: 5 } }}
+          >
+            Waiting for other participant to connect
+          </Caption>
+          <div>
+            <AnimatedCircle position={1} />
+            <AnimatedCircle position={2} />
+            <AnimatedCircle position={3} />
+          </div>
+        </Container>
+      )}
+    </>
   );
 };
 
