@@ -17,8 +17,8 @@ import { createVideoCallMachine } from "../../state-machines/videoCallMachine";
 
 const VideoCallUI = () => {
   const { room } = useParams();
-  const localVideo = useRef(null);
-  const remoteVideo = useRef(null);
+  const localVideo = useRef();
+  const remoteVideo = useRef();
   const [videoCall] = useState(new VideoCall(localVideo, remoteVideo, room));
   const [state, send] = useMachine(
     createVideoCallMachine(videoCall, remoteVideo)
