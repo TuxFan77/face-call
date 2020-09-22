@@ -1,8 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { motion } from "framer-motion";
 
-const Wrapper = styled(motion.div)`
+const Wrapper = styled.div`
   height: 4rem;
   width: 4rem;
   border-radius: 50%;
@@ -11,9 +10,11 @@ const Wrapper = styled(motion.div)`
   & > * {
     pointer-events: none;
   }
-  &:hover,
-  &:focus {
-    transform: scale(1.4) translateY(-0.5rem);
+  @media (hover: hover) {
+    &:hover,
+    &:focus {
+      transform: scale(1.4) translateY(-0.5rem);
+    }
   }
 `;
 
