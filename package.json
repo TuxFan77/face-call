@@ -25,7 +25,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build && netlify-lambda build src/lambda",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "netlify": "netlify dev"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -42,5 +43,7 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "netlify-cli": "^2.68.7"
+  }
 }
