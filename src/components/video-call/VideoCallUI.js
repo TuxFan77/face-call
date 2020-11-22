@@ -19,9 +19,12 @@ const VideoCallUI = () => {
   const { room } = useParams();
   const localVideo = useRef();
   const remoteVideo = useRef();
-  const [videoCall] = useState(new VideoCall(localVideo, remoteVideo, room));
+  const [videoCall] = useState(
+    new VideoCall(localVideo, remoteVideo, room, true)
+  );
   const [state, send] = useMachine(
     createVideoCallMachine(videoCall, remoteVideo)
+    // { devTools: true }
   );
 
   useEffect(() => {
