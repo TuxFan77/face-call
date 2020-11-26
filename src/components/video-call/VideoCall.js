@@ -10,31 +10,27 @@ function VideoCall(localVideo, remoteVideo, room, logging = false) {
 
   // Starts a video call
   this.start = async function () {
-    try {
-      await initLocalVideo();
-      await getCameras();
+    await initLocalVideo();
+    await getCameras();
 
-      signaling = new Signaling();
+    signaling = new Signaling();
 
-      signaling.onJoinRoom = async result => {
-        console.log("onJoinRoom:", result);
-        if (!result) {
-          console.log("room full... aborting call");
-          signaling.disconnect();
-          return;
-        }
-        signaling.onOffer = handleVideoOfferMessage;
-        signaling.onAnswer = handleVideoAnswerMessage;
-        signaling.onCandidate = handleNewRemoteICECandidate;
-        signaling.onEndCall = this.endCall;
+    signaling.onJoinRoom = async result => {
+      console.log("onJoinRoom:", result);
+      if (!result) {
+        console.log("room full... aborting call");
+        signaling.disconnect();
+        return;
+      }
+      signaling.onOffer = handleVideoOfferMessage;
+      signaling.onAnswer = handleVideoAnswerMessage;
+      signaling.onCandidate = handleNewRemoteICECandidate;
+      signaling.onEndCall = this.endCall;
 
-        startCall();
-      };
+      startCall();
+    };
 
-      signaling.joinRoom(room);
-    } catch (err) {
-      log(err);
-    }
+    signaling.joinRoom(room);
   };
 
   // Initialize the local video DOM element with the webcam feed
@@ -48,16 +44,13 @@ function VideoCall(localVideo, remoteVideo, room, logging = false) {
   // Enumerates the cameras on the device and adds them to the cameras array
   function getCameras() {
     log("getCameras");
-    return navigator.mediaDevices
-      .enumerateDevices()
-      .then(devices => {
-        devices.forEach(device => {
-          if (device.kind === "videoinput") {
-            cameras.push(device);
-          }
-        });
-      })
-      .catch(err => err);
+    return navigator.mediaDevices.enumerateDevices().then(devices => {
+      devices.forEach(device => {
+        if (device.kind === "videoinput") {
+          cameras.push(device);
+        }
+      });
+    });
   }
 
   // Cycles through the available cameras on the device

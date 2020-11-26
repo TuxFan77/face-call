@@ -36,7 +36,9 @@ const VideoCallUI = () => {
       send({ type: "SET_FACING_MODE", facingMode });
     };
     videoCall.role = "caller";
-    videoCall.start();
+
+    videoCall.start().then(null, console.dir);
+
     return () => videoCall.endCall();
   }, [videoCall, send]);
 
